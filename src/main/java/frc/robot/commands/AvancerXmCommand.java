@@ -27,7 +27,7 @@ public class AvancerXmCommand extends PIDCommand {
         // The controller that the command will use
         new PIDController(1, 0, 0),
         // This should return the measurement
-        () -> drivetrain.getEncoder()[0], // TODO erreur ici
+        () -> drivetrain.getEncoder()[0], 
         // This should return the setpoint (can also be a constant)
         () -> metre / 0.058,
         // This uses the output

@@ -12,6 +12,7 @@ import frc.robot.subsystems.Drivetrain;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ResetGryoCommand extends InstantCommand {
   private Drivetrain drivetrain;
+
   public ResetGryoCommand(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;

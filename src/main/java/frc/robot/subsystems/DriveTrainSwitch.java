@@ -13,25 +13,19 @@ public class DriveTrainSwitch extends SubsystemBase {
   PCM pcm = new PCM();
   private DoubleSolenoid piston;
 
-
-
   /** Creates a new DriveTrainSwitch. */
   public DriveTrainSwitch() {
 
-    piston = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
-    
+    piston =
+        new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
   }
 
   public void ActivateDrivetank() {
     piston.set(DoubleSolenoid.Value.kReverse);
-    
-
   }
 
   public void ActivateMecanum() {
     piston.set(DoubleSolenoid.Value.kForward);
-
-
   }
 
   @Override

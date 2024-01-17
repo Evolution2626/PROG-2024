@@ -15,13 +15,11 @@ public class ActivateMecanumCommand extends InstantCommand {
 
   private DriveTrainSwitch driveTrainSwitch;
   private Drivetrain drivetrain;
-  
+
   public ActivateMecanumCommand(DriveTrainSwitch driveTrainSwitch, Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveTrainSwitch = driveTrainSwitch;
     this.drivetrain = drivetrain;
-    
-
 
     addRequirements(driveTrainSwitch, drivetrain);
   }

@@ -12,6 +12,7 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShooterDisactivateCommand extends InstantCommand {
   private Shooter shooter;
+
   public ShooterDisactivateCommand(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;

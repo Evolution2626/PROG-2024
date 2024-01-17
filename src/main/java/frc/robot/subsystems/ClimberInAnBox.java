@@ -4,27 +4,27 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class ClimberInAnBox extends SubsystemBase {
-  private TalonSRX climberDroit;
-  private TalonSRX climberGauche;
+  private Talon climberDroit;
+  private Talon climberGauche;
+
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
     OperatorConstants deviceNumber = new OperatorConstants();
-    climberDroit = new TalonSRX(deviceNumber.DeviceNumberClimberDroit);
-    climberGauche = new TalonSRX(deviceNumber.DeviceNumberClimberGauche);
+    climberDroit = new Talon(deviceNumber.DeviceNumberClimberDroit);
+    climberGauche = new Talon(deviceNumber.DeviceNumberClimberGauche);
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
   }
-  public void climb(double activated){
-    climberDroit.set(TalonSRXControlMode.PercentOutput, activated);
-    climberGauche.set(TalonSRXControlMode.PercentOutput, activated);
+
+  public void climb(double activated) {
+    climberDroit.set(activated);
+    climberGauche.set(activated);
   }
 
   @Override

@@ -13,13 +13,12 @@ import frc.robot.subsystems.Drivetrain;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ActivateDrivetrainCommand extends InstantCommand {
 
-private DriveTrainSwitch driveTrainSwitch;
-private Drivetrain drivetrain;
+  private DriveTrainSwitch driveTrainSwitch;
+  private Drivetrain drivetrain;
 
   public ActivateDrivetrainCommand(DriveTrainSwitch driveTrainSwitch, Drivetrain drivetrain) {
     this.driveTrainSwitch = driveTrainSwitch;
     this.drivetrain = drivetrain;
-
 
     addRequirements(driveTrainSwitch, drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.

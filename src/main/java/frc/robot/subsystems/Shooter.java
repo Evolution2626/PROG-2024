@@ -4,28 +4,28 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
+
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  private TalonSRX shooterGauche;
-  private TalonSRX shooterDroit;
+  private Talon shooterGauche;
+
+  private Talon shooterDroit;
+
   public Shooter() {
     OperatorConstants deviceNumber = new OperatorConstants();
-    shooterGauche = new TalonSRX(deviceNumber.DeviceNumberShooterGauche);
-    shooterDroit = new TalonSRX(deviceNumber.DeviceNumberShooterDroit);
-    
+    shooterGauche = new Talon(deviceNumber.DeviceNumberShooterGauche);
+    shooterDroit = new Talon(deviceNumber.DeviceNumberShooterDroit);
+
     shooterGauche.setInverted(false);
     shooterDroit.setInverted(false);
-
   }
-  public void shoot(double activated){
-    shooterGauche.set(TalonSRXControlMode.PercentOutput, activated);
-    shooterDroit.set(TalonSRXControlMode.PercentOutput, activated);
 
-
+  public void shoot(double activated) {
+    shooterGauche.set(activated);
+    shooterDroit.set(activated);
   }
 
   @Override
