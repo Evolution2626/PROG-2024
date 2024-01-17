@@ -13,21 +13,18 @@ import frc.robot.subsystems.Drivetrain;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 
-
 public class AvancerXmCommand extends PIDCommand {
   private Drivetrain drivetrain;
   public DriveTrainSwitch driveTrainSwitch;
 
-
-
   /** Creates a new Avancer1mCommand. */
-  public AvancerXmCommand(Drivetrain drivetrain,DriveTrainSwitch driveTrainSwitch, double metre) {
-    
+  public AvancerXmCommand(Drivetrain drivetrain, DriveTrainSwitch driveTrainSwitch, double metre) {
+
     super(
         // The controller that the command will use
         new PIDController(1, 0, 0),
         // This should return the measurement
-        () -> drivetrain.getEncoder()[0], 
+        () -> drivetrain.getEncoder()[0],
         // This should return the setpoint (can also be a constant)
         () -> metre / 0.058,
         // This uses the output
@@ -40,8 +37,8 @@ public class AvancerXmCommand extends PIDCommand {
     this.driveTrainSwitch = driveTrainSwitch;
     driveTrainSwitch.ActivateDrivetank();
     drivetrain.setDriveMode(true);
-    
-  addRequirements(drivetrain);
+
+    addRequirements(drivetrain);
     // Configure additional PID options by calling `getController` here.
   }
 
