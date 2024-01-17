@@ -4,15 +4,22 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.commands.ActivateDrivetrainCommand;
+import frc.robot.commands.ActivateMecanumCommand;
+import frc.robot.commands.ClimberInABoxCommand;
+import frc.robot.commands.OctocanumDrivetrainCommand;
+import frc.robot.commands.ResetGryoCommand;
+import frc.robot.commands.ShooterActivateCommand;
+import frc.robot.commands.ShooterDisactivateCommand;
+import frc.robot.subsystems.ClimberInAnBox;
+import frc.robot.subsystems.DriveTrainSwitch;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ExampleInstantCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,23 +29,27 @@ import frc.robot.subsystems.ExampleSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+  
+private Drivetrain drivetrain;
+private DriveTrainSwitch driveTrainSwitch;
+private ClimberInAnBox climberInAnBox;
+private Shooter shooter;
+private CommandXboxController xboxController = new CommandXboxController(0);
+private CommandXboxController xboxController1 = new CommandXboxController(1);
 
-  private SendableChooser<Command> autoChooser = new SendableChooser<>();
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController driverController =
-      new CommandXboxController(OperatorConstants.driverControllerPort);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /** The container for the robot. Contains subsystems, OI
   public RobotContainer() {
     // Configure the trigger bindings
-    exampleSubsystem.setDefaultCommand(new ExampleCommand(exampleSubsystem));
-
-    autoChooser.addOption("Do nothing", null);
-
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    
+    drivetrain = new Drivetrain();
+    driveTrainSwitch = new DriveTrainSwitch();
+    climberInAnBox = new ClimberInAnBox();
+    xboxController = new CommandXboxController(0);
+    xboxController1 = new CommandXboxController(1);
+    drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, driveTrainSwitch, drivetrain));
+    climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
     configureBindings();
+
   }
 
   /**
@@ -51,12 +62,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    driverController.a().onTrue(new ExampleInstantCommand(exampleSubsystem));
+   
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-  }
+    xboxController.a().onTrue(new ActivateDrivetrainCommand(driveTrainSwitch, drivetrain));
+    xboxController.b().onTrue(new ActivateMecanumCommand(driveTrainSwitch, drivetrain));
+    xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
+    xboxController1.rightBumper().onTrue(new ShooterActivateCommand(shooter));
+    xboxController1.rightBumper().onFalse(new ShooterDisactivateCommand(shooter));
+
+
+ }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -65,6 +80,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+   return null;
   }
 }

@@ -14,12 +14,22 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int driverControllerPort = 0;
+
+    public final int DeviceNumberAvantDroit = 1;
+    public final int DeviceNumberAvantGauche = 0;
+    public final int DeviceNumberArriereDroit = 3;
+    public final int DeviceNumberArriereGauche = 9;
+
+    public final int DeviceNumberClimberDroit = 0;
+    public final int DeviceNumberClimberGauche = 0;
+    
+    public final int DeviceNumberShooterGauche = 0;
+    public final int DeviceNumberShooterDroit = 0;
   }
 
-  public static class CanIDs {}
-
-  public static class DigitalIOs {}
-
-  public static class PCMPorts {}
+  public static class PCM{
+    public final int PISTON_FORWARD = 0;
+    public final int PISTON_REVERSE = 1;
+    
+  }
 }
