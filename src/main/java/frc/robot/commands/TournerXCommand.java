@@ -24,7 +24,7 @@ public class TournerXCommand extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.drive(output, 0, 0, 0, 0, 0);
+          drivetrain.drive(output, 0, -output, 0, 0, 0);
         });
 
     addRequirements(drivetrain);

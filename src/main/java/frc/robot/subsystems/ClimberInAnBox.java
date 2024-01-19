@@ -4,19 +4,23 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class ClimberInAnBox extends SubsystemBase {
-  private Talon climberDroit;
-  private Talon climberGauche;
+  private CANSparkMax climberDroit;
+  private CANSparkMax climberGauche;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
     OperatorConstants deviceNumber = new OperatorConstants();
-    climberDroit = new Talon(deviceNumber.DeviceNumberClimberDroit);
-    climberGauche = new Talon(deviceNumber.DeviceNumberClimberGauche);
+    climberDroit = new CANSparkMax(deviceNumber.DeviceNumberClimberDroit, MotorType.kBrushless);
+    climberGauche = new CANSparkMax(deviceNumber.DeviceNumberClimberGauche, MotorType.kBrushless);
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);

@@ -13,15 +13,17 @@ import frc.robot.subsystems.Shooter;
 public class ShooterActivateCommand extends InstantCommand {
   private Shooter shooter;
 
+
   public ShooterActivateCommand(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
+  
     addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.shoot(1);
+   shooter.shoot();
   }
 }

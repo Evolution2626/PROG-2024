@@ -14,18 +14,18 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AvancerXmCommand extends PIDCommand {
   /** Creates a new Avancer1mCommand. */
-  public AvancerXmCommand(Drivetrain drivetrain, double metre) {
+  public AvancerXmCommand(Drivetrain drivetrain, double metre, int id) {
 
     super(
         // The controller that the command will use
         new PIDController(1, 0, 0),
         // This should return the measurement
-        () -> drivetrain.getEncoder()[0],
+        () -> drivetrain.getEncoder()[id],
         // This should return the setpoint (can also be a constant)
         () -> metre / 0.058,
         // This uses the output
         output -> {
-          drivetrain.drive(output, 0, output, 0, 0, 0);
+          drivetrain.driveOneMotor(id, output);;
         });
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);

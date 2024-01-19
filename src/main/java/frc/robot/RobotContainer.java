@@ -9,12 +9,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ActivateDrivetrainCommand;
 import frc.robot.commands.ActivateMecanumCommand;
-import frc.robot.commands.AvancerXmCommand;
 import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.ResetGryoCommand;
 import frc.robot.commands.ShooterActivateCommand;
-import frc.robot.commands.ShooterDisactivateCommand;
 import frc.robot.subsystems.ClimberInAnBox;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
@@ -61,8 +59,8 @@ public class RobotContainer {
     xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
     xboxController1.rightBumper().onTrue(new ShooterActivateCommand(shooter));
-    xboxController1.rightBumper().onFalse(new ShooterDisactivateCommand(shooter));
-    xboxController1.a().onTrue(new AvancerXmCommand(drivetrain, 1));
+
+   
   }
 
   /**

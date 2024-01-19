@@ -118,16 +118,16 @@ public class Drivetrain extends SubsystemBase {
 
   public void driveOneMotor(int id, double speed) {
     switch (id) {
-      case 1:
+      case 3:
         arrieredroit.set(speed);
         break;
-      case 2:
+      case 4:
         arrieregauche.set(speed);
         break;
-      case 3:
+      case 0:
         avantdroit.set(speed);
         break;
-      case 4:
+      case 1:
         avantgauche.set(speed);
         break;
     }

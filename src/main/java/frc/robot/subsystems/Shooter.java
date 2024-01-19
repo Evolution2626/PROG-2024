@@ -7,38 +7,95 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private CANSparkMax shooterGauche;
-
   private CANSparkMax shooterDroit;
+  private CANSparkMax pusherGauche;
+  private CANSparkMax pusherDroit;
+  private CANSparkMax shooterAngle;
   private RelativeEncoder shooterDroitEncoder;
   private RelativeEncoder shooterGaucheEncoder;
+   private RelativeEncoder pusherDroitEncoder;
+   private RelativeEncoder shooterAngleEncoder;
+  private RelativeEncoder pusherGaucheEncoder;
+   private PIDController pidControllerDroitRPM = new PIDController(0.1, 0.1, 0);
+  private PIDController pidControllerGaucheRPM = new PIDController(0.1, 0.1, 0);
+  private PIDController pidControllerShooterAngle = new PIDController(0.1, 0.1, 0);
+
+  private double shooterAngleEncoderZero = 0.0;
 
   public Shooter() {
     OperatorConstants deviceNumber = new OperatorConstants();
     shooterGauche = new CANSparkMax(deviceNumber.DeviceNumberShooterGauche, MotorType.kBrushless);
     shooterDroit = new CANSparkMax(deviceNumber.DeviceNumberShooterDroit, MotorType.kBrushless);
+    pusherGauche = new CANSparkMax(deviceNumber.DeviceNumberPusherGauche, MotorType.kBrushless);
+    pusherDroit = new CANSparkMax(deviceNumber.DeviceNumberPusherDroit, MotorType.kBrushless);
+    shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
 
     shooterGauche.setInverted(false);
     shooterDroit.setInverted(false);
+    pusherGauche.setInverted(false);
+    pusherDroit.setInverted(false);
+    shooterAngle.setInverted(false);
+    shooterDroitEncoder = shooterDroit.getAlternateEncoder(42);
+    shooterGaucheEncoder = shooterGauche.getAlternateEncoder(42);
+    pusherDroitEncoder = pusherDroit.getAlternateEncoder(42);
+    pusherGaucheEncoder = pusherGauche.getAlternateEncoder(42);
+    shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
   }
 
-  public void shoot(double power) {
-    shooterGauche.set(power);
-    shooterDroit.set(power);
+  public void shooterPower(double powerDroit, double powerGauche) {
+    shooterGauche.set(powerGauche);
+    shooterDroit.set(powerDroit);
   }
+  public void shoot(){
+    shooterPower(pidControllerDroitRPM.calculate(getVelocityDroit(), 100), pidControllerGaucheRPM.calculate(getVelocityGauche(), 100));
+    pushToLaunch();
+    shooterPower(0, 0);
+    
 
-  public double[] getEncoder() {
-
-    double[] encoderValue = {shooterGaucheEncoder.getPosition(), shooterDroitEncoder.getPosition()};
-
-    return encoderValue;
   }
-
+  public void goToAngle(double angle){
+    double encoderPosition = shooterAngleEncoderZero + (angle*8.57);
+    shooterAngle.set(pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
+  }
+  public void resetEncoder(int postion){
+    if (postion == 0) {
+    shooterAngleEncoderZero = shooterAngleEncoder.getPosition();
+    }
+    if (postion == 1) {
+       shooterAngleEncoderZero = shooterAngleEncoder.getPosition() - 1234567890;//TODO change to right number
+    }
+  }
+  public void pushToLaunch(){
+    double targetDroit = pusherDroitEncoder.getPosition() + 420;
+    boolean targetDroitDone = false;
+    double targetGauche =  pusherGaucheEncoder.getPosition() + 420;
+    boolean targetGaucheDone = false;
+    while(true){
+      if(pusherDroitEncoder.getPosition() < targetDroit){
+        pusherDroit.set(0.25);
+        targetDroitDone = true;
+      }
+      if(pusherGaucheEncoder.getPosition() < targetGauche){
+        pusherGauche.set(0.25);
+        targetGaucheDone = true;
+      }
+      if(targetDroitDone && targetGaucheDone){
+        break;
+      }
+      
+      
+    }
+    pusherDroit.set(0);
+      pusherGauche.set(0);
+  }
   public double getVelocityDroit() {
     return shooterDroitEncoder.getVelocity();
   }

@@ -6,14 +6,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Shooter;
 
 public class GetShooterToSpeedCommand extends Command {
-  private PIDController pidControllerDroitRPM;
-  private PIDController pidControllerGaucheRPM;
-
+  private PIDController pidControllerDroitRPM = new PIDController(0.1, 0.1, 0);
+  private PIDController pidControllerGaucheRPM = new PIDController(0.1, 0.1, 0);
+  private Shooter shooter;
+  private double rpm;
   /** Creates a new GetShooterToSpeedCommand. */
-  public GetShooterToSpeedCommand() {
+  public GetShooterToSpeedCommand(double rpm, Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.shooter = shooter;
+    this.rpm = rpm;
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -24,6 +29,8 @@ public class GetShooterToSpeedCommand extends Command {
   @Override
   public void execute() {
     // faire un pid pour les deux moteurs du shooter
+    pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), rpm);
+    pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), rpm);
   }
 
   // Called once the command ends or is interrupted.

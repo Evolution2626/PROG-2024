@@ -25,6 +25,14 @@ public final class Constants {
 
     public final int DeviceNumberShooterGauche = 0;
     public final int DeviceNumberShooterDroit = 0;
+
+    public final int DeviceNumberPusherGauche = 0;
+    public final int DeviceNumberPusherDroit = 0;
+
+    public final int DeviceNumberShooterAngle = 0;
+
+    public final int DeviceNumberIntakeDroit = 0;
+    public final int DeviceNumberIntakeGauche = 0;
   }
 
   public static class PCM {
