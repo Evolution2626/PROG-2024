@@ -13,18 +13,18 @@ import frc.robot.subsystems.Drivetrain;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TournerXCommand extends PIDCommand {
   /** Creates a new TournerXCommand. */
-  public TournerXCommand(Drivetrain drivetrain) {
+  public TournerXCommand(Drivetrain drivetrain, double angle) {
     super(
         // The controller that the command will use
         new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> 0,
+        () -> drivetrain.getGyroAngle(),
         // This should return the setpoint (can also be a constant)
-        () -> 0,
+        () -> angle,
         // This uses the output
         output -> {
           // Use the output here
-          drivetrain.drive(output, output, output, output, output, output);
+          drivetrain.drive(output, 0, 0, 0, 0, 0);
         });
 
     addRequirements(drivetrain);

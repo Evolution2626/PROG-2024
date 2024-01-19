@@ -116,6 +116,23 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void driveOneMotor(int id, double speed) {
+    switch (id) {
+      case 1:
+        arrieredroit.set(speed);
+        break;
+      case 2:
+        arrieregauche.set(speed);
+        break;
+      case 3:
+        avantdroit.set(speed);
+        break;
+      case 4:
+        avantgauche.set(speed);
+        break;
+    }
+  }
+
   public void driveCartesianGyro(
       double rightX, double leftY, double leftx, double leftTrigger, double rightTrigger) {
     double sideValue = 0.0;
