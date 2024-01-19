@@ -16,7 +16,6 @@ import frc.robot.commands.ResetGryoCommand;
 import frc.robot.commands.ShooterActivateCommand;
 import frc.robot.commands.ShooterDisactivateCommand;
 import frc.robot.subsystems.ClimberInAnBox;
-import frc.robot.subsystems.DriveTrainSwitch;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 
@@ -30,7 +29,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private Drivetrain drivetrain;
-  private DriveTrainSwitch driveTrainSwitch;
   private ClimberInAnBox climberInAnBox;
   private Shooter shooter;
   private CommandXboxController xboxController = new CommandXboxController(0);
@@ -40,7 +38,6 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     drivetrain = new Drivetrain();
-    driveTrainSwitch = new DriveTrainSwitch();
     climberInAnBox = new ClimberInAnBox();
     xboxController = new CommandXboxController(0);
     xboxController1 = new CommandXboxController(1);
@@ -60,12 +57,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    xboxController.a().onTrue(new ActivateDrivetrainCommand(driveTrainSwitch, drivetrain));
-    xboxController.b().onTrue(new ActivateMecanumCommand(driveTrainSwitch, drivetrain));
+    xboxController.a().onTrue(new ActivateDrivetrainCommand(drivetrain));
+    xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
     xboxController1.rightBumper().onTrue(new ShooterActivateCommand(shooter));
     xboxController1.rightBumper().onFalse(new ShooterDisactivateCommand(shooter));
-    xboxController1.a().onTrue(new AvancerXmCommand(drivetrain, driveTrainSwitch, 1));
+    xboxController1.a().onTrue(new AvancerXmCommand(drivetrain, 1));
   }
 
   /**

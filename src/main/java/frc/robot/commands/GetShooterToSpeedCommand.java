@@ -5,30 +5,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj2.command.Command;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GetShooterToSpeedCommand extends PIDCommand {
+public class GetShooterToSpeedCommand extends Command {
+  private PIDController pidControllerDroitRPM;
+  private PIDController pidControllerGaucheRPM;
+
   /** Creates a new GetShooterToSpeedCommand. */
-  public Shooter shooter;
-  public GetShooterToSpeedCommand(Shooter shooter, double targetRPM) {
-    super(
-        // The controller that the command will use
-        new PIDController(0, 0, 0),
-        // This should return the measurement
-        () -> shooter.getRPM(),
-        // This should return the setpoint (can also be a constant)
-        () -> targetRPM,
-        // This uses the output
-        output -> {
-          shooter.shoot(output);// Use the output here
-        });
-    this.shooter = shooter;
-    addRequirements(shooter);
+  public GetShooterToSpeedCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    // faire un pid pour les deux moteurs du shooter
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

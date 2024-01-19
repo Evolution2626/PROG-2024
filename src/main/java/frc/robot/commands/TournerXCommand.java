@@ -11,27 +11,23 @@ import frc.robot.subsystems.Drivetrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-
-public class AvancerXmCommand extends PIDCommand {
-  /** Creates a new Avancer1mCommand. */
-  public AvancerXmCommand(Drivetrain drivetrain, double metre) {
-
+public class TournerXCommand extends PIDCommand {
+  /** Creates a new TournerXCommand. */
+  public TournerXCommand(Drivetrain drivetrain) {
     super(
         // The controller that the command will use
-        new PIDController(1, 0, 0),
+        new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> drivetrain.getEncoder()[0],
+        () -> 0,
         // This should return the setpoint (can also be a constant)
-        () -> metre / 0.058,
+        () -> 0,
         // This uses the output
         output -> {
-          drivetrain.drive(output, 0, output, 0, 0, 0);
+          // Use the output here
+          drivetrain.drive(output, output, output, output, output, output);
         });
-    drivetrain.ActivateDrivetank();
-    drivetrain.setDriveMode(true);
 
     addRequirements(drivetrain);
-    // Configure additional PID options by calling `getController` here.
   }
 
   // Returns true when the command should end.
