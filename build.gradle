@@ -105,6 +105,12 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
+// Define a custom task for Spotless
+task spotlessApply(type: com.diffplug.gradle.spotless.SpotlessTask) {
+    group = 'verification'
+    description = 'Applies code formatting steps to sourcecode.'
+}
+
 spotless {
     java {
         target fileTree('.') {
@@ -147,3 +153,6 @@ spotless {
         endWithNewline()
     }
 }
+
+// Ensure that the standard check task does not depend on Spotless
+check.dependsOn -= 'spotlessCheck'
