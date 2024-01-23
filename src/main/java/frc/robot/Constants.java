@@ -33,6 +33,7 @@ public final class Constants {
 
     public final int DeviceNumberIntakeDroit = 0;
     public final int DeviceNumberIntakeGauche = 0;
+    public final int DeviceNumberIntakePivot = 0;
   }
 
   public static class PCM {

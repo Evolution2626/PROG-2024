@@ -14,20 +14,23 @@ public class Intake extends SubsystemBase {
   /** Creates a new intake. */
   private CANSparkMax intakeDroit;
   private CANSparkMax intakeGauche;
+  private CANSparkMax intakePivot;
   public Intake() {
     OperatorConstants deviceNumber = new OperatorConstants();
     intakeDroit = new CANSparkMax(deviceNumber.DeviceNumberIntakeDroit, MotorType.kBrushless);
     intakeGauche = new CANSparkMax(deviceNumber.DeviceNumberIntakeGauche, MotorType.kBrushless);
+    intakePivot = new CANSparkMax(deviceNumber.DeviceNumberIntakePivot, MotorType.kBrushless);
 
     intakeDroit.setInverted(false);
     intakeGauche.setInverted(false);
+    intakePivot.setInverted(false);
   }
-  void setPower(double power){
+  public void spinWheel(double power){
     intakeDroit.set(power);
     intakeGauche.set(power);
   }
-  void setPositionIn(boolean setPosition){
-    //TODO add code to move the intake
+  public void moveIntake(double power){
+    intakePivot.set(power);
   }
   @Override
   public void periodic() {

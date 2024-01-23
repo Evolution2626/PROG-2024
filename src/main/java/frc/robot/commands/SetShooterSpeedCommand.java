@@ -8,17 +8,20 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
-public class GetShooterToSpeedCommand extends Command {
+public class SetShooterSpeedCommand extends Command {
+  private Shooter shooter;
+  private double speed;
+  private double kV;
   private PIDController pidControllerDroitRPM = new PIDController(0.1, 0.1, 0);
   private PIDController pidControllerGaucheRPM = new PIDController(0.1, 0.1, 0);
-  private Shooter shooter;
-  private double rpm;
-  /** Creates a new GetShooterToSpeedCommand. */
-  public GetShooterToSpeedCommand(double rpm, Shooter shooter) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  
+  /** Creates a new SetShooterSpeedCommand. */
+  public SetShooterSpeedCommand(Shooter shooter, double speed) {
     this.shooter = shooter;
-    this.rpm = rpm;
+    this.speed = speed;
+    kV = 0.1;
     addRequirements(shooter);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -28,14 +31,14 @@ public class GetShooterToSpeedCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // faire un pid pour les deux moteurs du shooter
-    pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), rpm);
-    pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), rpm);
+    shooter.shooterPower((pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), speed) + (kV*speed)), (pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), speed)+ (kV*speed)));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.shooterPower(0, 0);
+  }
 
   // Returns true when the command should end.
   @Override

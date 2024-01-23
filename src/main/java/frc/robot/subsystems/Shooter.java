@@ -48,19 +48,15 @@ public class Shooter extends SubsystemBase {
     pusherDroitEncoder = pusherDroit.getAlternateEncoder(42);
     pusherGaucheEncoder = pusherGauche.getAlternateEncoder(42);
     shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
+    
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
     shooterGauche.set(powerGauche);
     shooterDroit.set(powerDroit);
-  }
-  public void shoot(){
-    shooterPower(pidControllerDroitRPM.calculate(getVelocityDroit(), 100), pidControllerGaucheRPM.calculate(getVelocityGauche(), 100));
-    pushToLaunch();
-    shooterPower(0, 0);
     
-
   }
+ 
   public void goToAngle(double angle){
     double encoderPosition = shooterAngleEncoderZero + (angle*8.57);
     shooterAngle.set(pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
@@ -73,37 +69,17 @@ public class Shooter extends SubsystemBase {
        shooterAngleEncoderZero = shooterAngleEncoder.getPosition() - 1234567890;//TODO change to right number
     }
   }
-  public void pushToLaunch(){
-    double targetDroit = pusherDroitEncoder.getPosition() + 420;
-    boolean targetDroitDone = false;
-    double targetGauche =  pusherGaucheEncoder.getPosition() + 420;
-    boolean targetGaucheDone = false;
-    while(true){
-      if(pusherDroitEncoder.getPosition() < targetDroit){
-        pusherDroit.set(0.25);
-        targetDroitDone = true;
-      }
-      if(pusherGaucheEncoder.getPosition() < targetGauche){
-        pusherGauche.set(0.25);
-        targetGaucheDone = true;
-      }
-      if(targetDroitDone && targetGaucheDone){
-        break;
-      }
-      
-      
-    }
-    pusherDroit.set(0);
-      pusherGauche.set(0);
-  }
-  public double getVelocityDroit() {
+    public double getVelocityDroit() {
     return shooterDroitEncoder.getVelocity();
   }
 
   public double getVelocityGauche() {
     return shooterGaucheEncoder.getVelocity();
   }
-
+ public void pusherPower(double power){
+  pusherDroit.set(power);
+  pusherGauche.set(power);
+ }
   @Override
   public void periodic() {
 

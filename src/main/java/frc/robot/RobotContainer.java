@@ -5,16 +5,19 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ActivateDrivetrainCommand;
 import frc.robot.commands.ActivateMecanumCommand;
 import frc.robot.commands.ClimberInABoxCommand;
+import frc.robot.commands.MoveIntakeCommand;
+import frc.robot.commands.MoveIntakeWheelCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.ResetGryoCommand;
-import frc.robot.commands.ShooterActivateCommand;
 import frc.robot.subsystems.ClimberInAnBox;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -29,6 +32,7 @@ public class RobotContainer {
   private Drivetrain drivetrain;
   private ClimberInAnBox climberInAnBox;
   private Shooter shooter;
+  private Intake intake;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
@@ -37,6 +41,8 @@ public class RobotContainer {
 
     drivetrain = new Drivetrain();
     climberInAnBox = new ClimberInAnBox();
+    intake = new Intake();
+    shooter = new Shooter();
     xboxController = new CommandXboxController(0);
     xboxController1 = new CommandXboxController(1);
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
@@ -58,7 +64,10 @@ public class RobotContainer {
     xboxController.a().onTrue(new ActivateDrivetrainCommand(drivetrain));
     xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
-    xboxController1.rightBumper().onTrue(new ShooterActivateCommand(shooter));
+    xboxController1.rightBumper().onTrue();
+    xboxController1.b().whileTrue(new SequentialCommandGroup(new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1))).onFalse(new MoveIntakeCommand(intake, false));
+    
+    
 
    
   }
