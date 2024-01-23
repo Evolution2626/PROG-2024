@@ -57,18 +57,7 @@ public class Shooter extends SubsystemBase {
     
   }
  
-  public void goToAngle(double angle){
-    double encoderPosition = shooterAngleEncoderZero + (angle*8.57);
-    shooterAngle.set(pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
-  }
-  public void resetEncoder(int postion){
-    if (postion == 0) {
-    shooterAngleEncoderZero = shooterAngleEncoder.getPosition();
-    }
-    if (postion == 1) {
-       shooterAngleEncoderZero = shooterAngleEncoder.getPosition() - 1234567890;//TODO change to right number
-    }
-  }
+  
     public double getVelocityDroit() {
     return shooterDroitEncoder.getVelocity();
   }
