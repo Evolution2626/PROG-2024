@@ -147,3 +147,6 @@ spotless {
         endWithNewline()
     }
 }
+
+// Ensure that the standard check task does not depend on Spotless
+check.dependsOn -= 'spotlessCheck'
