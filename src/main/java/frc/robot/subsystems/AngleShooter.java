@@ -30,13 +30,18 @@ public class AngleShooter extends SubsystemBase {
         shooterAngle.setInverted(false);
 
         shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
+        
 
 
   }
-
-  public void goToAngle(double angle){
-    double encoderPosition = shooterAngleEncoderZero + (angle*8.57);
-    shooterAngle.set(pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
+    public double getEncoder(){
+      return shooterAngleEncoder.getPosition();
+  }
+  public double encoderZero(){
+    return shooterAngleEncoderZero;
+  }
+  public void setPower(double power){
+    shooterAngle.set(power);
   }
   public void resetEncoder(int postion){
     if (postion == 0) {

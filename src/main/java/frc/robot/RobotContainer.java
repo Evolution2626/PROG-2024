@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -15,9 +16,14 @@ import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.MoveIntakeWheelCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.ResetGryoCommand;
+import frc.robot.commands.SetShooterAngleCommand;
+import frc.robot.commands.SetShooterSpeedCommand;
+import frc.robot.commands.ShootNoteCommand;
+import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.ClimberInAnBox;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -33,6 +39,8 @@ public class RobotContainer {
   private ClimberInAnBox climberInAnBox;
   private Shooter shooter;
   private Intake intake;
+  private AngleShooter angleShooter;
+  private Limelight limelight;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
@@ -43,6 +51,8 @@ public class RobotContainer {
     climberInAnBox = new ClimberInAnBox();
     intake = new Intake();
     shooter = new Shooter();
+    limelight = new Limelight();
+    angleShooter = new AngleShooter();
     xboxController = new CommandXboxController(0);
     xboxController1 = new CommandXboxController(1);
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
@@ -64,7 +74,7 @@ public class RobotContainer {
     xboxController.a().onTrue(new ActivateDrivetrainCommand(drivetrain));
     xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
-    xboxController1.rightBumper().onTrue();
+    xboxController1.a().whileTrue(new SequentialCommandGroup(new ParallelCommandGroup(new SetShooterAngleCommand(angleShooter, limelight), new SetShooterSpeedCommand(shooter, 4000)), new ParallelCommandGroup(new SetShooterAngleCommand(angleShooter, limelight), new SetShooterSpeedCommand(shooter, 4000), new ShootNoteCommand(shooter, intake))));
     xboxController1.b().whileTrue(new SequentialCommandGroup(new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1))).onFalse(new MoveIntakeCommand(intake, false));
     
     
