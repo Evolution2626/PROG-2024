@@ -193,7 +193,7 @@ public class Limelight extends SubsystemBase {
     double minRange = 38.0;//TODO change range might not be right
     if(tid.getInteger(0) == 7 || tid.getInteger(0) == 4){
       if(ty.getDouble(0) < 1234 && ty.getDouble(0) > -1234 && tx.getDouble(0) <= 198){
-        return Math.atan(159/tx.getDouble(0));//TODO check if the argument are at the right place
+        return Math.atan(62.6/tx.getDouble(0));//TODO check if the argument are at the right place
       }
       else{
         return 30;
