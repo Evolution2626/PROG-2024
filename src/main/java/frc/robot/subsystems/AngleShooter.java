@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
@@ -19,31 +18,30 @@ public class AngleShooter extends SubsystemBase {
 
   private double shooterAngleEncoderZero = 0.0;
 
-
-
   /** Creates a new AngleShooter. */
   public AngleShooter() {
-        OperatorConstants deviceNumber = new OperatorConstants();
+    OperatorConstants deviceNumber = new OperatorConstants();
 
-        shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
+    shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
 
-        shooterAngle.setInverted(false);
+    shooterAngle.setInverted(false);
 
-        shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
-
-
+    shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
   }
 
-  public void goToAngle(double angle){
-    double encoderPosition = shooterAngleEncoderZero + (angle*8.57);
-    shooterAngle.set(pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
+  public void goToAngle(double angle) {
+    double encoderPosition = shooterAngleEncoderZero + (angle * 8.57);
+    shooterAngle.set(
+        pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
   }
-  public void resetEncoder(int postion){
+
+  public void resetEncoder(int postion) {
     if (postion == 0) {
-    shooterAngleEncoderZero = shooterAngleEncoder.getPosition();
+      shooterAngleEncoderZero = shooterAngleEncoder.getPosition();
     }
     if (postion == 1) {
-       shooterAngleEncoderZero = shooterAngleEncoder.getPosition() - 1234567890;//TODO change to right number
+      shooterAngleEncoderZero =
+          shooterAngleEncoder.getPosition() - 1234567890; // TODO change to right number
     }
   }
 

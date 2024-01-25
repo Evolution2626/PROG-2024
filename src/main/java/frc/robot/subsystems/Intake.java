@@ -4,17 +4,18 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new intake. */
   private CANSparkMax intakeDroit;
+
   private CANSparkMax intakeGauche;
   private CANSparkMax intakePivot;
+
   public Intake() {
     OperatorConstants deviceNumber = new OperatorConstants();
     intakeDroit = new CANSparkMax(deviceNumber.DeviceNumberIntakeDroit, MotorType.kBrushless);
@@ -25,13 +26,16 @@ public class Intake extends SubsystemBase {
     intakeGauche.setInverted(false);
     intakePivot.setInverted(false);
   }
-  public void spinWheel(double power){
+
+  public void spinWheel(double power) {
     intakeDroit.set(power);
     intakeGauche.set(power);
   }
-  public void moveIntake(double power){
+
+  public void moveIntake(double power) {
     intakePivot.set(power);
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

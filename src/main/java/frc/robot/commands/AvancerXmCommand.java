@@ -25,7 +25,8 @@ public class AvancerXmCommand extends PIDCommand {
         () -> metre / 0.058,
         // This uses the output
         output -> {
-          drivetrain.driveOneMotor(id, output);;
+          drivetrain.driveOneMotor(id, output);
+          ;
         });
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);

@@ -4,16 +4,27 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.text.AbstractDocument.LeafElement;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
@@ -38,6 +49,8 @@ public class Drivetrain extends SubsystemBase {
   private double angleBase = 0.0;
   private boolean angleSet = false;
   private PIDController correction = new PIDController(0.1, 0.1, 0);
+  private DifferentialDriveOdometry odometry;
+  private DifferentialDriveKinematics kinematics;
 
   /** Creates a new TankDrivetrain. */
   public Drivetrain() {
@@ -61,6 +74,51 @@ public class Drivetrain extends SubsystemBase {
     avantDroitEncoder = avantdroit.getEncoder();
     arriereDroitEncoder = arrieredroit.getEncoder();
     arriereGaucheEncoder = arrieregauche.getEncoder();
+
+  // TODO: add where we start on the field?
+  odometry =
+      new DifferentialDriveOdometry(
+          getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
+  // TODO: change to actual width
+  kinematics = new DifferentialDriveKinematics(40);
+
+  // à faire
+    AutoBuilder.configureRamsete(
+      this::getPose2d,
+      this::resetPose2d,
+      this::getChassisSpeeds,
+      this::drivePathplanner,
+      new ReplanningConfig(),
+      () -> {
+        // Boolean supplier that controls when the path will be mirrored for the red alliance
+        // This will flip the path being followed to the red side of the field.
+        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      },
+      this);
+  }
+
+  public Pose2d getPose2d() {
+    return odometry.getPoseMeters();
+  }
+
+  public void resetPose2d(Pose2d pose) {
+    odometry.resetPosition(
+        getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition(), pose);
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return kinematics.toChassisSpeeds(getWheelSpeed());
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeed() {
+    return new DifferentialDriveWheelSpeeds(
+        arriereGaucheEncoder.getVelocity() / 60, arriereDroitEncoder.getVelocity() / 60);
   }
 
   public double getGyroAngle() {
@@ -114,6 +172,15 @@ public class Drivetrain extends SubsystemBase {
     } else {
       driveCartesianGyro(rightX, leftY, leftX, leftTrigger, rightTrigger);
     }
+  }
+
+  public void drivePathplanner(ChassisSpeeds chassisSpeeds){
+    DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+
+    double leftWheelSpeed = wheelSpeeds.leftMetersPerSecond;
+    double rightWheelSpeed = wheelSpeeds.rightMetersPerSecond;
+
+
   }
 
   public void driveOneMotor(int id, double speed) {
@@ -188,5 +255,8 @@ public class Drivetrain extends SubsystemBase {
     if (getGyroAngle() >= 360) {
       resetGyroAngle();
     }
+
+    odometry.update(
+        getRotation2d(), avantGaucheEncoder.getPosition(), avantGaucheEncoder.getPosition());
   }
 }

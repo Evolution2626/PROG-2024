@@ -10,7 +10,9 @@ import frc.robot.subsystems.Intake;
 public class MoveIntakeWheelCommand extends Command {
   /** Creates a new MoveIntakeWheelCommand. */
   private Intake intake;
+
   private double wheelSpeed;
+
   public MoveIntakeWheelCommand(Intake intake, double wheelSpeed) {
     this.intake = intake;
     this.wheelSpeed = wheelSpeed;

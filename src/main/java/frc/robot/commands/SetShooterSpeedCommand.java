@@ -14,7 +14,7 @@ public class SetShooterSpeedCommand extends Command {
   private double kV;
   private PIDController pidControllerDroitRPM = new PIDController(0.1, 0.1, 0);
   private PIDController pidControllerGaucheRPM = new PIDController(0.1, 0.1, 0);
-  
+
   /** Creates a new SetShooterSpeedCommand. */
   public SetShooterSpeedCommand(Shooter shooter, double speed) {
     this.shooter = shooter;
@@ -31,7 +31,9 @@ public class SetShooterSpeedCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.shooterPower((pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), speed) + (kV*speed)), (pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), speed)+ (kV*speed)));
+    shooter.shooterPower(
+        (pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), speed) + (kV * speed)),
+        (pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), speed) + (kV * speed)));
   }
 
   // Called once the command ends or is interrupted.

@@ -65,11 +65,12 @@ public class RobotContainer {
     xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
     xboxController1.rightBumper().onTrue();
-    xboxController1.b().whileTrue(new SequentialCommandGroup(new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1))).onFalse(new MoveIntakeCommand(intake, false));
-    
-    
-
-   
+    xboxController1
+        .b()
+        .whileTrue(
+            new SequentialCommandGroup(
+                new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1)))
+        .onFalse(new MoveIntakeCommand(intake, false));
   }
 
   /**
