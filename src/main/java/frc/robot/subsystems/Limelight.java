@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.util.MathHelper;
 import frc.util.ControlMode.*;
 
 public class Limelight extends SubsystemBase {
@@ -175,7 +176,27 @@ public class Limelight extends SubsystemBase {
   public void setLEDMode(int i) {
     networkTable.getEntry("ledMode").setValue(i);
   }
-
+  public double calculateShooterAngle(){
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tx = table.getEntry("tx");
+    NetworkTableEntry ty = table.getEntry("ty");
+    NetworkTableEntry tid = table.getEntry("tid");
+  
+    double maxRange = 198.0;
+    double minRange = 38.0;//TODO change range might not be right
+    if(tid.getInteger(0) == 7 || tid.getInteger(0) == 4){
+      if(ty.getDouble(0) < 1234 && ty.getDouble(0) > -1234 && tx.getDouble(0) < 198){
+        return MathHelper.map(tx.getDouble(0), maxRange, minRange, 30.0, 60.0);//TODO check if the argument are at the right place
+      }
+      else{
+        return 60;
+      }
+    }
+    else{
+      return 60;
+    }
+    
+  }
   /**
    * Returns current LED mode of the Lime Light
    *

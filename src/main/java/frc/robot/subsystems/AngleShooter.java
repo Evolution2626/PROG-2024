@@ -22,17 +22,25 @@ public class AngleShooter extends SubsystemBase {
   public AngleShooter() {
     OperatorConstants deviceNumber = new OperatorConstants();
 
-    shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
+        shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
+
+        shooterAngle.setInverted(false);
+
+        shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
+        
 
     shooterAngle.setInverted(false);
 
     shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
   }
-
-  public void goToAngle(double angle) {
-    double encoderPosition = shooterAngleEncoderZero + (angle * 8.57);
-    shooterAngle.set(
-        pidControllerShooterAngle.calculate(shooterAngleEncoder.getPosition(), encoderPosition));
+    public double getEncoder(){
+      return shooterAngleEncoder.getPosition();
+  }
+  public double encoderZero(){
+    return shooterAngleEncoderZero;
+  }
+  public void setPower(double power){
+    shooterAngle.set(power);
   }
 
   public void resetEncoder(int postion) {
