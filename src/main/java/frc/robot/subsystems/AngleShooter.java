@@ -18,6 +18,7 @@ public class AngleShooter extends SubsystemBase {
   private PIDController pidControllerShooterAngle = new PIDController(0.1, 0.1, 0);
 
   private double shooterAngleEncoderZero = 0.0;
+  private double encoderOffset = 0.0;
 
 
 
@@ -30,12 +31,10 @@ public class AngleShooter extends SubsystemBase {
         shooterAngle.setInverted(false);
 
         shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
-        
-
 
   }
     public double getEncoder(){
-      return shooterAngleEncoder.getPosition();
+      return shooterAngleEncoder.getPosition() + encoderOffset;
   }
   public double encoderZero(){
     return shooterAngleEncoderZero;
@@ -43,14 +42,7 @@ public class AngleShooter extends SubsystemBase {
   public void setPower(double power){
     shooterAngle.set(power);
   }
-  public void resetEncoder(int postion){
-    if (postion == 0) {
-    shooterAngleEncoderZero = shooterAngleEncoder.getPosition();
-    }
-    if (postion == 1) {
-       shooterAngleEncoderZero = shooterAngleEncoder.getPosition() - 1234567890;//TODO change to right number
-    }
-  }
+ 
 
   @Override
   public void periodic() {

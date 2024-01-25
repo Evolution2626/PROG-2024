@@ -192,15 +192,15 @@ public class Limelight extends SubsystemBase {
     double maxRange = 198.0;
     double minRange = 38.0;//TODO change range might not be right
     if(tid.getInteger(0) == 7 || tid.getInteger(0) == 4){
-      if(ty.getDouble(0) < 1234 && ty.getDouble(0) > -1234 && tx.getDouble(0) < 198){
-        return MathHelper.map(tx.getDouble(0), maxRange, minRange, 30.0, 60.0);//TODO check if the argument are at the right place
+      if(ty.getDouble(0) < 1234 && ty.getDouble(0) > -1234 && tx.getDouble(0) <= 198){
+        return MathHelper.map(tx.getDouble(0), maxRange, minRange, 60.0, 30.0);//TODO check if the argument are at the right place
       }
       else{
-        return 60;
+        return 30;
       }
     }
     else{
-      return 60;
+      return 30;
     }
     
   }
