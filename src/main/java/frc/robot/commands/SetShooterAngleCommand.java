@@ -21,9 +21,9 @@ public class SetShooterAngleCommand extends PIDCommand {
         // The controller that the command will use
         new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> angleShooter.getEncoder(),
+        () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
-        () -> (angleShooter.encoderZero()+((limelight.calculateShooterAngle()*8.57))),//TODO adjust 8.57 based on gearbox and encoder
+        () -> ((limelight.calculateShooterAngle()*8.57)),//TODO adjust 8.57 based on gearbox and encoder
         // This uses the output
         output -> {
           angleShooter.setPower(output);

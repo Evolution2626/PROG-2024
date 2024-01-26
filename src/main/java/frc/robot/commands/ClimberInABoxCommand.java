@@ -27,7 +27,14 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberInAnBox.climb(xboxController.getRightTriggerAxis());
+    if(xboxController.getRightTriggerAxis() != 0){
+      climberInAnBox.activateRatchet();
+      climberInAnBox.climb(xboxController.getRightTriggerAxis());
+    }
+    if(xboxController.getLeftTriggerAxis() != 0){
+      climberInAnBox.climb(-xboxController.getLeftTriggerAxis());
+    }
+    
   }
 
   // Called once the command ends or is interrupted.

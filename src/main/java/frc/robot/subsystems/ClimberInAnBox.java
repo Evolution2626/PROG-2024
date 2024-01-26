@@ -4,30 +4,44 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PCM;
 
 public class ClimberInAnBox extends SubsystemBase {
-  private CANSparkMax climberDroit;
-  private CANSparkMax climberGauche;
+  private Talon climberDroit;
+  private Talon climberGauche;
+   private DoubleSolenoid piston;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
     OperatorConstants deviceNumber = new OperatorConstants();
-    climberDroit = new CANSparkMax(deviceNumber.DeviceNumberClimberDroit, MotorType.kBrushless);
-    climberGauche = new CANSparkMax(deviceNumber.DeviceNumberClimberGauche, MotorType.kBrushless);
+    PCM pcm = new PCM();
+    climberDroit = new Talon(deviceNumber.DeviceNumberClimberDroit);
+    climberGauche = new Talon(deviceNumber.DeviceNumberClimberGauche);
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
+    piston =
+        new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_CLIMBER_FORWARD, pcm.PISTON_CLIMBER_REVERSE);
+        piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void climb(double activated) {
     climberDroit.set(activated);
     climberGauche.set(activated);
   }
-
+  public void activateRatchet(){
+    
+      piston.set(DoubleSolenoid.Value.kForward);
+    
+    
+      
+  
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

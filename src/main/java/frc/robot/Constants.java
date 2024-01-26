@@ -39,5 +39,7 @@ public final class Constants {
   public static class PCM {
     public final int PISTON_FORWARD = 0;
     public final int PISTON_REVERSE = 1;
+    public final int PISTON_CLIMBER_FORWARD = 2;
+    public final int PISTON_CLIMBER_REVERSE = 3;
   }
 }
