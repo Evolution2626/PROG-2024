@@ -36,18 +36,18 @@ public class Shooter extends SubsystemBase {
     shooterDroit = new CANSparkMax(deviceNumber.DeviceNumberShooterDroit, MotorType.kBrushless);
     pusherGauche = new CANSparkMax(deviceNumber.DeviceNumberPusherGauche, MotorType.kBrushless);
     pusherDroit = new CANSparkMax(deviceNumber.DeviceNumberPusherDroit, MotorType.kBrushless);
-    shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
+    // shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
 
     shooterGauche.setInverted(false);
     shooterDroit.setInverted(false);
     pusherGauche.setInverted(false);
     pusherDroit.setInverted(false);
-    shooterAngle.setInverted(false);
+    // shooterAngle.setInverted(false);
     shooterDroitEncoder = shooterDroit.getAlternateEncoder(42);
     shooterGaucheEncoder = shooterGauche.getAlternateEncoder(42);
     pusherDroitEncoder = pusherDroit.getAlternateEncoder(42);
     pusherGaucheEncoder = pusherGauche.getAlternateEncoder(42);
-    shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
+    // shooterAngleEncoder = shooterAngle.getAlternateEncoder(42);
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {

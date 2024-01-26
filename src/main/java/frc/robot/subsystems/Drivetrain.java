@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import javax.swing.text.AbstractDocument.LeafElement;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -24,7 +22,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
@@ -44,7 +41,7 @@ public class Drivetrain extends SubsystemBase {
   private RelativeEncoder arriereGaucheEncoder;
   private RelativeEncoder arriereDroitEncoder;
   public boolean isTankDrive;
-  private ADIS16470_IMU gyro;
+  public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
   private double angleBase = 0.0;
   private boolean angleSet = false;
@@ -54,8 +51,6 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new TankDrivetrain. */
   public Drivetrain() {
-    ADIS16470_IMU gyro = new ADIS16470_IMU();
-
     piston =
         new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
 
@@ -67,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
     arrieredroit.setInverted(true);
-    arrieregauche.setInverted(true);
+    arrieregauche.setInverted(false);
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
 
     avantGaucheEncoder = avantgauche.getEncoder();
@@ -75,32 +70,32 @@ public class Drivetrain extends SubsystemBase {
     arriereDroitEncoder = arrieredroit.getEncoder();
     arriereGaucheEncoder = arrieregauche.getEncoder();
 
-  // TODO: add where we start on the field?
-  odometry =
-      new DifferentialDriveOdometry(
-          getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
-  // TODO: change to actual width
-  kinematics = new DifferentialDriveKinematics(40);
+    // TODO: add where we start on the field?
+    odometry =
+        new DifferentialDriveOdometry(
+            getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
 
-  // à faire
+    kinematics = new DifferentialDriveKinematics(58.6);
+
+    // à faire
     AutoBuilder.configureRamsete(
-      this::getPose2d,
-      this::resetPose2d,
-      this::getChassisSpeeds,
-      this::drivePathplanner,
-      new ReplanningConfig(),
-      () -> {
-        // Boolean supplier that controls when the path will be mirrored for the red alliance
-        // This will flip the path being followed to the red side of the field.
-        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+        this::getPose2d,
+        this::resetPose2d,
+        this::getChassisSpeeds,
+        this::drivePathplanner,
+        new ReplanningConfig(),
+        () -> {
+          // Boolean supplier that controls when the path will be mirrored for the red alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent()) {
-          return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;
-      },
-      this);
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this);
   }
 
   public Pose2d getPose2d() {
@@ -130,7 +125,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(gyro.getAngle(IMUAxis.kZ));
+    return Rotation2d.fromDegrees(getGyroAngleRaw());
   }
 
   public void resetGyroAngle() {
@@ -174,13 +169,13 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void drivePathplanner(ChassisSpeeds chassisSpeeds){
+  public void drivePathplanner(ChassisSpeeds chassisSpeeds) {
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
 
     double leftWheelSpeed = wheelSpeeds.leftMetersPerSecond;
     double rightWheelSpeed = wheelSpeeds.rightMetersPerSecond;
 
-
+    driveTank(rightWheelSpeed, leftWheelSpeed);
   }
 
   public void driveOneMotor(int id, double speed) {
