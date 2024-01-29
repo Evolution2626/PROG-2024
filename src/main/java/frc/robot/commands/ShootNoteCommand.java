@@ -11,6 +11,7 @@ import frc.robot.subsystems.Shooter;
 public class ShootNoteCommand extends Command {
   private Shooter shooter;
   private Intake intake;
+
   /** Creates a new ShootNoteCommand. */
   public ShootNoteCommand(Shooter shooter, Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.

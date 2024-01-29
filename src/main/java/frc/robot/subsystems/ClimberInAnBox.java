@@ -14,7 +14,7 @@ import frc.robot.Constants.PCM;
 public class ClimberInAnBox extends SubsystemBase {
   private Talon climberDroit;
   private Talon climberGauche;
-   private DoubleSolenoid piston;
+  private DoubleSolenoid piston;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
@@ -26,22 +26,24 @@ public class ClimberInAnBox extends SubsystemBase {
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
     piston =
-        new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_CLIMBER_FORWARD, pcm.PISTON_CLIMBER_REVERSE);
-        piston.set(DoubleSolenoid.Value.kReverse);
+        new DoubleSolenoid(
+            1,
+            PneumaticsModuleType.CTREPCM,
+            pcm.PISTON_CLIMBER_FORWARD,
+            pcm.PISTON_CLIMBER_REVERSE);
+    piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void climb(double activated) {
     climberDroit.set(activated);
     climberGauche.set(activated);
   }
-  public void activateRatchet(){
-    
-      piston.set(DoubleSolenoid.Value.kForward);
-    
-    
-      
-  
+
+  public void activateRatchet() {
+
+    piston.set(DoubleSolenoid.Value.kForward);
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

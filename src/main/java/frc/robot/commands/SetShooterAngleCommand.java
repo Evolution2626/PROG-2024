@@ -15,7 +15,9 @@ import frc.robot.subsystems.Limelight;
 public class SetShooterAngleCommand extends PIDCommand {
   /** Creates a new SetShooterAngleCommand. */
   private AngleShooter angleShooter;
+
   Limelight limelight;
+
   public SetShooterAngleCommand(AngleShooter angleShooter, Limelight limelight) {
     super(
         // The controller that the command will use
@@ -23,7 +25,9 @@ public class SetShooterAngleCommand extends PIDCommand {
         // This should return the measurement
         () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
-        () -> ((limelight.calculateShooterAngle()*8.57)),//TODO adjust 8.57 based on gearbox and encoder
+        () ->
+            ((limelight.calculateShooterAngle()
+                * 8.57)), // TODO adjust 8.57 based on gearbox and encoder
         // This uses the output
         output -> {
           angleShooter.setPower(output);
@@ -32,7 +36,7 @@ public class SetShooterAngleCommand extends PIDCommand {
     this.limelight = limelight;
     addRequirements(angleShooter, limelight);
   }
- 
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

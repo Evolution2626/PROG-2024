@@ -11,6 +11,7 @@ import frc.robot.subsystems.ClimberInAnBox;
 public class ClimberInABoxCommand extends Command {
   private ClimberInAnBox climberInAnBox;
   private CommandXboxController xboxController;
+  private boolean ratchetActivated = false;
 
   /** Creates a new ClimberInABoxCommand. */
   public ClimberInABoxCommand(ClimberInAnBox climberInAbox, CommandXboxController xboxController) {
@@ -27,14 +28,14 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xboxController.getRightTriggerAxis() != 0){
+    if (xboxController.getRightTriggerAxis() != 0) {
+      ratchetActivated = true;
       climberInAnBox.activateRatchet();
       climberInAnBox.climb(xboxController.getRightTriggerAxis());
     }
-    if(xboxController.getLeftTriggerAxis() != 0){
+    if (xboxController.getLeftTriggerAxis() != 0 && !ratchetActivated) {
       climberInAnBox.climb(-xboxController.getLeftTriggerAxis());
     }
-    
   }
 
   // Called once the command ends or is interrupted.

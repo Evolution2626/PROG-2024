@@ -7,10 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
-
 public class MoveIntakeCommand extends Command {
   Intake intake;
   boolean intakeOut;
+
   /** Creates a new MoveIntakeCommand. */
   public MoveIntakeCommand(Intake intake, boolean intakeOut) {
     this.intake = intake;
@@ -26,14 +26,11 @@ public class MoveIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(intakeOut){
+    if (intakeOut) {
       intake.moveIntake(1);
-    }
-    else{
+    } else {
       intake.moveIntake(-1);
     }
-     
-    
   }
 
   // Called once the command ends or is interrupted.
@@ -45,11 +42,10 @@ public class MoveIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intakeOut){
-      return true;//TODO change value to limit switch
-    }
-    else{
-      return true;//TODO change value to limit switch
+    if (intakeOut) {
+      return true; // TODO change value to limit switch
+    } else {
+      return true; // TODO change value to limit switch
     }
   }
 }

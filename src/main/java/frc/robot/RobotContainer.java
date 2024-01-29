@@ -74,12 +74,21 @@ public class RobotContainer {
     xboxController.a().onTrue(new ActivateDrivetrainCommand(drivetrain));
     xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
-    xboxController1.a().whileTrue(new SequentialCommandGroup(new ParallelCommandGroup(new SetShooterAngleCommand(angleShooter, limelight), new SetShooterSpeedCommand(shooter, 4000)), new ParallelCommandGroup(new SetShooterAngleCommand(angleShooter, limelight), new SetShooterSpeedCommand(shooter, 4000), new ShootNoteCommand(shooter, intake))));
-    xboxController1.b().whileTrue(new SequentialCommandGroup(new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1))).onFalse(new MoveIntakeCommand(intake, false));
-    
-    
+    xboxController.y().whileFalse(new SetShooterAngleCommand(angleShooter, limelight));
+    xboxController1
+        .a()
+        .whileTrue(
+            new ParallelCommandGroup(
+                new SetShooterAngleCommand(angleShooter, limelight),
+                new SetShooterSpeedCommand(shooter, 4000)));
 
-   
+    xboxController1
+        .b()
+        .whileTrue(
+            new SequentialCommandGroup(
+                new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1)))
+        .onFalse(new MoveIntakeCommand(intake, false));
+    xboxController1.leftBumper().whileTrue(new ShootNoteCommand(shooter, intake));
   }
 
   /**

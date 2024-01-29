@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
@@ -33,15 +32,12 @@ public class Drivetrain extends SubsystemBase {
   private RelativeEncoder arriereGaucheEncoder;
   private RelativeEncoder arriereDroitEncoder;
   public boolean isTankDrive;
-  private ADIS16470_IMU gyro;
+  public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
-  private double angleBase = 0.0;
-  private boolean angleSet = false;
-  private PIDController correction = new PIDController(0.1, 0.1, 0);
 
   /** Creates a new TankDrivetrain. */
   public Drivetrain() {
-    ADIS16470_IMU gyro = new ADIS16470_IMU();
+    // ADIS16470_IMU gyro = new ADIS16470_IMU();
 
     piston =
         new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
@@ -54,7 +50,7 @@ public class Drivetrain extends SubsystemBase {
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
     arrieredroit.setInverted(true);
-    arrieregauche.setInverted(true);
+    arrieregauche.setInverted(false);
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
 
     avantGaucheEncoder = avantgauche.getEncoder();
@@ -110,9 +106,17 @@ public class Drivetrain extends SubsystemBase {
       double leftTrigger,
       double rightTrigger) {
     if (isTankDrive == true) {
-      driveTank(Math.pow(rightY, 3), Math.pow(leftY, 3));
+
+      m_robotDrive.driveCartesian(Math.pow(leftY, 3), 0, -Math.pow(rightX, 3));
     } else {
-      driveCartesianGyro(rightX, leftY, leftX, leftTrigger, rightTrigger);
+      if (leftTrigger > 0) {
+        m_robotDrive.driveCartesian(0, -Math.pow(leftTrigger, 3) / 2, 0);
+      } else if (rightTrigger > 0) {
+        m_robotDrive.driveCartesian(0, Math.pow(rightTrigger, 3) / 2, 0);
+      } else {
+        m_robotDrive.driveCartesian(
+            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3), getRotation2d());
+      }
     }
   }
 
@@ -133,41 +137,6 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void driveCartesianGyro(
-      double rightX, double leftY, double leftx, double leftTrigger, double rightTrigger) {
-    double sideValue = 0.0;
-
-    if (rightTrigger > 0) {
-      if (!angleSet) {
-        angleBase = getGyroAngleRaw();
-        angleSet = true;
-      }
-      sideValue = rightTrigger;
-      m_robotDrive.driveCartesian(
-          0,
-          sideValue,
-          -correction.calculate(getGyroAngleRaw(), angleBase)); // correctionRotation(rightTrigger)
-    } else if (leftTrigger > 0) {
-      if (!angleSet) {
-        angleBase = getGyroAngleRaw();
-        angleSet = true;
-      }
-      sideValue = -leftTrigger;
-      m_robotDrive.driveCartesian(
-          0,
-          sideValue,
-          -correction.calculate(getGyroAngleRaw(), angleBase)); // correctionRotation(rightTrigger)
-    } else {
-      angleSet = false;
-      if (getGyroAngle() >= 45 && getGyroAngle() <= 135
-          || getGyroAngle() >= 225 && getGyroAngle() <= 315) {
-        m_robotDrive.driveCartesian(-leftY, leftx, -rightX, getRotation2d());
-      } else {
-        m_robotDrive.driveCartesian(leftY, -leftx, -rightX, getRotation2d());
-      }
-    }
-  }
-
   public void driveTank(double joystickDroit, double joystickGauche) {
     avantdroit.set(joystickDroit);
     avantgauche.set(joystickGauche);
@@ -183,10 +152,6 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putString("Mode", "drivetank");
     } else {
       SmartDashboard.putString("Mode", "mecanum");
-    }
-
-    if (getGyroAngle() >= 360) {
-      resetGyroAngle();
     }
   }
 }
