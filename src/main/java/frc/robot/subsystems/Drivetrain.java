@@ -173,8 +173,8 @@ public class Drivetrain extends SubsystemBase {
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
 
     // Test to see if 3 is actually the right constant
-    double leftWheelSpeed = (wheelSpeeds.leftMetersPerSecond/3);
-    double rightWheelSpeed = (wheelSpeeds.rightMetersPerSecond/3);
+    double leftWheelSpeed = (wheelSpeeds.leftMetersPerSecond / 3);
+    double rightWheelSpeed = (wheelSpeeds.rightMetersPerSecond / 3);
 
     // Make sure that the speeds are within the -1 to 1 range
     rightWheelSpeed = Math.max(-1, Math.min(rightWheelSpeed, 1)) * 0.2;
