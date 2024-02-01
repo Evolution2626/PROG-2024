@@ -4,16 +4,17 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PCM;
 
 public class ClimberInAnBox extends SubsystemBase {
-  private Talon climberDroit;
-  private Talon climberGauche;
+  private TalonSRX climberDroit;
+  private TalonSRX climberGauche;
   private DoubleSolenoid piston1;
   private DoubleSolenoid piston2;
 
@@ -21,8 +22,8 @@ public class ClimberInAnBox extends SubsystemBase {
   public ClimberInAnBox() {
     OperatorConstants deviceNumber = new OperatorConstants();
     PCM pcm = new PCM();
-    climberDroit = new Talon(deviceNumber.DeviceNumberClimberDroit);
-    climberGauche = new Talon(deviceNumber.DeviceNumberClimberGauche);
+    climberDroit = new TalonSRX(deviceNumber.DeviceNumberClimberDroit);
+    climberGauche = new TalonSRX(deviceNumber.DeviceNumberClimberGauche);
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
@@ -43,8 +44,8 @@ public class ClimberInAnBox extends SubsystemBase {
   }
 
   public void climb(double droit, double gauche) {
-    climberDroit.set(droit);
-    climberGauche.set(gauche);
+    climberDroit.set(ControlMode.PercentOutput, droit);
+    climberGauche.set(ControlMode.PercentOutput, gauche);
   }
 
   public void activateRatchet() {
