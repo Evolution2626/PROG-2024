@@ -57,6 +57,7 @@ public class Drivetrain extends SubsystemBase {
     avantDroitEncoder = avantdroit.getEncoder();
     arriereDroitEncoder = arrieredroit.getEncoder();
     arriereGaucheEncoder = arrieregauche.getEncoder();
+    m_robotDrive.setSafetyEnabled(false);
   }
 
   public double getGyroAngle() {
@@ -76,11 +77,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void ActivateDrivetank() {
-    piston.set(DoubleSolenoid.Value.kReverse);
+    piston.set(DoubleSolenoid.Value.kForward);
   }
 
   public void ActivateMecanum() {
-    piston.set(DoubleSolenoid.Value.kForward);
+    piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public double[] getEncoder() {
@@ -106,8 +107,9 @@ public class Drivetrain extends SubsystemBase {
       double leftTrigger,
       double rightTrigger) {
     if (isTankDrive == true) {
+      driveTank(Math.pow(rightY, 3), Math.pow(leftY, 3));
 
-      m_robotDrive.driveCartesian(Math.pow(leftY, 3), 0, -Math.pow(rightX, 3));
+      // m_robotDrive.driveCartesian(Math.pow(leftY, 3), 0, -Math.pow(rightX, 3));
     } else {
       if (leftTrigger > 0) {
         m_robotDrive.driveCartesian(0, -Math.pow(leftTrigger, 3) / 2, 0);

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
@@ -34,6 +35,12 @@ public class SetShooterSpeedCommand extends Command {
     shooter.shooterPower(
         (pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), speed) + (kV * speed)),
         (pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), speed) + (kV * speed)));
+
+    if (shooter.getVelocityDroit() > speed - 100 && shooter.getVelocityGauche() > speed - 100) {
+      SmartDashboard.putBoolean("Speed Ready", true);
+    } else {
+      SmartDashboard.putBoolean("Speed Ready", false);
+    }
   }
 
   // Called once the command ends or is interrupted.

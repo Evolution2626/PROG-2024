@@ -16,9 +16,11 @@ import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.MoveIntakeWheelCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.ResetGryoCommand;
+import frc.robot.commands.SetAmpShooterArmPositionCommand;
 import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.ShootNoteCommand;
+import frc.robot.subsystems.AmpShooter;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.ClimberInAnBox;
 import frc.robot.subsystems.Drivetrain;
@@ -41,6 +43,7 @@ public class RobotContainer {
   private Intake intake;
   private AngleShooter angleShooter;
   private Limelight limelight;
+  private AmpShooter ampShooter;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
@@ -53,6 +56,7 @@ public class RobotContainer {
     shooter = new Shooter();
     limelight = new Limelight();
     angleShooter = new AngleShooter();
+    ampShooter = new AmpShooter();
     xboxController = new CommandXboxController(0);
     xboxController1 = new CommandXboxController(1);
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
@@ -74,7 +78,6 @@ public class RobotContainer {
     xboxController.a().onTrue(new ActivateDrivetrainCommand(drivetrain));
     xboxController.b().onTrue(new ActivateMecanumCommand(drivetrain));
     xboxController.x().onTrue(new ResetGryoCommand(drivetrain));
-    xboxController.y().whileFalse(new SetShooterAngleCommand(angleShooter, limelight));
     xboxController1
         .a()
         .whileTrue(
@@ -89,6 +92,8 @@ public class RobotContainer {
                 new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1)))
         .onFalse(new MoveIntakeCommand(intake, false));
     xboxController1.leftBumper().whileTrue(new ShootNoteCommand(shooter, intake));
+    xboxController1.povUp().onTrue(new SetAmpShooterArmPositionCommand(ampShooter, true));
+    xboxController1.povDown().onTrue(new SetAmpShooterArmPositionCommand(ampShooter, false));
   }
 
   /**

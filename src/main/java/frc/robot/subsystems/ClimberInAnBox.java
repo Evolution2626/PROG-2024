@@ -14,7 +14,8 @@ import frc.robot.Constants.PCM;
 public class ClimberInAnBox extends SubsystemBase {
   private Talon climberDroit;
   private Talon climberGauche;
-  private DoubleSolenoid piston;
+  private DoubleSolenoid piston1;
+  private DoubleSolenoid piston2;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
@@ -25,23 +26,31 @@ public class ClimberInAnBox extends SubsystemBase {
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
-    piston =
+    piston1 =
         new DoubleSolenoid(
             1,
             PneumaticsModuleType.CTREPCM,
-            pcm.PISTON_CLIMBER_FORWARD,
-            pcm.PISTON_CLIMBER_REVERSE);
-    piston.set(DoubleSolenoid.Value.kReverse);
+            pcm.PISTON_CLIMBER_FORWARD_1,
+            pcm.PISTON_CLIMBER_REVERSE_1);
+    piston2 =
+        new DoubleSolenoid(
+            1,
+            PneumaticsModuleType.CTREPCM,
+            pcm.PISTON_CLIMBER_FORWARD_2,
+            pcm.PISTON_CLIMBER_REVERSE_2);
+    piston1.set(DoubleSolenoid.Value.kReverse);
+    piston2.set(DoubleSolenoid.Value.kReverse);
   }
 
-  public void climb(double activated) {
-    climberDroit.set(activated);
-    climberGauche.set(activated);
+  public void climb(double droit, double gauche) {
+    climberDroit.set(droit);
+    climberGauche.set(gauche);
   }
 
   public void activateRatchet() {
 
-    piston.set(DoubleSolenoid.Value.kForward);
+    piston1.set(DoubleSolenoid.Value.kForward);
+    piston2.set(DoubleSolenoid.Value.kForward);
   }
 
   @Override

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Limelight;
@@ -31,6 +32,11 @@ public class SetShooterAngleCommand extends PIDCommand {
         // This uses the output
         output -> {
           angleShooter.setPower(output);
+          if (output > -0.1 && output < 0.1) {
+            SmartDashboard.putBoolean("Angle Ready", true);
+          } else {
+            SmartDashboard.putBoolean("Angle Ready", false);
+          }
         });
     this.angleShooter = angleShooter;
     this.limelight = limelight;

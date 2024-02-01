@@ -33,12 +33,26 @@ public final class Constants {
     public final int DeviceNumberIntakeDroit = 107;
     public final int DeviceNumberIntakeGauche = 108;
     public final int DeviceNumberIntakePivot = 109;
+
+    public final int DeviceNumberAmpShooter = 110;
   }
 
   public static class PCM {
     public final int PISTON_FORWARD = 0;
     public final int PISTON_REVERSE = 1;
-    public final int PISTON_CLIMBER_FORWARD = 2;
-    public final int PISTON_CLIMBER_REVERSE = 3;
+
+    public final int PISTON_CLIMBER_FORWARD_1 = 2;
+    public final int PISTON_CLIMBER_REVERSE_1 = 3;
+
+    public final int PISTON_CLIMBER_FORWARD_2 = 4;
+    public final int PISTON_CLIMBER_REVERSE_2 = 5;
+
+    public final int PISTON_AMP_SHOOTER_FORWARD = 6;
+    public final int PISTON_AMP_SHOOTER_REVERSE = 7;
+  }
+
+  public static class DIGITAL {
+    public final int INTAKE_LIMIT_SWITCH_OUT = 6;
+    public final int INTAKE_LIMIT_SWITCH_IN = 7;
   }
 }

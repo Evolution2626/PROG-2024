@@ -4,20 +4,20 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.AmpShooter;
 
-public class MoveIntakeCommand extends Command {
-  Intake intake;
-  boolean intakeOut;
+public class SetAmpShooterSpeedCommand extends Command {
+  private XboxController xboxController;
+  private AmpShooter ampShooter;
 
-  /** Creates a new MoveIntakeCommand. */
-  public MoveIntakeCommand(Intake intake, boolean intakeOut) {
-    this.intake = intake;
-    this.intakeOut = intakeOut;
-
-    addRequirements(intake);
+  /** Creates a new SetAmpShooterSpeedCommand. */
+  public SetAmpShooterSpeedCommand(XboxController xboxController, AmpShooter ampShooter) {
+    this.xboxController = xboxController;
+    this.ampShooter = ampShooter;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(ampShooter);
   }
 
   // Called when the command is initially scheduled.
@@ -27,26 +27,16 @@ public class MoveIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intakeOut) {
-      intake.moveIntake(1);
-    } else {
-      intake.moveIntake(-1);
-    }
+    ampShooter.setWheelPower(xboxController.getLeftY());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    intake.moveIntake(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (intakeOut) {
-      return intake.getIntakeLimitOut();
-    } else {
-      return intake.getIntakeLimitIn();
-    }
+    return false;
   }
 }

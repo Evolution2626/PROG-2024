@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Drivetrain;
+import frc.util.Range;
 
 public class OctocanumDrivetrainCommand extends Command {
   private CommandXboxController xboxController;
@@ -30,12 +31,12 @@ public class OctocanumDrivetrainCommand extends Command {
   @Override
   public void execute() {
     drivetrain.drive(
-        xboxController.getRightX(),
-        xboxController.getRightY(),
-        xboxController.getLeftX(),
-        xboxController.getLeftY(),
-        xboxController.getRightTriggerAxis(),
-        xboxController.getLeftTriggerAxis());
+        Range.threshold(0.1, xboxController.getRightX()),
+        Range.threshold(0.1, xboxController.getRightY()),
+        Range.threshold(0.1, xboxController.getLeftX()),
+        Range.threshold(0.1, xboxController.getLeftY()),
+        Range.threshold(0.1, xboxController.getRightTriggerAxis()),
+        Range.threshold(0.1, xboxController.getLeftTriggerAxis()));
   }
 
   // Called once the command ends or is interrupted.
