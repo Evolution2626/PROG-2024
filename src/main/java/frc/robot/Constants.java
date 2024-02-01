@@ -30,8 +30,8 @@ public final class Constants {
 
     public final int DeviceNumberShooterAngle = 106;
 
-    public final int DeviceNumberIntakeDroit = 107;
-    public final int DeviceNumberIntakeGauche = 108;
+    public final int DeviceNumberIntakeDroit = 70;
+    public final int DeviceNumberIntakeGauche = 90;
     public final int DeviceNumberIntakePivot = 109;
 
     public final int DeviceNumberAmpShooter = 110;

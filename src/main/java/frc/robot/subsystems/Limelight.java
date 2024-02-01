@@ -183,9 +183,10 @@ public class Limelight extends SubsystemBase {
     NetworkTableEntry tid = table.getEntry("tid");
 
     if (tid.getInteger(0) == 7 || tid.getInteger(0) == 4) {
-      if (ty.getDouble(0) < 1234 && ty.getDouble(0) > -1234 && tx.getDouble(0) <= 90) {
-        return Math.atan(
-            62.6 / tx.getDouble(0)); // TODO check if the argument are at the right place
+      if (ty.getDouble(0) < 1234
+          && ty.getDouble(0) > -1234
+          && tx.getDouble(0) <= 90) { // TODO change range
+        return Math.atan(62.6 / tx.getDouble(0));
       } else {
         return 30;
       }
