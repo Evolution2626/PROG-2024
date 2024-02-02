@@ -38,8 +38,10 @@ public class SetShooterSpeedCommand extends Command {
 
     if (shooter.getVelocityDroit() > speed - 100 && shooter.getVelocityGauche() > speed - 100) {
       SmartDashboard.putBoolean("Speed Ready", true);
-    } else {
-      SmartDashboard.putBoolean("Speed Ready", false);
+     
+    } else{
+     SmartDashboard.putBoolean("Speed Ready", false);
+     
     }
   }
 

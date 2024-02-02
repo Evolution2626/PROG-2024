@@ -16,6 +16,7 @@ import frc.robot.subsystems.Limelight;
 public class SetShooterAngleCommand extends PIDCommand {
   /** Creates a new SetShooterAngleCommand. */
   private AngleShooter angleShooter;
+  private boolean statusSet;
 
   Limelight limelight;
 

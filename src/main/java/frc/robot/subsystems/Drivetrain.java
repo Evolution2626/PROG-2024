@@ -108,17 +108,18 @@ public class Drivetrain extends SubsystemBase {
       double rightTrigger) {
     if (isTankDrive == true) {
       driveTank(Math.pow(rightY, 3), Math.pow(leftY, 3));
-
+      
       // m_robotDrive.driveCartesian(Math.pow(leftY, 3), 0, -Math.pow(rightX, 3));
     } else {
-      if (leftTrigger > 0) {
+       if (leftTrigger > 0) {
         m_robotDrive.driveCartesian(0, -Math.pow(leftTrigger, 3) / 2, 0);
       } else if (rightTrigger > 0) {
         m_robotDrive.driveCartesian(0, Math.pow(rightTrigger, 3) / 2, 0);
       } else {
         m_robotDrive.driveCartesian(
-            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3), getRotation2d());
+            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3)/2, getRotation2d());
       }
+      
     }
   }
 
