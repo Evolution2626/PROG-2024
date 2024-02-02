@@ -4,13 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,7 +45,11 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new TankDrivetrain. */
   public Drivetrain() {
     // ADIS16470_IMU gyro = new ADIS16470_IMU();
+  private DifferentialDriveOdometry odometry;
+  private DifferentialDriveKinematics kinematics;
 
+  /** Creates a new TankDrivetrain. */
+  public Drivetrain() {
     piston =
         new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
 
@@ -58,6 +69,51 @@ public class Drivetrain extends SubsystemBase {
     arriereDroitEncoder = arrieredroit.getEncoder();
     arriereGaucheEncoder = arrieregauche.getEncoder();
     m_robotDrive.setSafetyEnabled(false);
+
+    // TODO: add where we start on the field?
+    odometry =
+        new DifferentialDriveOdometry(
+            getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
+
+    kinematics = new DifferentialDriveKinematics(58.6);
+
+    // à faire
+    AutoBuilder.configureRamsete(
+        this::getPose2d,
+        this::resetPose2d,
+        this::getChassisSpeeds,
+        this::drivePathplanner,
+        new ReplanningConfig(),
+        () -> {
+          // Boolean supplier that controls when the path will be mirrored for the red alliance
+          // This will flip the path being followed to the red side of the field.
+          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+          var alliance = DriverStation.getAlliance();
+          if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+          }
+          return false;
+        },
+        this);
+  }
+
+  public Pose2d getPose2d() {
+    return odometry.getPoseMeters();
+  }
+
+  public void resetPose2d(Pose2d pose) {
+    odometry.resetPosition(
+        getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition(), pose);
+  }
+
+  public ChassisSpeeds getChassisSpeeds() {
+    return kinematics.toChassisSpeeds(getWheelSpeed());
+  }
+
+  public DifferentialDriveWheelSpeeds getWheelSpeed() {
+    return new DifferentialDriveWheelSpeeds(
+        arriereGaucheEncoder.getVelocity() / 60, arriereDroitEncoder.getVelocity() / 60);
   }
 
   public double getGyroAngle() {
@@ -69,7 +125,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(gyro.getAngle(IMUAxis.kZ));
+    return Rotation2d.fromDegrees(getGyroAngleRaw());
   }
 
   public void resetGyroAngle() {
@@ -123,6 +179,20 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void drivePathplanner(ChassisSpeeds chassisSpeeds) {
+    DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+
+    // Test to see if 3 is actually the right constant
+    double leftWheelSpeed = (wheelSpeeds.leftMetersPerSecond / 3);
+    double rightWheelSpeed = (wheelSpeeds.rightMetersPerSecond / 3);
+
+    // Make sure that the speeds are within the -1 to 1 range
+    rightWheelSpeed = Math.max(-1, Math.min(rightWheelSpeed, 1)) * 0.2;
+    leftWheelSpeed = Math.max(-1, Math.min(leftWheelSpeed, 1)) * -0.2;
+
+    driveTank(rightWheelSpeed, leftWheelSpeed);
+  }
+
   public void driveOneMotor(int id, double speed) {
     switch (id) {
       case 3:
@@ -156,5 +226,8 @@ public class Drivetrain extends SubsystemBase {
     } else {
       SmartDashboard.putString("Mode", "mecanum");
     }
+
+    odometry.update(
+        getRotation2d(), avantGaucheEncoder.getPosition(), avantGaucheEncoder.getPosition());
   }
 }
