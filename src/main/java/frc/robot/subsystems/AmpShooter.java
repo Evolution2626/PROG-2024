@@ -24,7 +24,7 @@ public class AmpShooter extends SubsystemBase {
     piston =
         new DoubleSolenoid(
             1,
-            PneumaticsModuleType.CTREPCM,
+            PneumaticsModuleType.REVPH,
             pcm.PISTON_AMP_SHOOTER_FORWARD,
             pcm.PISTON_AMP_SHOOTER_REVERSE);
 

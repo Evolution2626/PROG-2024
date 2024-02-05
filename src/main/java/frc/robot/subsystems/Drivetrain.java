@@ -9,6 +9,8 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -41,17 +43,15 @@ public class Drivetrain extends SubsystemBase {
   public boolean isTankDrive;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
-
-  /** Creates a new TankDrivetrain. */
-  public Drivetrain() {
-    // ADIS16470_IMU gyro = new ADIS16470_IMU();
   private DifferentialDriveOdometry odometry;
   private DifferentialDriveKinematics kinematics;
 
   /** Creates a new TankDrivetrain. */
   public Drivetrain() {
+    // ADIS16470_IMU gyro = new ADIS16470_IMU();
+
     piston =
-        new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
+        new DoubleSolenoid(1, PneumaticsModuleType.REVPH, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
 
     avantgauche = new CANSparkMax(deviceNumber.DeviceNumberAvantGauche, MotorType.kBrushless);
     avantdroit = new CANSparkMax(deviceNumber.DeviceNumberAvantDroit, MotorType.kBrushless);
