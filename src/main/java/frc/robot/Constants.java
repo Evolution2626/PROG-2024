@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -54,5 +56,35 @@ public final class Constants {
   public static class DIGITAL {
     public final int INTAKE_LIMIT_SWITCH_OUT = 6;
     public final int INTAKE_LIMIT_SWITCH_IN = 7;
+  }
+
+  /*
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+   */
+  public static class DriveConstants {
+    public static final double ksVolts = 0.22;
+    public static final double kvVoltSecondsPerMeter = 1.98;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+
+    public static final double kPDriveVel = 8.5;
+
+    public static final double kTrackwidthMeters = 0.58;
+    public static final DifferentialDriveKinematics kDriveKinematics =
+        new DifferentialDriveKinematics(kTrackwidthMeters);
+
+    public static final double kMaxSpeedMetersPerSecond = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+
+    public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
   }
 }

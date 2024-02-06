@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
 
   DigitalInput intakeLimitOut = new DigitalInput(degitalInput.INTAKE_LIMIT_SWITCH_OUT);
   DigitalInput intakeLimitIn = new DigitalInput(degitalInput.INTAKE_LIMIT_SWITCH_IN);
-  
+
   public Intake() {
     intakeDroit = new CANSparkMax(deviceNumber.DeviceNumberIntakeDroit, MotorType.kBrushless);
     intakeGauche = new CANSparkMax(deviceNumber.DeviceNumberIntakeGauche, MotorType.kBrushless);
@@ -57,7 +57,7 @@ public class Intake extends SubsystemBase {
   public boolean getIntakeLimitIn() {
     return intakeLimitIn.get();
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
