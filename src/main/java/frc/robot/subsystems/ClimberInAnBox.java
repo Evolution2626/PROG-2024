@@ -30,13 +30,13 @@ public class ClimberInAnBox extends SubsystemBase {
     piston1 =
         new DoubleSolenoid(
             1,
-            PneumaticsModuleType.REVPH,
+            PneumaticsModuleType.CTREPCM,
             pcm.PISTON_CLIMBER_FORWARD_1,
             pcm.PISTON_CLIMBER_REVERSE_1);
     piston2 =
         new DoubleSolenoid(
             1,
-            PneumaticsModuleType.REVPH,
+            PneumaticsModuleType.CTREPCM,
             pcm.PISTON_CLIMBER_FORWARD_2,
             pcm.PISTON_CLIMBER_REVERSE_2);
     piston1.set(DoubleSolenoid.Value.kReverse);
