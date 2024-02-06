@@ -43,12 +43,6 @@ public class Drivetrain extends SubsystemBase {
   public boolean isTankDrive;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
-  private DifferentialDriveOdometry odometry;
-  private DifferentialDriveKinematics kinematics;
-
-  /** Creates a new TankDrivetrain. */
-  public Drivetrain() {
-    // ADIS16470_IMU gyro = new ADIS16470_IMU();
 
     piston =
         new DoubleSolenoid(1, PneumaticsModuleType.REVPH, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
@@ -78,44 +72,10 @@ public class Drivetrain extends SubsystemBase {
     kinematics = new DifferentialDriveKinematics(58.6);
 
     // à faire
-    AutoBuilder.configureRamsete(
-        this::getPose2d,
-        this::resetPose2d,
-        this::getChassisSpeeds,
-        this::drivePathplanner,
-        new ReplanningConfig(),
-        () -> {
-          // Boolean supplier that controls when the path will be mirrored for the red alliance
-          // This will flip the path being followed to the red side of the field.
-          // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-          var alliance = DriverStation.getAlliance();
-          if (alliance.isPresent()) {
-            return alliance.get() == DriverStation.Alliance.Red;
-          }
-          return false;
-        },
-        this);
+    
   }
 
-  public Pose2d getPose2d() {
-    return odometry.getPoseMeters();
-  }
-
-  public void resetPose2d(Pose2d pose) {
-    odometry.resetPosition(
-        getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition(), pose);
-  }
-
-  public ChassisSpeeds getChassisSpeeds() {
-    return kinematics.toChassisSpeeds(getWheelSpeed());
-  }
-
-  public DifferentialDriveWheelSpeeds getWheelSpeed() {
-    return new DifferentialDriveWheelSpeeds(
-        arriereGaucheEncoder.getVelocity() / 60, arriereDroitEncoder.getVelocity() / 60);
-  }
-
+ 
   public double getGyroAngle() {
     return Math.abs(gyro.getAngle(IMUAxis.kZ));
   }
@@ -179,19 +139,6 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void drivePathplanner(ChassisSpeeds chassisSpeeds) {
-    DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-
-    // Test to see if 3 is actually the right constant
-    double leftWheelSpeed = (wheelSpeeds.leftMetersPerSecond / 3);
-    double rightWheelSpeed = (wheelSpeeds.rightMetersPerSecond / 3);
-
-    // Make sure that the speeds are within the -1 to 1 range
-    rightWheelSpeed = Math.max(-1, Math.min(rightWheelSpeed, 1)) * 0.2;
-    leftWheelSpeed = Math.max(-1, Math.min(leftWheelSpeed, 1)) * -0.2;
-
-    driveTank(rightWheelSpeed, leftWheelSpeed);
-  }
 
   public void driveOneMotor(int id, double speed) {
     switch (id) {

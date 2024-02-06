@@ -15,7 +15,8 @@ public class AngleShooter extends SubsystemBase {
   private CANSparkMax shooterAngle;
   private DutyCycleEncoder shooterAngleEncoder = new DutyCycleEncoder(0);
 
-  private double encoderOffset = 0.0;
+  private double encoderMin = 0.0;
+  private double encoderMax = 0.0;
 
   /** Creates a new AngleShooter. */
   public AngleShooter() {
@@ -28,9 +29,14 @@ public class AngleShooter extends SubsystemBase {
 
   public double getEncoderValue() {
 
-    return shooterAngleEncoder.getAbsolutePosition() - encoderOffset;
+    return shooterAngleEncoder.getAbsolutePosition();
   }
-
+public double getEncoderMax(){
+  return encoderMax;
+}
+public double getEncoderMin(){
+  return encoderMin;
+}
   public void setPower(double power) {
     shooterAngle.set(power);
   }
