@@ -52,6 +52,26 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit = new CANSparkMax(deviceNumber.DeviceNumberArriereDroit, MotorType.kBrushless);
     arrieregauche = new CANSparkMax(deviceNumber.DeviceNumberArriereGauche, MotorType.kBrushless);
 
+avantgauche.configContinuousCurrentLimit(30);
+  avantdroit.configContinuousCurrentLimit(30);
+  arrieredroit.configContinuousCurrentLimit(30);
+  arrieregauche.configContinuousCurrentLimit(30);
+
+avantgauche.configPeakCurrentLimit(30);
+  avantdroit.configPeakCurrentLimit(30);
+  arrieredroit.configPeakCurrentLimit(30);
+  arrieregauche.configPeakCurrentLimit(30);
+
+avantgauche.setClosedLoopRampRate(0.2);
+  avantdroit.setClosedLoopRampRate(0.2);
+  arrieredroit.setClosedLoopRampRate(0.2);
+  arrieregauche..setClosedLoopRampRate(0.2);
+
+avantgauche.setOpenLoopRampRate(0.2);
+  avantdroit.setOpenLoopRampRate(0.2);
+  arrieredroit.setOpenLoopRampRate(0.2);
+  arrieregauche.setOpenLoopRampRate(0.2);
+    
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
     arrieredroit.setInverted(true);
