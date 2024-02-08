@@ -191,7 +191,7 @@ public class Limelight extends SubsystemBase {
       if (ty.getDouble(0) < 1234
           && ty.getDouble(0) > -1234
           && tx.getDouble(0) <= 90) { // TODO change range
-        return Math.atan(62.6 / tx.getDouble(0));//TODO check if relative to the field or camera
+        return Math.atan(80 / tx.getDouble(0));//TODO check if relative to the field or camera and ajust target height
       } else {
         return 30;
       }
