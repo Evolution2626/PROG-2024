@@ -176,7 +176,11 @@ public class Limelight extends SubsystemBase {
   public void setLEDMode(int i) {
     networkTable.getEntry("ledMode").setValue(i);
   }
-
+  public double calculateShooterOffset(){
+    double offset = getdegRotationToTarget();
+    
+    return offset;
+  }
   public double calculateShooterAngle() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");

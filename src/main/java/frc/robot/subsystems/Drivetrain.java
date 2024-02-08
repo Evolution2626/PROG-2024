@@ -43,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
   public boolean isTankDrive;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
-
+ public Drivetrain(){
     piston =
         new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
 
@@ -52,25 +52,21 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit = new CANSparkMax(deviceNumber.DeviceNumberArriereDroit, MotorType.kBrushless);
     arrieregauche = new CANSparkMax(deviceNumber.DeviceNumberArriereGauche, MotorType.kBrushless);
 
-avantgauche.configContinuousCurrentLimit(30);
-  avantdroit.configContinuousCurrentLimit(30);
-  arrieredroit.configContinuousCurrentLimit(30);
-  arrieregauche.configContinuousCurrentLimit(30);
+avantgauche.setSmartCurrentLimit(30);
+  avantdroit.setSmartCurrentLimit(30);
+  arrieredroit.setSmartCurrentLimit(30);
+  arrieregauche.setSmartCurrentLimit(30);
 
-avantgauche.configPeakCurrentLimit(30);
-  avantdroit.configPeakCurrentLimit(30);
-  arrieredroit.configPeakCurrentLimit(30);
-  arrieregauche.configPeakCurrentLimit(30);
 
-avantgauche.setClosedLoopRampRate(0.2);
-  avantdroit.setClosedLoopRampRate(0.2);
-  arrieredroit.setClosedLoopRampRate(0.2);
-  arrieregauche..setClosedLoopRampRate(0.2);
+avantgauche.setClosedLoopRampRate(0.1);
+  avantdroit.setClosedLoopRampRate(0.1);
+  arrieredroit.setClosedLoopRampRate(0.1);
+  arrieregauche.setClosedLoopRampRate(0.1);
 
-avantgauche.setOpenLoopRampRate(0.2);
-  avantdroit.setOpenLoopRampRate(0.2);
-  arrieredroit.setOpenLoopRampRate(0.2);
-  arrieregauche.setOpenLoopRampRate(0.2);
+avantgauche.setOpenLoopRampRate(0.1);
+  avantdroit.setOpenLoopRampRate(0.1);
+  arrieredroit.setOpenLoopRampRate(0.1);
+  arrieregauche.setOpenLoopRampRate(0.1);
     
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
@@ -84,14 +80,7 @@ avantgauche.setOpenLoopRampRate(0.2);
     arriereGaucheEncoder = arrieregauche.getEncoder();
     m_robotDrive.setSafetyEnabled(false);
 
-    // TODO: add where we start on the field?
-    odometry =
-        new DifferentialDriveOdometry(
-            getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
-
-    kinematics = new DifferentialDriveKinematics(58.6);
-
-    // à faire
+   
     
   }
 
@@ -145,7 +134,6 @@ avantgauche.setOpenLoopRampRate(0.2);
     if (isTankDrive == true) {
       driveTank(Math.pow(rightY, 3), Math.pow(leftY, 3));
       
-      // m_robotDrive.driveCartesian(Math.pow(leftY, 3), 0, -Math.pow(rightX, 3));
     } else {
        if (leftTrigger > 0) {
         m_robotDrive.driveCartesian(0, -Math.pow(leftTrigger, 3) / 2, 0);
@@ -153,7 +141,7 @@ avantgauche.setOpenLoopRampRate(0.2);
         m_robotDrive.driveCartesian(0, Math.pow(rightTrigger, 3) / 2, 0);
       } else {
         m_robotDrive.driveCartesian(
-            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3)/2, getRotation2d());
+            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3)/2);
       }
       
     }
@@ -194,7 +182,5 @@ avantgauche.setOpenLoopRampRate(0.2);
       SmartDashboard.putString("Mode", "mecanum");
     }
 
-    odometry.update(
-        getRotation2d(), avantGaucheEncoder.getPosition(), avantGaucheEncoder.getPosition());
   }
 }
