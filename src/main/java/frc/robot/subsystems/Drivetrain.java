@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PCM;
 
@@ -36,7 +37,7 @@ public class Drivetrain extends SubsystemBase {
   private RelativeEncoder avantDroitEncoder;
   private RelativeEncoder arriereGaucheEncoder;
   private RelativeEncoder arriereDroitEncoder;
-  public boolean isTankDrive;
+  public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
   private DifferentialDriveOdometry odometry;
@@ -66,15 +67,35 @@ public class Drivetrain extends SubsystemBase {
     arriereGaucheEncoder = arrieregauche.getEncoder();
     m_robotDrive.setSafetyEnabled(false);
 
-    avantDroitEncoder.setVelocityConversionFactor((12 / 66) * 4 * Math.PI * 2.54 / 6000);
-    arriereDroitEncoder.setVelocityConversionFactor((12 / 66) * 4 * Math.PI * 2.54 / 6000);
-    avantGaucheEncoder.setVelocityConversionFactor((12 / 66) * 4 * Math.PI * 2.54 / 6000);
-    arriereGaucheEncoder.setVelocityConversionFactor((12 / 66) * 4 * Math.PI * 2.54 / 6000);
+    avantgauche.setSmartCurrentLimit(30);
+    avantdroit.setSmartCurrentLimit(30);
+    arrieredroit.setSmartCurrentLimit(30);
+    arrieregauche.setSmartCurrentLimit(30);
 
-    avantDroitEncoder.setPositionConversionFactor((12 / 66) * 4 * Math.PI * 2.45 / 100);
-    arriereDroitEncoder.setPositionConversionFactor((12 / 66) * 4 * Math.PI * 2.45 / 100);
-    avantGaucheEncoder.setPositionConversionFactor((12 / 66) * 4 * Math.PI * 2.45 / 100);
-    arriereGaucheEncoder.setPositionConversionFactor((12 / 66) * 4 * Math.PI * 2.45 / 100);
+    avantgauche.setClosedLoopRampRate(0.1);
+    avantdroit.setClosedLoopRampRate(0.1);
+    arrieredroit.setClosedLoopRampRate(0.1);
+    arrieregauche.setClosedLoopRampRate(0.1);
+
+    avantgauche.setOpenLoopRampRate(0.1);
+    avantdroit.setOpenLoopRampRate(0.1);
+    arrieredroit.setOpenLoopRampRate(0.1);
+    arrieregauche.setOpenLoopRampRate(0.1);
+
+    avantDroitEncoder.setPosition(0);
+    arriereDroitEncoder.setPosition(0);
+    arriereGaucheEncoder.setPosition(0);
+    avantGaucheEncoder.setPosition(0);
+
+     avantDroitEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+     arriereDroitEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+     avantGaucheEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+     arriereGaucheEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+
+     avantDroitEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+     arriereDroitEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+     avantGaucheEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+     arriereGaucheEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
 
     odometry =
         new DifferentialDriveOdometry(
@@ -83,11 +104,11 @@ public class Drivetrain extends SubsystemBase {
     kinematics = new DifferentialDriveKinematics(58.6);
   }
 
-  public Pose2d getPose2d() {
+  public Pose2d getPose() {
     return odometry.getPoseMeters();
   }
 
-  public void resetPose2d(Pose2d pose) {
+  public void resetOdometry(Pose2d pose) {
     odometry.resetPosition(
         getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition(), pose);
   }
@@ -101,7 +122,6 @@ public class Drivetrain extends SubsystemBase {
         (arriereGaucheEncoder.getVelocity() + avantGaucheEncoder.getVelocity()) / 2;
     double rightEncoder = (arriereDroitEncoder.getVelocity() + avantDroitEncoder.getVelocity()) / 2;
 
-    // TODO: check the division
     return new DifferentialDriveWheelSpeeds(leftEncoder, rightEncoder);
   }
 
@@ -221,6 +241,11 @@ public class Drivetrain extends SubsystemBase {
     } else {
       SmartDashboard.putString("Mode", "mecanum");
     }
+
+    SmartDashboard.putNumber("flVel", avantGaucheEncoder.getVelocity());
+    SmartDashboard.putNumber("frVel", avantDroitEncoder.getVelocity());
+    SmartDashboard.putNumber("blVel", arriereGaucheEncoder.getVelocity());
+    SmartDashboard.putNumber("brVel", arriereDroitEncoder.getVelocity());
 
     odometry.update(
         getRotation2d(), avantGaucheEncoder.getPosition(), avantGaucheEncoder.getPosition());

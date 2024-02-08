@@ -58,24 +58,15 @@ public final class Constants {
     public final int INTAKE_LIMIT_SWITCH_IN = 7;
   }
 
-  /*
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   * TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-   */
   public static class DriveConstants {
-    public static final double ksVolts = 0.22;
-    public static final double kvVoltSecondsPerMeter = 1.98;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+    public static final double ksVolts = 0.26571;
+    public static final double kvVoltSecondsPerMeter = 1.4492;
+    public static final double kaVoltSecondsSquaredPerMeter = 2.3363;
 
-    public static final double kPDriveVel = 8.5;
+    public static final double velocityConversionFactor = (12.0 / 66.0) * 4.0 * Math.PI * 2.54 / 6000.0;
+    public static final double positionConversionFactor = (12.0 / 66.0) * 4.0 * Math.PI * 2.45 / 100.0;
+
+    public static final double kPDriveVel = 0.0020707;
 
     public static final double kTrackwidthMeters = 0.58;
     public static final DifferentialDriveKinematics kDriveKinematics =

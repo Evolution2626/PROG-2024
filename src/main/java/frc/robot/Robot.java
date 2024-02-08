@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 
   public Compressor compressor;
 
-  String trajectoryJSON = "paths/YourPath.wpilib.json";
+  String trajectoryJSON = "paths/Unnamed.wpilib.json";
   Trajectory trajectory = new Trajectory();
 
   /**
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand(trajectory);
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
