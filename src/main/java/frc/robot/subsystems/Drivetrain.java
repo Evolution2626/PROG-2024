@@ -9,6 +9,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -40,7 +41,7 @@ public class Drivetrain extends SubsystemBase {
   private RelativeEncoder avantDroitEncoder;
   private RelativeEncoder arriereGaucheEncoder;
   private RelativeEncoder arriereDroitEncoder;
-  public boolean isTankDrive;
+  public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
  public Drivetrain(){
@@ -58,7 +59,7 @@ avantgauche.setSmartCurrentLimit(30);
   arrieregauche.setSmartCurrentLimit(30);
 
 
-avantgauche.setClosedLoopRampRate(0.1);
+/*avantgauche.setClosedLoopRampRate(0.1);
   avantdroit.setClosedLoopRampRate(0.1);
   arrieredroit.setClosedLoopRampRate(0.1);
   arrieregauche.setClosedLoopRampRate(0.1);
@@ -66,12 +67,19 @@ avantgauche.setClosedLoopRampRate(0.1);
 avantgauche.setOpenLoopRampRate(0.1);
   avantdroit.setOpenLoopRampRate(0.1);
   arrieredroit.setOpenLoopRampRate(0.1);
-  arrieregauche.setOpenLoopRampRate(0.1);
+  arrieregauche.setOpenLoopRampRate(0.1);*/
     
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
     arrieredroit.setInverted(true);
     arrieregauche.setInverted(false);
+
+     avantdroit.setIdleMode(IdleMode.kBrake);
+    avantgauche.setIdleMode(IdleMode.kBrake);
+    arrieredroit.setIdleMode(IdleMode.kBrake);
+    arrieregauche.setIdleMode(IdleMode.kBrake);
+
+
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
 
     avantGaucheEncoder = avantgauche.getEncoder();
@@ -123,7 +131,9 @@ avantgauche.setOpenLoopRampRate(0.1);
   public void setDriveMode(boolean isTankDrive) {
     this.isTankDrive = isTankDrive;
   }
-
+  public boolean getCurrentDrivetrain(){
+    return isTankDrive;
+  }
   public void drive(
       double rightX,
       double rightY,
@@ -163,6 +173,16 @@ avantgauche.setOpenLoopRampRate(0.1);
         avantgauche.set(speed);
         break;
     }
+  }
+  public void driveRotation(double speed){
+    arrieredroit.set(-speed);
+     
+        arrieregauche.set(speed);
+     
+        avantdroit.set(-speed);
+      
+        avantgauche.set(speed);
+       
   }
 
   public void driveTank(double joystickDroit, double joystickGauche) {
