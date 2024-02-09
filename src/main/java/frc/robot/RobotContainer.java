@@ -80,11 +80,10 @@ public class RobotContainer {
     xboxController1
         .a()
         .whileTrue(
-            new SequentialCommandGroup(
-                new SetRobotAngleCommand(drivetrain, limelight),
+            
                 new ParallelCommandGroup(
                     new SetShooterAngleCommand(angleShooter, limelight),
-                    new SetShooterSpeedCommand(shooter, 4000))));
+                    new SetShooterSpeedCommand(shooter, 4000)));
 
     xboxController1
         .b()
