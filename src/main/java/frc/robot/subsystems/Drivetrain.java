@@ -4,23 +4,14 @@
 
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,7 +35,8 @@ public class Drivetrain extends SubsystemBase {
   public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
- public Drivetrain(){
+
+  public Drivetrain() {
     piston =
         new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
 
@@ -53,32 +45,25 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit = new CANSparkMax(deviceNumber.DeviceNumberArriereDroit, MotorType.kBrushless);
     arrieregauche = new CANSparkMax(deviceNumber.DeviceNumberArriereGauche, MotorType.kBrushless);
 
-avantgauche.setSmartCurrentLimit(30);
-  avantdroit.setSmartCurrentLimit(30);
-  arrieredroit.setSmartCurrentLimit(30);
-  arrieregauche.setSmartCurrentLimit(30);
+    avantgauche.setSmartCurrentLimit(30);
+    avantdroit.setSmartCurrentLimit(30);
+    arrieredroit.setSmartCurrentLimit(30);
+    arrieregauche.setSmartCurrentLimit(30);
 
+    avantgauche.setOpenLoopRampRate(0.1);
+    avantdroit.setOpenLoopRampRate(0.1);
+    arrieredroit.setOpenLoopRampRate(0.1);
+    arrieregauche.setOpenLoopRampRate(0.1);
 
-/*avantgauche.setClosedLoopRampRate(0.1);
-  avantdroit.setClosedLoopRampRate(0.1);
-  arrieredroit.setClosedLoopRampRate(0.1);
-  arrieregauche.setClosedLoopRampRate(0.1);
-
-avantgauche.setOpenLoopRampRate(0.1);
-  avantdroit.setOpenLoopRampRate(0.1);
-  arrieredroit.setOpenLoopRampRate(0.1);
-  arrieregauche.setOpenLoopRampRate(0.1);*/
-    
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
     arrieredroit.setInverted(true);
     arrieregauche.setInverted(false);
 
-     avantdroit.setIdleMode(IdleMode.kBrake);
+    avantdroit.setIdleMode(IdleMode.kBrake);
     avantgauche.setIdleMode(IdleMode.kBrake);
     arrieredroit.setIdleMode(IdleMode.kBrake);
     arrieregauche.setIdleMode(IdleMode.kBrake);
-
 
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
 
@@ -87,12 +72,8 @@ avantgauche.setOpenLoopRampRate(0.1);
     arriereDroitEncoder = arrieredroit.getEncoder();
     arriereGaucheEncoder = arrieregauche.getEncoder();
     m_robotDrive.setSafetyEnabled(false);
-
-   
-    
   }
 
- 
   public double getGyroAngle() {
     return Math.abs(gyro.getAngle(IMUAxis.kZ));
   }
@@ -131,9 +112,11 @@ avantgauche.setOpenLoopRampRate(0.1);
   public void setDriveMode(boolean isTankDrive) {
     this.isTankDrive = isTankDrive;
   }
-  public boolean getCurrentDrivetrain(){
+
+  public boolean getCurrentDrivetrain() {
     return isTankDrive;
   }
+
   public void drive(
       double rightX,
       double rightY,
@@ -143,20 +126,18 @@ avantgauche.setOpenLoopRampRate(0.1);
       double rightTrigger) {
     if (isTankDrive == true) {
       driveTank(Math.pow(rightY, 3), Math.pow(leftY, 3));
-      
+
     } else {
-       if (leftTrigger > 0) {
+      if (leftTrigger > 0) {
         m_robotDrive.driveCartesian(0, -Math.pow(leftTrigger, 3) / 2, 0);
       } else if (rightTrigger > 0) {
         m_robotDrive.driveCartesian(0, Math.pow(rightTrigger, 3) / 2, 0);
       } else {
         m_robotDrive.driveCartesian(
-            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3)/2);
+            Math.pow(leftY, 3), -Math.pow(leftX, 3), -Math.pow(rightX, 3) / 2);
       }
-      
     }
   }
-
 
   public void driveOneMotor(int id, double speed) {
     switch (id) {
@@ -174,15 +155,15 @@ avantgauche.setOpenLoopRampRate(0.1);
         break;
     }
   }
-  public void driveRotation(double speed){
+
+  public void driveRotation(double speed) {
     arrieredroit.set(-speed);
-     
-        arrieregauche.set(speed);
-     
-        avantdroit.set(-speed);
-      
-        avantgauche.set(speed);
-       
+
+    arrieregauche.set(speed);
+
+    avantdroit.set(-speed);
+
+    avantgauche.set(speed);
   }
 
   public void driveTank(double joystickDroit, double joystickGauche) {
@@ -201,6 +182,5 @@ avantgauche.setOpenLoopRampRate(0.1);
     } else {
       SmartDashboard.putString("Mode", "mecanum");
     }
-
   }
 }

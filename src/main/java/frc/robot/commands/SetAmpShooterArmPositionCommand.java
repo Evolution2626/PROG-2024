@@ -12,11 +12,10 @@ import frc.robot.subsystems.AmpShooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SetAmpShooterArmPositionCommand extends InstantCommand {
   private AmpShooter ampShooter;
-  private boolean position;
 
-  public SetAmpShooterArmPositionCommand(AmpShooter ampShooter, boolean position) {
+  public SetAmpShooterArmPositionCommand(AmpShooter ampShooter) {
     this.ampShooter = ampShooter;
-    this.position = position;
+
     addRequirements(ampShooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,6 +23,10 @@ public class SetAmpShooterArmPositionCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ampShooter.setPosition(position);
+    if (ampShooter.getPosition()) {
+      ampShooter.setPosition(false);
+    } else {
+      ampShooter.setPosition(true);
+    }
   }
 }

@@ -16,20 +16,24 @@ import frc.robot.subsystems.Limelight;
 public class SetShooterAngleCommand extends PIDCommand {
   /** Creates a new SetShooterAngleCommand. */
   private AngleShooter angleShooter;
-  private boolean statusSet;
 
   Limelight limelight;
 
   public SetShooterAngleCommand(AngleShooter angleShooter, Limelight limelight) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),//TODO change value
+        new PIDController(0, 0, 0), // TODO change value
         // This should return the measurement
         () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
         () ->
-            ((limelight.calculateShooterAngle()*(angleShooter.getEncoderMax()-angleShooter.getEncoderMin()))/30)+angleShooter.getEncoderMin()//un produit  croiser pour calculer les valeur d'encoder basee sur l'angle calculer
-                ,
+            ((limelight.calculateShooterAngle()
+                        * (angleShooter.getEncoderMax() - angleShooter.getEncoderMin()))
+                    / 30)
+                + angleShooter
+                    .getEncoderMin() // un produit  croiser pour calculer les valeur d'encoder basee
+        // sur l'angle calculer
+        ,
         // This uses the output
         output -> {
           angleShooter.setPower(output);

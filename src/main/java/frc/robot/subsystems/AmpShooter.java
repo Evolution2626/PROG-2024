@@ -18,13 +18,14 @@ public class AmpShooter extends SubsystemBase {
 
   private CANSparkMax ampShooterMotor;
   private DoubleSolenoid piston;
+  private boolean position;
 
   /** Creates a new AmpShooter. */
   public AmpShooter() {
     piston =
         new DoubleSolenoid(
             1,
-PneumaticsModuleType.CTREPCM,
+            PneumaticsModuleType.CTREPCM,
             pcm.PISTON_AMP_SHOOTER_FORWARD,
             pcm.PISTON_AMP_SHOOTER_REVERSE);
 
@@ -32,11 +33,17 @@ PneumaticsModuleType.CTREPCM,
     ampShooterMotor.setInverted(false);
   }
 
+  public boolean getPosition() {
+    return getPosition();
+  }
+
   public void setPosition(boolean out) {
     if (out) {
+      position = true;
       piston.set(DoubleSolenoid.Value.kForward);
     } else {
       piston.set(DoubleSolenoid.Value.kReverse);
+      position = false;
     }
   }
 

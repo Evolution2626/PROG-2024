@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.util.ControlMode.*;
 
-
 public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
   private NetworkTable networkTable;
@@ -176,11 +175,13 @@ public class Limelight extends SubsystemBase {
   public void setLEDMode(int i) {
     networkTable.getEntry("ledMode").setValue(i);
   }
-  public double calculateShooterOffset(){
+
+  public double calculateShooterOffset() {
     double offset = getdegRotationToTarget();
-    
+
     return offset;
   }
+
   public double calculateShooterAngle() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
@@ -191,7 +192,10 @@ public class Limelight extends SubsystemBase {
       if (ty.getDouble(0) < 1234
           && ty.getDouble(0) > -1234
           && tx.getDouble(0) <= 90) { // TODO change range
-        return Math.atan(80 / tx.getDouble(0));//TODO check if relative to the field or camera and ajust target height
+        return Math.atan(
+            80
+                / tx.getDouble(
+                    0)); // TODO check if relative to the field or camera and ajust target height
       } else {
         return 30;
       }

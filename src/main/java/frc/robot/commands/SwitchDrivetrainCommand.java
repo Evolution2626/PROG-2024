@@ -23,14 +23,12 @@ public class SwitchDrivetrainCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(drivetrain.getCurrentDrivetrain()){
+    if (drivetrain.getCurrentDrivetrain()) {
       drivetrain.ActivateMecanum();
-    drivetrain.setDriveMode(false);
-    }
-    else{
+      drivetrain.setDriveMode(false);
+    } else {
       drivetrain.ActivateDrivetank();
-    drivetrain.setDriveMode(true);
+      drivetrain.setDriveMode(true);
     }
-    
   }
 }

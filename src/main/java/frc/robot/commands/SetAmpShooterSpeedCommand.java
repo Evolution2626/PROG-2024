@@ -4,17 +4,18 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AmpShooter;
 
 public class SetAmpShooterSpeedCommand extends Command {
-  private XboxController xboxController;
   private AmpShooter ampShooter;
+  private boolean up;
+  private boolean down;
 
   /** Creates a new SetAmpShooterSpeedCommand. */
-  public SetAmpShooterSpeedCommand(XboxController xboxController, AmpShooter ampShooter) {
-    this.xboxController = xboxController;
+  public SetAmpShooterSpeedCommand(boolean up, boolean down, AmpShooter ampShooter) {
+    this.up = up;
+    this.down = down;
     this.ampShooter = ampShooter;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(ampShooter);
@@ -27,7 +28,13 @@ public class SetAmpShooterSpeedCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ampShooter.setWheelPower(xboxController.getLeftY());
+    if (up) {
+      ampShooter.setWheelPower(1);
+    } else if (down) {
+      ampShooter.setWheelPower(-1);
+    } else {
+      ampShooter.setWheelPower(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

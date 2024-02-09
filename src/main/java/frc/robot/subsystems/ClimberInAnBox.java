@@ -27,7 +27,7 @@ public class ClimberInAnBox extends SubsystemBase {
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
-   
+
     piston1 =
         new DoubleSolenoid(
             1,

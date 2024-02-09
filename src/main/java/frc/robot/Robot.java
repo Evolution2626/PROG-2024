@@ -86,10 +86,10 @@ public class Robot extends TimedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
     if (DriverStation.getAlliance().get() == Alliance.Red) {
-        m_Limelight.setPipeline(1);
+      m_Limelight.setPipeline(1);
     }
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
-        m_Limelight.setPipeline(2);
+      m_Limelight.setPipeline(2);
     }
     compressor.enableDigital();
     if (m_autonomousCommand != null) {

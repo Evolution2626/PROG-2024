@@ -31,12 +31,15 @@ public class AngleShooter extends SubsystemBase {
 
     return shooterAngleEncoder.getAbsolutePosition();
   }
-public double getEncoderMax(){
-  return encoderMax;
-}
-public double getEncoderMin(){
-  return encoderMin;
-}
+
+  public double getEncoderMax() {
+    return encoderMax;
+  }
+
+  public double getEncoderMin() {
+    return encoderMin;
+  }
+
   public void setPower(double power) {
     shooterAngle.set(power);
   }
