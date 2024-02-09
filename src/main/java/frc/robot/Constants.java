@@ -63,8 +63,10 @@ public final class Constants {
     public static final double kvVoltSecondsPerMeter = 1.4492;
     public static final double kaVoltSecondsSquaredPerMeter = 2.3363;
 
-    public static final double velocityConversionFactor = (12.0 / 66.0) * 4.0 * Math.PI * 2.54 / 6000.0;
-    public static final double positionConversionFactor = (12.0 / 66.0) * 4.0 * Math.PI * 2.45 / 100.0;
+    public static final double velocityConversionFactor =
+        (12.0 / 66.0) * 4.0 * Math.PI * 2.54 / 6000.0;
+    public static final double positionConversionFactor =
+        (12.0 / 66.0) * 4.0 * Math.PI * 2.45 / 100.0;
 
     public static final double kPDriveVel = 0.0020707;
 

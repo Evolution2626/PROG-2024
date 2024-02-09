@@ -9,8 +9,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
@@ -41,7 +39,6 @@ public class Drivetrain extends SubsystemBase {
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
   private DifferentialDriveOdometry odometry;
-  private DifferentialDriveKinematics kinematics;
 
   /** Creates a new TankDrivetrain. */
   public Drivetrain() {
@@ -87,21 +84,19 @@ public class Drivetrain extends SubsystemBase {
     arriereGaucheEncoder.setPosition(0);
     avantGaucheEncoder.setPosition(0);
 
-     avantDroitEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
-     arriereDroitEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
-     avantGaucheEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
-     arriereGaucheEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+    avantDroitEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+    arriereDroitEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+    avantGaucheEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
+    arriereGaucheEncoder.setVelocityConversionFactor(DriveConstants.velocityConversionFactor);
 
-     avantDroitEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
-     arriereDroitEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
-     avantGaucheEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
-     arriereGaucheEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+    avantDroitEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+    arriereDroitEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+    avantGaucheEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
+    arriereGaucheEncoder.setPositionConversionFactor(DriveConstants.positionConversionFactor);
 
     odometry =
         new DifferentialDriveOdometry(
             getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
-
-    kinematics = new DifferentialDriveKinematics(58.6);
   }
 
   public Pose2d getPose() {
@@ -113,16 +108,19 @@ public class Drivetrain extends SubsystemBase {
         getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition(), pose);
   }
 
-  public ChassisSpeeds getChassisSpeeds() {
-    return kinematics.toChassisSpeeds(getWheelSpeed());
-  }
-
   public DifferentialDriveWheelSpeeds getWheelSpeed() {
     double leftEncoder =
         (arriereGaucheEncoder.getVelocity() + avantGaucheEncoder.getVelocity()) / 2;
     double rightEncoder = (arriereDroitEncoder.getVelocity() + avantDroitEncoder.getVelocity()) / 2;
 
     return new DifferentialDriveWheelSpeeds(leftEncoder, rightEncoder);
+  }
+  
+  public void resetEncoder(){
+    avantDroitEncoder.setPosition(0);
+    arriereDroitEncoder.setPosition(0);
+    arriereGaucheEncoder.setPosition(0);
+    avantGaucheEncoder.setPosition(0);
   }
 
   public double getGyroAngle() {
@@ -187,20 +185,6 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void drivePathplanner(ChassisSpeeds chassisSpeeds) {
-    DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-
-    // Test to see if 3 is actually the right constant
-    double leftWheelSpeed = (wheelSpeeds.leftMetersPerSecond / 3);
-    double rightWheelSpeed = (wheelSpeeds.rightMetersPerSecond / 3);
-
-    // Make sure that the speeds are within the -1 to 1 range
-    rightWheelSpeed = Math.max(-1, Math.min(rightWheelSpeed, 1)) * 0.2;
-    leftWheelSpeed = Math.max(-1, Math.min(leftWheelSpeed, 1)) * -0.2;
-
-    driveTank(rightWheelSpeed, leftWheelSpeed);
-  }
-
   public void driveOneMotor(int id, double speed) {
     switch (id) {
       case 3:
@@ -247,7 +231,12 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("blVel", arriereGaucheEncoder.getVelocity());
     SmartDashboard.putNumber("brVel", arriereDroitEncoder.getVelocity());
 
+    SmartDashboard.putNumber("flPos", avantGaucheEncoder.getPosition());
+    SmartDashboard.putNumber("frPos", avantDroitEncoder.getPosition());
+    SmartDashboard.putNumber("blPos", arriereGaucheEncoder.getPosition());
+    SmartDashboard.putNumber("brPos", arriereDroitEncoder.getPosition());
+
     odometry.update(
-        getRotation2d(), avantGaucheEncoder.getPosition(), avantGaucheEncoder.getPosition());
+        getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition());
   }
 }
