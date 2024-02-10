@@ -7,13 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.proto.Trajectory;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drivetrain;
+import frc.util.TrajectoryLoader;
 
 public class DrivetrainRamseteCommand extends RamseteCommand {
+  private boolean resetPosition;
   private Drivetrain drivetrain;
   private Trajectory trajectory;
   /** Creates a new DrivetrainRamseteCommand. */
@@ -21,25 +22,41 @@ public class DrivetrainRamseteCommand extends RamseteCommand {
     super(trajectory, 
       drivetrain::getPose, 
       new RamseteController(DriveConstants.kRamseteB, DriveConstants.kRamseteZeta), 
-      new SimpleMotorFeedforward(
-                  DriveConstants.ksVolts,
-                  DriveConstants.kvVoltSecondsPerMeter,
-                  DriveConstants.kaVoltSecondsSquaredPerMeter), 
+      new SimpleMotorFeedforward(DriveConstants.ksVolts, DriveConstants.kvVoltSecondsPerMeter, DriveConstants.kaVoltSecondsSquaredPerMeter), 
       DriveConstants.kDriveKinematics, 
       drivetrain::getWheelSpeed, 
       new PIDController(DriveConstants.kPDriveVel, 0, 0), 
       new PIDController(DriveConstants.kPDriveVel, 0, 0), 
       drivetrain::tankDriveVolts, 
-      drivetrain)
+      drivetrain);
+
+      this.drivetrain = drivetrain;
+      this.trajectory = trajectory;
+      this.resetPosition = true;
   }
 
   public DrivetrainRamseteCommand(Drivetrain drivetrain, String path){
-    this(drivetrain, path);
+    this(drivetrain, TrajectoryLoader.getTrajectory(path));
+  }
+  public DrivetrainRamseteCommand(Drivetrain drivetrain, String... paths){
+    this(drivetrain , TrajectoryLoader.getTrajectory(paths));
+  }
+  public DrivetrainRamseteCommand robotRelative(){
+    this.resetPosition = true;
+    return this;
   }
 
+  public DrivetrainRamseteCommand fieldRelative(){
+    this.resetPosition = false;
+    return this;
+  }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    super.initialize();
+    if (resetPosition) {
+      drivetrain.resetOdometry(trajectory.getInitialPose());
+    }
   }
 }
+

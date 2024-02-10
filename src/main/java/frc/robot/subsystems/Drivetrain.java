@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PCM;
@@ -110,8 +111,8 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getWheelSpeed() {
     double leftEncoder =
-        (arriereGaucheEncoder.getVelocity() + avantGaucheEncoder.getVelocity()) / 2;
-    double rightEncoder = (arriereDroitEncoder.getVelocity() + avantDroitEncoder.getVelocity()) / 2;
+        (arriereGaucheEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor + avantGaucheEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor) / 2;
+    double rightEncoder = (arriereDroitEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor + avantDroitEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor) / 2;
 
     return new DifferentialDriveWheelSpeeds(leftEncoder, rightEncoder);
   }
