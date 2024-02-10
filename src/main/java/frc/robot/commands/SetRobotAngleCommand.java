@@ -14,7 +14,7 @@ import frc.util.Range;
 public class SetRobotAngleCommand extends Command {
   Drivetrain drivetrain;
   Limelight limelight;
-  PIDController pid = new PIDController(0.03, 0, 0); // TODO put value
+  PIDController pid = new PIDController(0.035, 0.001, 0.001); // TODO put value
 
   double angle;
 
@@ -38,8 +38,8 @@ public class SetRobotAngleCommand extends Command {
   @Override
   public void execute() {
     if (Range.inRange(
-        Math.abs(drivetrain.getGyroAngle()) - 2.5,
-        Math.abs(drivetrain.getGyroAngle()) + 2.5,
+        Math.abs(drivetrain.getGyroAngle()) - 1,
+        Math.abs(drivetrain.getGyroAngle()) + 1,
         Math.abs(angle))) {
       SmartDashboard.putBoolean("offset ready", true);
     } else {
