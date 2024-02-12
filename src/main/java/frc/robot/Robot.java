@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.\
     m_Limelight = new Limelight();
     m_robotContainer = new RobotContainer();
-    compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+    compressor = new Compressor(1, PneumaticsModuleType.REVPH);
   }
 
   /**
