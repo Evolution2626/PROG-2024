@@ -6,9 +6,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.util.ControlMode.*;
-
 
 public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
@@ -177,23 +177,37 @@ public class Limelight extends SubsystemBase {
     networkTable.getEntry("ledMode").setValue(i);
   }
 
+  public double calculateShooterOffset() {
+    double offset = getdegRotationToTarget();
+
+    return offset;
+  }
+
   public double calculateShooterAngle() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
-    NetworkTableEntry tid = table.getEntry("tid");
+    double targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
-    if (tid.getInteger(0) == 7 || tid.getInteger(0) == 4) {
-      if (ty.getDouble(0) < 1234
-          && ty.getDouble(0) > -1234
-          && tx.getDouble(0) <= 90) { // TODO change range
-        return Math.atan(62.6 / tx.getDouble(0));//TODO check if relative to the field or camera
-      } else {
-        return 30;
-      }
-    } else {
-      return 30;
-    }
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 35.0; 
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 8; 
+
+    // distance from the target to the floor
+    double goalHeightInches = 55; 
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    SmartDashboard.putNumber("shooterAngle", Math.atan(
+        78
+            / distanceFromLimelightToGoalInches)/Math.PI * 180.0-30);
+    return Math.atan(
+       78
+            / distanceFromLimelightToGoalInches)/Math.PI * 180.0-30; // TODO check if relative to the field or camera and ajust target height
   }
 
   /**

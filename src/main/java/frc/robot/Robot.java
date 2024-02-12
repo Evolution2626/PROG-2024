@@ -5,10 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,6 +23,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private Limelight m_Limelight;
 
   public Compressor compressor;
 
@@ -30,9 +34,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
+    // autonomous chooser on the dashboard.\
+    m_Limelight = new Limelight();
     m_robotContainer = new RobotContainer();
-    compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+    compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
   }
 
   /**
@@ -61,6 +66,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    m_Limelight.setPipeline(0);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -79,6 +85,12 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      m_Limelight.setPipeline(1);
+    }
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_Limelight.setPipeline(2);
+    }
     compressor.enableDigital();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

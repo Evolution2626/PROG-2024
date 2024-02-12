@@ -10,20 +10,25 @@ import frc.robot.subsystems.Drivetrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ActivateDrivetrainCommand extends InstantCommand {
+public class SwitchDrivetrainCommand extends InstantCommand {
   private Drivetrain drivetrain;
 
-  public ActivateDrivetrainCommand(Drivetrain drivetrain) {
+  public SwitchDrivetrainCommand(Drivetrain drivetrain) {
+    // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
 
     addRequirements(drivetrain);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.ActivateDrivetank();
-    drivetrain.setDriveMode(true);
+    if (drivetrain.getCurrentDrivetrain()) {
+      drivetrain.ActivateMecanum();
+      drivetrain.setDriveMode(false);
+    } else {
+      drivetrain.ActivateDrivetank();
+      drivetrain.setDriveMode(true);
+    }
   }
 }
