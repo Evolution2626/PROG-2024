@@ -50,10 +50,10 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit.setSmartCurrentLimit(30);
     arrieregauche.setSmartCurrentLimit(30);
 
-    avantgauche.setOpenLoopRampRate(0.1);
-    avantdroit.setOpenLoopRampRate(0.1);
-    arrieredroit.setOpenLoopRampRate(0.1);
-    arrieregauche.setOpenLoopRampRate(0.1);
+    avantgauche.setOpenLoopRampRate(0.05);
+    avantdroit.setOpenLoopRampRate(0.05);
+    arrieredroit.setOpenLoopRampRate(0.05);
+    arrieregauche.setOpenLoopRampRate(0.05);
 
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
