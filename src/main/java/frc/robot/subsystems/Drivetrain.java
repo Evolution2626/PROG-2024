@@ -100,6 +100,8 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetOdometry(Pose2d pose) {
+    resetEncoder();
+    resetGyroAngle();
     odometry.resetPosition(
         getRotation2d(), avantGaucheEncoder.getPosition(), avantDroitEncoder.getPosition(), pose);
   }
@@ -206,9 +208,9 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    avantdroit.setVoltage(rightVolts);
+    //avantdroit.setVoltage(rightVolts);
     arrieredroit.setVoltage(rightVolts);
-    avantgauche.setVoltage(leftVolts);
+    //avantgauche.setVoltage(leftVolts);
     arrieregauche.setVoltage(leftVolts);
   }
 
