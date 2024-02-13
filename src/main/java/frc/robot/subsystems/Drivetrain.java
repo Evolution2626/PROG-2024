@@ -139,6 +139,20 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void driveAllMotor(double speed){
+    avantdroit.set(speed);
+    avantgauche.set(speed);
+    arrieredroit.set(speed);
+    arrieregauche.set(speed);
+  }
+
+  public void resetEncoder(){
+    avantDroitEncoder.setPosition(0);
+    avantGaucheEncoder.setPosition(0);
+    arriereDroitEncoder.setPosition(0);
+    arriereGaucheEncoder.setPosition(0);
+  }
+
   public void driveOneMotor(int id, double speed) {
     switch (id) {
       case 3:

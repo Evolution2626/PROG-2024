@@ -4,16 +4,18 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import frc.robot.commands.AvencerXmCommand;
 import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.MoveIntakeWheelCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
+import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.SetAmpShooterArmPositionCommand;
 import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
@@ -73,6 +75,7 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
+
   private void configureBindings() {
 
     xboxController.a().onTrue(new SwitchDrivetrainCommand(drivetrain));
@@ -102,7 +105,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return new PathPlannerAuto("New Auto");
+
+
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    //return autoChooser.getSelected();
+    return new AvencerXmCommand(drivetrain, 1);
+    // Reset odometry to the initial pose of the trajectory, run path following
+    // command, then stop at the end.
+
   }
 }
