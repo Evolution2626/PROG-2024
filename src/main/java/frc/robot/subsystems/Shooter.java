@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
@@ -22,11 +22,10 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder shooterGaucheEncoder;
 
   public Shooter() {
-    OperatorConstants deviceNumber = new OperatorConstants();
-    shooterGauche = new CANSparkMax(deviceNumber.DeviceNumberShooterGauche, MotorType.kBrushless);
-    shooterDroit = new CANSparkMax(deviceNumber.DeviceNumberShooterDroit, MotorType.kBrushless);
-    pusherGauche = new CANSparkMax(deviceNumber.DeviceNumberPusherGauche, MotorType.kBrushless);
-    pusherDroit = new CANSparkMax(deviceNumber.DeviceNumberPusherDroit, MotorType.kBrushless);
+    shooterGauche = new CANSparkMax(Constants.OperatorConstants.DeviceNumberShooterGauche, MotorType.kBrushless);
+    shooterDroit = new CANSparkMax(Constants.OperatorConstants.DeviceNumberShooterDroit, MotorType.kBrushless);
+    pusherGauche = new CANSparkMax(Constants.OperatorConstants.DeviceNumberPusherGauche, MotorType.kBrushless);
+    pusherDroit = new CANSparkMax(Constants.OperatorConstants.DeviceNumberPusherDroit, MotorType.kBrushless);
 
     shooterGauche.setInverted(false);
     shooterDroit.setInverted(false);

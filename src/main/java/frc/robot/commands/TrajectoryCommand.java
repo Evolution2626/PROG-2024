@@ -13,8 +13,7 @@ public class TrajectoryCommand extends DrivetrainRamseteCommand {
 
 
   public TrajectoryCommand(Drivetrain drivetrain, String path) {
-    super(drivetrain, path
-    );
+    super(drivetrain, path);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
   }

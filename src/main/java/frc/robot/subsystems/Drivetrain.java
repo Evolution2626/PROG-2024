@@ -20,13 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.PCM;
 
 public class Drivetrain extends SubsystemBase {
-  OperatorConstants deviceNumber = new OperatorConstants();
-  PCM pcm = new PCM();
-
   private DoubleSolenoid piston;
   private CANSparkMax avantgauche;
   private CANSparkMax avantdroit;
@@ -46,12 +41,12 @@ public class Drivetrain extends SubsystemBase {
     // ADIS16470_IMU gyro = new ADIS16470_IMU();
 
     piston =
-        new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
+        new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, Constants.PCM.PISTON_FORWARD, Constants.PCM.PISTON_REVERSE);
 
-    avantgauche = new CANSparkMax(deviceNumber.DeviceNumberAvantGauche, MotorType.kBrushless);
-    avantdroit = new CANSparkMax(deviceNumber.DeviceNumberAvantDroit, MotorType.kBrushless);
-    arrieredroit = new CANSparkMax(deviceNumber.DeviceNumberArriereDroit, MotorType.kBrushless);
-    arrieregauche = new CANSparkMax(deviceNumber.DeviceNumberArriereGauche, MotorType.kBrushless);
+    avantgauche = new CANSparkMax(Constants.OperatorConstants.DeviceNumberAvantGauche, MotorType.kBrushless);
+    avantdroit = new CANSparkMax(Constants.OperatorConstants.DeviceNumberAvantDroit, MotorType.kBrushless);
+    arrieredroit = new CANSparkMax(Constants.OperatorConstants.DeviceNumberArriereDroit, MotorType.kBrushless);
+    arrieregauche = new CANSparkMax(Constants.OperatorConstants.DeviceNumberArriereGauche, MotorType.kBrushless);
 
     avantdroit.setInverted(true);
     avantgauche.setInverted(false);
@@ -111,8 +106,8 @@ public class Drivetrain extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getWheelSpeed() {
     double leftEncoder =
-        (arriereGaucheEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor + avantGaucheEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor) / 2;
-    double rightEncoder = (arriereDroitEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor + avantDroitEncoder.getVelocity() * Constants.DriveConstants.velocityConversionFactor) / 2;
+        (arriereGaucheEncoder.getVelocity() + avantGaucheEncoder.getVelocity()) / 2;
+    double rightEncoder = (arriereDroitEncoder.getVelocity() + avantDroitEncoder.getVelocity()) / 2;
 
     return new DifferentialDriveWheelSpeeds(leftEncoder, rightEncoder);
   }

@@ -8,27 +8,21 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DIGITAL;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new intake. */
-  DIGITAL degitalInput = new DIGITAL();
-
-  OperatorConstants deviceNumber = new OperatorConstants();
-
   private CANSparkMax intakeDroit;
-
   private CANSparkMax intakeGauche;
   private CANSparkMax intakePivot;
 
-  DigitalInput intakeLimitOut = new DigitalInput(degitalInput.INTAKE_LIMIT_SWITCH_OUT);
-  DigitalInput intakeLimitIn = new DigitalInput(degitalInput.INTAKE_LIMIT_SWITCH_IN);
+  DigitalInput intakeLimitOut = new DigitalInput(Constants.DIGITAL.INTAKE_LIMIT_SWITCH_OUT);
+  DigitalInput intakeLimitIn = new DigitalInput(Constants.DIGITAL.INTAKE_LIMIT_SWITCH_IN);
 
   public Intake() {
-    intakeDroit = new CANSparkMax(deviceNumber.DeviceNumberIntakeDroit, MotorType.kBrushless);
-    intakeGauche = new CANSparkMax(deviceNumber.DeviceNumberIntakeGauche, MotorType.kBrushless);
-    intakePivot = new CANSparkMax(deviceNumber.DeviceNumberIntakePivot, MotorType.kBrushless);
+    intakeDroit = new CANSparkMax(Constants.OperatorConstants.DeviceNumberIntakeDroit, MotorType.kBrushless);
+    intakeGauche = new CANSparkMax(Constants.OperatorConstants.DeviceNumberIntakeGauche, MotorType.kBrushless);
+    intakePivot = new CANSparkMax(Constants.OperatorConstants.DeviceNumberIntakePivot, MotorType.kBrushless);
 
     intakeDroit.setInverted(false);
     intakeGauche.setInverted(false);

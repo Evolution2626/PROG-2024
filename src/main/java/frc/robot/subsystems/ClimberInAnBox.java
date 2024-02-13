@@ -9,8 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.PCM;
+import frc.robot.Constants;
 
 public class ClimberInAnBox extends SubsystemBase {
   private TalonSRX climberDroit;
@@ -20,10 +19,8 @@ public class ClimberInAnBox extends SubsystemBase {
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
-    OperatorConstants deviceNumber = new OperatorConstants();
-    PCM pcm = new PCM();
-    climberDroit = new TalonSRX(deviceNumber.DeviceNumberClimberDroit);
-    climberGauche = new TalonSRX(deviceNumber.DeviceNumberClimberGauche);
+    climberDroit = new TalonSRX(Constants.OperatorConstants.DeviceNumberClimberDroit);
+    climberGauche = new TalonSRX(Constants.OperatorConstants.DeviceNumberClimberGauche);
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
@@ -31,14 +28,14 @@ public class ClimberInAnBox extends SubsystemBase {
         new DoubleSolenoid(
             1,
             PneumaticsModuleType.CTREPCM,
-            pcm.PISTON_CLIMBER_FORWARD_1,
-            pcm.PISTON_CLIMBER_REVERSE_1);
+            Constants.PCM.PISTON_CLIMBER_FORWARD_1,
+            Constants.PCM.PISTON_CLIMBER_REVERSE_1);
     piston2 =
         new DoubleSolenoid(
             1,
             PneumaticsModuleType.CTREPCM,
-            pcm.PISTON_CLIMBER_FORWARD_2,
-            pcm.PISTON_CLIMBER_REVERSE_2);
+            Constants.PCM.PISTON_CLIMBER_FORWARD_2,
+            Constants.PCM.PISTON_CLIMBER_REVERSE_2);
     piston1.set(DoubleSolenoid.Value.kReverse);
     piston2.set(DoubleSolenoid.Value.kReverse);
   }

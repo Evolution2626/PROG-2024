@@ -9,13 +9,9 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.PCM;
+import frc.robot.Constants;
 
 public class AmpShooter extends SubsystemBase {
-  OperatorConstants deviceNumber = new OperatorConstants();
-  PCM pcm = new PCM();
-
   private CANSparkMax ampShooterMotor;
   private DoubleSolenoid piston;
 
@@ -25,10 +21,10 @@ public class AmpShooter extends SubsystemBase {
         new DoubleSolenoid(
             1,
             PneumaticsModuleType.CTREPCM,
-            pcm.PISTON_AMP_SHOOTER_FORWARD,
-            pcm.PISTON_AMP_SHOOTER_REVERSE);
+            Constants.PCM.PISTON_AMP_SHOOTER_FORWARD,
+            Constants.PCM.PISTON_AMP_SHOOTER_REVERSE);
 
-    ampShooterMotor = new CANSparkMax(deviceNumber.DeviceNumberAmpShooter, MotorType.kBrushless);
+    ampShooterMotor = new CANSparkMax(Constants.OperatorConstants.DeviceNumberAmpShooter, MotorType.kBrushless);
     ampShooterMotor.setInverted(false);
   }
 

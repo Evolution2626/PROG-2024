@@ -9,7 +9,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants;
 
 public class AngleShooter extends SubsystemBase {
   private CANSparkMax shooterAngle;
@@ -19,9 +19,7 @@ public class AngleShooter extends SubsystemBase {
 
   /** Creates a new AngleShooter. */
   public AngleShooter() {
-    OperatorConstants deviceNumber = new OperatorConstants();
-
-    shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
+    shooterAngle = new CANSparkMax(Constants.OperatorConstants.DeviceNumberShooterAngle, MotorType.kBrushless);
 
     shooterAngle.setInverted(false);
   }

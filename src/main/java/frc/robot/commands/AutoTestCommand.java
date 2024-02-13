@@ -4,12 +4,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.TrajectoryCommand;
 import frc.robot.subsystems.Drivetrain;
 
 
@@ -18,18 +13,19 @@ import frc.robot.subsystems.Drivetrain;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoTestCommand extends SequentialCommandGroup {
 
-  private static String testPath = "/output/testPath.wpilib.json";
+  private static String testPath = "paths/testPath.wpilib.json";
 
 
   /** Creates a new GoberUnBallonCommand. */
   public AutoTestCommand(Drivetrain drivetrain) {
+    drivetrain.resetEncoder();
     
     addRequirements(drivetrain);
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
 
-      addCommands(new TrajectoryCommand(drivetrain, testPath));
+    addCommands(new TrajectoryCommand(drivetrain, testPath));
   
     
   }

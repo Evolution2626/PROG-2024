@@ -16,46 +16,46 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public final int DeviceNumberAvantDroit = 3;
-    public final int DeviceNumberAvantGauche = 33;
-    public final int DeviceNumberArriereDroit = 14;
-    public final int DeviceNumberArriereGauche = 7;
+    public static final int DeviceNumberAvantDroit = 3;
+    public static final int DeviceNumberAvantGauche = 33;
+    public static final int DeviceNumberArriereDroit = 14;
+    public static final int DeviceNumberArriereGauche = 7;
 
-    public final int DeviceNumberClimberDroit = 17;
-    public final int DeviceNumberClimberGauche = 15;
+    public static final int DeviceNumberClimberDroit = 17;
+    public static final int DeviceNumberClimberGauche = 15;
 
-    public final int DeviceNumberShooterGauche = 102;
-    public final int DeviceNumberShooterDroit = 103;
+    public static final int DeviceNumberShooterGauche = 102;
+    public static final int DeviceNumberShooterDroit = 103;
 
-    public final int DeviceNumberPusherGauche = 104;
-    public final int DeviceNumberPusherDroit = 105;
+    public static final int DeviceNumberPusherGauche = 104;
+    public static final int DeviceNumberPusherDroit = 105;
 
-    public final int DeviceNumberShooterAngle = 106;
+    public static final int DeviceNumberShooterAngle = 106;
 
-    public final int DeviceNumberIntakeDroit = 70;
-    public final int DeviceNumberIntakeGauche = 90;
-    public final int DeviceNumberIntakePivot = 109;
+    public static final int DeviceNumberIntakeDroit = 70;
+    public static final int DeviceNumberIntakeGauche = 90;
+    public static final int DeviceNumberIntakePivot = 109;
 
-    public final int DeviceNumberAmpShooter = 110;
+    public static final int DeviceNumberAmpShooter = 110;
   }
 
   public static class PCM {
-    public final int PISTON_FORWARD = 0;
-    public final int PISTON_REVERSE = 1;
+    public static final int PISTON_FORWARD = 0;
+    public static final int PISTON_REVERSE = 1;
 
-    public final int PISTON_CLIMBER_FORWARD_1 = 2;
-    public final int PISTON_CLIMBER_REVERSE_1 = 3;
+    public static final int PISTON_CLIMBER_FORWARD_1 = 2;
+    public static final int PISTON_CLIMBER_REVERSE_1 = 3;
 
-    public final int PISTON_CLIMBER_FORWARD_2 = 4;
-    public final int PISTON_CLIMBER_REVERSE_2 = 5;
+    public static final int PISTON_CLIMBER_FORWARD_2 = 4;
+    public static final int PISTON_CLIMBER_REVERSE_2 = 5;
 
-    public final int PISTON_AMP_SHOOTER_FORWARD = 6;
-    public final int PISTON_AMP_SHOOTER_REVERSE = 7;
+    public static final int PISTON_AMP_SHOOTER_FORWARD = 6;
+    public static final int PISTON_AMP_SHOOTER_REVERSE = 7;
   }
 
   public static class DIGITAL {
-    public final int INTAKE_LIMIT_SWITCH_OUT = 6;
-    public final int INTAKE_LIMIT_SWITCH_IN = 7;
+    public static final int INTAKE_LIMIT_SWITCH_OUT = 6;
+    public static final int INTAKE_LIMIT_SWITCH_IN = 7;
   }
 
   public static class DriveConstants {
