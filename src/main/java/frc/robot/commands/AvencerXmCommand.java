@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
@@ -26,14 +27,18 @@ public class AvencerXmCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("asfnsdljfbsdfk");
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);
     target = (drivetrain.getEncoder()[0]+(metre * ((12.0 / 66.0) * 0.1016 * Math.PI * 2.45)));
+    System.out.println("bobobobobobobobo");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+    SmartDashboard.putNumber("ëncoder0", 0);
     drivetrain.driveAllMotor(pid.calculate(drivetrain.getEncoder()[0], target));
   }
 

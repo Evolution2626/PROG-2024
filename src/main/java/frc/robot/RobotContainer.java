@@ -109,7 +109,7 @@ public class RobotContainer {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     //return autoChooser.getSelected();
-    return new AvencerXmCommand(drivetrain, 1);
+    return new AvencerXmCommand(drivetrain, -5);
     // Reset odometry to the initial pose of the trajectory, run path following
     // command, then stop at the end.
 
