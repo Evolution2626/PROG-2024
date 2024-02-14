@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import frc.robot.commands.AvencerXmCommand;
+import frc.robot.commands.AvancerXmCommand;
 import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.MoveIntakeWheelCommand;
@@ -22,6 +22,7 @@ import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
+import frc.robot.commands.TournerXdegCommand;
 import frc.robot.subsystems.AmpShooter;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.ClimberInAnBox;
@@ -80,6 +81,7 @@ public class RobotContainer {
 
     xboxController.a().onTrue(new SwitchDrivetrainCommand(drivetrain));
     xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
+     xboxController.b().whileTrue(new TournerXdegCommand(drivetrain, 90));
     xboxController1
         .a()
         .whileTrue(
@@ -109,7 +111,7 @@ public class RobotContainer {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     //return autoChooser.getSelected();
-    return new AvencerXmCommand(drivetrain, -5);
+    return new AvancerXmCommand(drivetrain, 5);
     // Reset odometry to the initial pose of the trajectory, run path following
     // command, then stop at the end.
 

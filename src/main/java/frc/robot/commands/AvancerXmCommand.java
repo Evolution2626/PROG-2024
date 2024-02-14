@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
 
-public class AvencerXmCommand extends Command {
+public class AvancerXmCommand extends Command {
   /** Creates a new AvencerXmCommand. */
   Drivetrain drivetrain;
-  private PIDController pid = new PIDController(1,0,0); 
+  private PIDController pid = new PIDController(0.0025,0,0); 
   private double metre;
   private double target;
-  public AvencerXmCommand(Drivetrain drivetrain, double metre) {
+  public AvancerXmCommand(Drivetrain drivetrain, double metre) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.metre = metre;
     this.drivetrain = drivetrain;
@@ -30,7 +30,7 @@ public class AvencerXmCommand extends Command {
     System.out.println("asfnsdljfbsdfk");
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);
-    target = (drivetrain.getEncoder()[0]+(metre * ((12.0 / 66.0) * 0.1016 * Math.PI * 2.45)));
+    target = (drivetrain.getEncoder()[0]+((metre / ( 0.1016 * Math.PI))*(12.0 / 66.0)*42.0));
     System.out.println("bobobobobobobobo");
   }
 
@@ -38,7 +38,7 @@ public class AvencerXmCommand extends Command {
   @Override
   public void execute() {
     
-    SmartDashboard.putNumber("ëncoder0", 0);
+    SmartDashboard.putNumber("encoder0", drivetrain.getEncoder()[0]);
     drivetrain.driveAllMotor(pid.calculate(drivetrain.getEncoder()[0], target));
   }
 
