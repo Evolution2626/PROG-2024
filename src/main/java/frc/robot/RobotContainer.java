@@ -15,12 +15,12 @@ import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.MoveIntakeWheelCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
-import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.SetAmpShooterArmPositionCommand;
 import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.ShootNoteCommand;
+import frc.robot.commands.StopShooterCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
 import frc.robot.commands.TournerXdegCommand;
 import frc.robot.subsystems.AmpShooter;
@@ -88,7 +88,7 @@ public class RobotContainer {
             
                 new ParallelCommandGroup(
                     new SetShooterAngleCommand(angleShooter, limelight),
-                    new SetShooterSpeedCommand(shooter, 4000)));
+                    new SetShooterSpeedCommand(shooter))).onFalse(new StopShooterCommand(shooter));
 
     xboxController1
         .b()

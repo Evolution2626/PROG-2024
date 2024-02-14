@@ -46,6 +46,11 @@ public class TournerXdegCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(degree - 5 < drivetrain.getGyroAngle() && degree + 5 > drivetrain.getGyroAngle()){
+      return true;
+    }
+    else{
     return false;
+    }
   }
 }

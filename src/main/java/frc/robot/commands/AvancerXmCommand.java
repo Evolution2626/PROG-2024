@@ -5,9 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
 
 public class AvancerXmCommand extends Command {
@@ -27,18 +25,14 @@ public class AvancerXmCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("asfnsdljfbsdfk");
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);
     target = (drivetrain.getEncoder()[0]+((metre / ( 0.1016 * Math.PI))*(12.0 / 66.0)*42.0));
-    System.out.println("bobobobobobobobo");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    SmartDashboard.putNumber("encoder0", drivetrain.getEncoder()[0]);
     drivetrain.driveAllMotor(pid.calculate(drivetrain.getEncoder()[0], target));
   }
 
@@ -49,6 +43,11 @@ public class AvancerXmCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(target - 10 < drivetrain.getEncoder()[0] && target + 10 > drivetrain.getEncoder()[0]){
+      return true;
+    }
+    else{
     return false;
+    }
   }
 }

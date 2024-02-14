@@ -33,13 +33,16 @@ public class Shooter extends SubsystemBase {
     pusherGauche.setInverted(false);
     pusherDroit.setInverted(false);
 
-    shooterDroitEncoder = shooterDroit.getAlternateEncoder(42);
-    shooterGaucheEncoder = shooterGauche.getAlternateEncoder(42);
+    shooterDroitEncoder = shooterDroit.getEncoder();
+    shooterGaucheEncoder = shooterGauche.getEncoder();
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
     shooterGauche.set(powerGauche);
     shooterDroit.set(powerDroit);
+  }
+  public double getEncoder(){
+    return shooterDroitEncoder.getPosition();
   }
 
   public double getVelocityDroit() {

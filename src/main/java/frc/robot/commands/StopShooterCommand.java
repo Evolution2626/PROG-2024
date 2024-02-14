@@ -5,49 +5,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-public class ShootNoteCommand extends Command {
-  private Shooter shooter;
-  private Intake intake;
-  private double initPos;
-  /** Creates a new ShootNoteCommand. */
-  public ShootNoteCommand(Shooter shooter, Intake intake) {
+public class StopShooterCommand extends Command {
+  Shooter shooter;
+  /** Creates a new StopShooterCommand. */
+  public StopShooterCommand(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
-    this.intake = intake;
-    addRequirements(shooter, intake);
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initPos = shooter.getEncoder();
+    shooter.shooterPower(0, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    shooter.pusherPower(1);
-    intake.spinWheel(1);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    shooter.pusherPower(0);
-    intake.spinWheel(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((shooter.getEncoder()+initPos) >= (42*5)){
-      return true;
-    }
-    else{
     return false;
-    }
   }
 }

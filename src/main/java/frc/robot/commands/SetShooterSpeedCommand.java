@@ -11,15 +11,14 @@ import frc.robot.subsystems.Shooter;
 
 public class SetShooterSpeedCommand extends Command {
   private Shooter shooter;
-  private double speed;
+  private double speed = 4000;
   private double kV;
   private PIDController pidControllerDroitRPM = new PIDController(0.1, 0.1, 0);
   private PIDController pidControllerGaucheRPM = new PIDController(0.1, 0.1, 0);
 
   /** Creates a new SetShooterSpeedCommand. */
-  public SetShooterSpeedCommand(Shooter shooter, double speed) {
+  public SetShooterSpeedCommand(Shooter shooter) {
     this.shooter = shooter;
-    this.speed = speed;
     kV = 0.1;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -47,7 +46,7 @@ public class SetShooterSpeedCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.shooterPower(0, 0);
+   
   }
 
   // Returns true when the command should end.

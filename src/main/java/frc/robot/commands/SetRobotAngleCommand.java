@@ -61,6 +61,11 @@ public class SetRobotAngleCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(angle - 5 < drivetrain.getGyroAngle() && angle + 5 > drivetrain.getGyroAngle()){
+      return true;
+    }
+    else{
     return false;
+    }
   }
 }
