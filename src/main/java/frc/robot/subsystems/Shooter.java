@@ -15,8 +15,7 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax shooterGauche;
 
   private CANSparkMax shooterDroit;
-  private CANSparkMax pusherGauche;
-  private CANSparkMax pusherDroit;
+ 
 
   private RelativeEncoder shooterDroitEncoder;
   private RelativeEncoder shooterGaucheEncoder;
@@ -25,14 +24,10 @@ public class Shooter extends SubsystemBase {
     OperatorConstants deviceNumber = new OperatorConstants();
     shooterGauche = new CANSparkMax(deviceNumber.DeviceNumberShooterGauche, MotorType.kBrushless);
     shooterDroit = new CANSparkMax(deviceNumber.DeviceNumberShooterDroit, MotorType.kBrushless);
-    pusherGauche = new CANSparkMax(deviceNumber.DeviceNumberPusherGauche, MotorType.kBrushless);
-    pusherDroit = new CANSparkMax(deviceNumber.DeviceNumberPusherDroit, MotorType.kBrushless);
-
+    
     shooterGauche.setInverted(false);
     shooterDroit.setInverted(false);
-    pusherGauche.setInverted(false);
-    pusherDroit.setInverted(false);
-
+   
     shooterDroitEncoder = shooterDroit.getEncoder();
     shooterGaucheEncoder = shooterGauche.getEncoder();
   }
@@ -41,9 +36,7 @@ public class Shooter extends SubsystemBase {
     shooterGauche.set(powerGauche);
     shooterDroit.set(powerDroit);
   }
-  public double getEncoder(){
-    return shooterDroitEncoder.getPosition();
-  }
+ 
 
   public double getVelocityDroit() {
     return shooterDroitEncoder.getVelocity();
@@ -53,10 +46,7 @@ public class Shooter extends SubsystemBase {
     return shooterGaucheEncoder.getVelocity();
   }
 
-  public void pusherPower(double power) {
-    pusherDroit.set(power);
-    pusherGauche.set(power);
-  }
+  
 
   @Override
   public void periodic() {

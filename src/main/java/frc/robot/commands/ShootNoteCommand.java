@@ -7,13 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterPusher;
 
 public class ShootNoteCommand extends Command {
-  private Shooter shooter;
+  private ShooterPusher shooter;
   private Intake intake;
   private double initPos;
   /** Creates a new ShootNoteCommand. */
-  public ShootNoteCommand(Shooter shooter, Intake intake) {
+  public ShootNoteCommand(ShooterPusher shooter, Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooter = shooter;
     this.intake = intake;

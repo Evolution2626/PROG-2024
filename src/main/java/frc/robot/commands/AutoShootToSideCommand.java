@@ -13,19 +13,20 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterPusher;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoShootToSideCommand extends SequentialCommandGroup {
   /** Creates a new AutoShootLeftCommand. */
-  public AutoShootToSideCommand(Drivetrain drivetrain, Limelight limelight, AngleShooter angleShooter, Shooter shooter, Intake intake) {
+  public AutoShootToSideCommand(Drivetrain drivetrain, Limelight limelight, AngleShooter angleShooter, Shooter shooter, Intake intake, ShooterPusher shooterPusher) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AvancerXmCommand(drivetrain, 2.25));//todo find the number of meter 
     addCommands(new SetRobotAngleCommand(drivetrain, limelight));
     addCommands(new ParallelCommandGroup(new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));
-    addCommands(new ParallelDeadlineGroup(new ShootNoteCommand(shooter,intake), new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));
+    addCommands(new ParallelDeadlineGroup(new ShootNoteCommand(shooterPusher,intake), new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));
     addCommands(new StopShooterCommand(shooter));
   }
 }

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
+import frc.robot.commands.AutoShootToSideCommand;
 import frc.robot.commands.AvancerXmCommand;
 import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.MoveIntakeCommand;
@@ -30,6 +30,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterPusher;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -47,6 +48,7 @@ public class RobotContainer {
   private AngleShooter angleShooter;
   private Limelight limelight;
   private AmpShooter ampShooter;
+  private ShooterPusher shooterPusher;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
@@ -60,6 +62,7 @@ public class RobotContainer {
     limelight = new Limelight();
     angleShooter = new AngleShooter();
     ampShooter = new AmpShooter();
+    shooterPusher = new ShooterPusher();
     xboxController = new CommandXboxController(0);
     xboxController1 = new CommandXboxController(1);
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
@@ -81,7 +84,7 @@ public class RobotContainer {
 
     xboxController.a().onTrue(new SwitchDrivetrainCommand(drivetrain));
     xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
-     xboxController.b().whileTrue(new TournerXdegCommand(drivetrain, 90));
+     xboxController.b().whileTrue(new AvancerXmCommand(drivetrain, 1));
     xboxController1
         .a()
         .whileTrue(
@@ -97,7 +100,7 @@ public class RobotContainer {
                 new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1)))
         .onFalse(new MoveIntakeCommand(intake, false));
 
-    xboxController1.leftBumper().whileTrue(new ShootNoteCommand(shooter, intake));
+    xboxController1.leftBumper().whileTrue(new ShootNoteCommand(shooterPusher, intake));
     xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
   }
 
@@ -111,7 +114,7 @@ public class RobotContainer {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     //return autoChooser.getSelected();
-    return new AvancerXmCommand(drivetrain, 5);
+    return new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake, shooterPusher);
     // Reset odometry to the initial pose of the trajectory, run path following
     // command, then stop at the end.
 
