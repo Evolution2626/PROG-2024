@@ -23,7 +23,7 @@ public class AutoShootToSideCommand extends SequentialCommandGroup {
   public AutoShootToSideCommand(Drivetrain drivetrain, Limelight limelight, AngleShooter angleShooter, Shooter shooter, Intake intake, ShooterPusher shooterPusher) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AvancerXmCommand(drivetrain, 2.25));//todo find the number of meter 
+    addCommands(new AvancerXmCommand(drivetrain, -1.75));//todo find the number of meter 
     addCommands(new SetRobotAngleCommand(drivetrain, limelight));
     addCommands(new ParallelCommandGroup(new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));
     addCommands(new ParallelDeadlineGroup(new ShootNoteCommand(shooterPusher,intake), new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));

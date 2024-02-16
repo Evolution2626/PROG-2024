@@ -67,6 +67,7 @@ public class RobotContainer {
     xboxController1 = new CommandXboxController(1);
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
+    limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
     configureBindings();
   }
 
@@ -84,15 +85,11 @@ public class RobotContainer {
 
     xboxController.a().onTrue(new SwitchDrivetrainCommand(drivetrain));
     xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
-     xboxController.b().whileTrue(new AvancerXmCommand(drivetrain, 1));
+     xboxController.b().onTrue(new AvancerXmCommand(drivetrain, -1));
     xboxController1
         .a()
         .whileTrue(
-            
-                new ParallelCommandGroup(
-                    new SetShooterAngleCommand(angleShooter, limelight),
-                    new SetShooterSpeedCommand(shooter))).onFalse(new StopShooterCommand(shooter));
-
+                    new SetShooterSpeedCommand(shooter)).onFalse(new StopShooterCommand(shooter));
     xboxController1
         .b()
         .whileTrue(

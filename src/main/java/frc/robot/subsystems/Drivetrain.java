@@ -28,10 +28,7 @@ public class Drivetrain extends SubsystemBase {
   private CANSparkMax avantdroit;
   private CANSparkMax arrieregauche;
   private CANSparkMax arrieredroit;
-  private RelativeEncoder avantGaucheEncoder;
-  private RelativeEncoder avantDroitEncoder;
-  private RelativeEncoder arriereGaucheEncoder;
-  private RelativeEncoder arriereDroitEncoder;
+
   public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
@@ -66,12 +63,8 @@ public class Drivetrain extends SubsystemBase {
     arrieregauche.setIdleMode(IdleMode.kBrake);
 
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
-
-    avantGaucheEncoder = avantgauche.getEncoder();
-    avantDroitEncoder = avantdroit.getEncoder();
-    arriereDroitEncoder = arrieredroit.getEncoder();
-    arriereGaucheEncoder = arrieregauche.getEncoder();
     m_robotDrive.setSafetyEnabled(false);
+    resetEncoder();
   }
 
   public double getGyroAngle() {
@@ -101,10 +94,10 @@ public class Drivetrain extends SubsystemBase {
   public double[] getEncoder() {
 
     double[] encoderValue = {
-      avantDroitEncoder.getPosition(),
-      avantGaucheEncoder.getPosition(),
-      arriereDroitEncoder.getPosition(),
-      arriereGaucheEncoder.getPosition()
+      avantdroit.getEncoder().getPosition(),
+      avantgauche.getEncoder().getPosition(),
+      arrieredroit.getEncoder().getPosition(),
+      arrieregauche.getEncoder().getPosition()
     };
     return encoderValue;
   }
@@ -112,7 +105,10 @@ public class Drivetrain extends SubsystemBase {
   public void setDriveMode(boolean isTankDrive) {
     this.isTankDrive = isTankDrive;
   }
-
+  public double[] getAverageEncoder(){
+    double[] value = {((avantdroit.getEncoder().getPosition()+arrieredroit.getEncoder().getPosition())/2),((avantdroit.getEncoder().getPosition()+arrieredroit.getEncoder().getPosition())/2)};
+    return value;
+  }
   public boolean getCurrentDrivetrain() {
     return isTankDrive;
   }
@@ -147,10 +143,10 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetEncoder(){
-    avantDroitEncoder.setPosition(0);
-    avantGaucheEncoder.setPosition(0);
-    arriereDroitEncoder.setPosition(0);
-    arriereGaucheEncoder.setPosition(0);
+    avantdroit.getEncoder().setPosition(0);
+    avantgauche.getEncoder().setPosition(0);
+    arrieredroit.getEncoder().setPosition(0);
+    arrieregauche.getEncoder().setPosition(0);
   }
 
   public void driveOneMotor(int id, double speed) {
@@ -196,5 +192,10 @@ public class Drivetrain extends SubsystemBase {
     } else {
       SmartDashboard.putString("Mode", "mecanum");
     }
+
+    SmartDashboard.putNumber("FR", avantdroit.getEncoder().getPosition());
+    SmartDashboard.putNumber("FL",  avantgauche.getEncoder().getPosition());
+    SmartDashboard.putNumber("BL", arrieredroit.getEncoder().getPosition());
+    SmartDashboard.putNumber("BR", arrieregauche.getEncoder().getPosition());
   }
 }
