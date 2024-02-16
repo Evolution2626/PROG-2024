@@ -22,7 +22,9 @@ public class SetRobotAngleCommand extends Command {
   public SetRobotAngleCommand(Drivetrain drivetrain, Limelight limelight) {
     this.drivetrain = drivetrain;
     this.limelight = limelight;
+    SmartDashboard.putBoolean("offset ready", false);
     addRequirements(drivetrain, limelight);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
   

@@ -38,7 +38,7 @@ public class ClimberInABoxCommand extends Command {
     } else if (xboxController.y().getAsBoolean() && !ratchetActivated) {
       climberInAnBox.climb(1, 1);
     } else {
-      climberInAnBox.climb(0, 0);
+      climberInAnBox.climb(0, 0);//TODO check if good
     }
   }
 

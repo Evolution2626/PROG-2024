@@ -12,24 +12,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 
 public class ShooterPusher extends SubsystemBase {
-    private CANSparkMax pusherGauche;
-  private CANSparkMax pusherDroit;
+    private CANSparkMax pusher;
   private RelativeEncoder pusherEncoder;
   /** Creates a new ShooterPusher. */
   public ShooterPusher() {
     OperatorConstants deviceNumber = new OperatorConstants();
-     pusherGauche = new CANSparkMax(deviceNumber.DeviceNumberPusherGauche, MotorType.kBrushless);
-    pusherDroit = new CANSparkMax(deviceNumber.DeviceNumberPusherDroit, MotorType.kBrushless);
-    pusherGauche.setInverted(false);
-    pusherDroit.setInverted(false);
-    pusherEncoder = pusherDroit.getEncoder();
+     pusher = new CANSparkMax(deviceNumber.DeviceNumberPusher, MotorType.kBrushless);
+    pusher.setInverted(false);
+    pusherEncoder = pusher.getEncoder();
   }
   public double getEncoder(){
     return pusherEncoder.getPosition();
   }
   public void pusherPower(double power) {
-    pusherDroit.set(power);
-    pusherGauche.set(power);
+    pusher.set(power);
+
   }
   @Override
   public void periodic() {

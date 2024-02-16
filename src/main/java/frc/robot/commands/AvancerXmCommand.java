@@ -12,7 +12,8 @@ import frc.robot.subsystems.Drivetrain;
 public class AvancerXmCommand extends Command {
   /** Creates a new AvencerXmCommand. */
   Drivetrain drivetrain;
-  private PIDController pid = new PIDController(0.0075,0,0); 
+  private PIDController pid1 = new PIDController(0.0075,0,0); 
+  private PIDController pid2 = new PIDController(0.0075,0,0); 
   private double metre;
   private double target = 0.0;
  
@@ -30,8 +31,7 @@ public class AvancerXmCommand extends Command {
     drivetrain.resetEncoder();
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);
-    target = (((metre / ( 0.1016 * Math.PI))*(12.0 / 66.0))*42);//drivetrain.getEncoder()[1]+
-    SmartDashboard.putNumber("target", target);
+    target = (metre * 17.25);//drivetrain.getEncoder()[1]+
    
     
   }
@@ -39,7 +39,8 @@ public class AvancerXmCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.driveAllMotor(pid.calculate(drivetrain.getEncoder()[1], target));
+    drivetrain.driveTank(pid1.calculate(drivetrain.getAverageEncoder()[0], target), pid2.calculate(drivetrain.getAverageEncoder()[1], target));
+
 
   }
 
@@ -52,9 +53,7 @@ public class AvancerXmCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(3.0 > Math.abs(pid.getPositionError())){
-      System.out.println("dsljkfhjkasdfhsdalfhsd,fjdsahfsdahflsdkfhsdklfhdsfklsdhflksdfhsdklcsdklcnsdklcvsdvlkdsnh");
-      
+    if(3.0 > Math.abs(pid1.getPositionError()) && 3.0 > Math.abs(pid2.getPositionError())){  
       return true;
     }
     else{

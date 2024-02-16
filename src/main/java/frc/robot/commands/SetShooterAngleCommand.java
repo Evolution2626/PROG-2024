@@ -45,6 +45,7 @@ public class SetShooterAngleCommand extends PIDCommand {
         });
     this.angleShooter = angleShooter;
     this.limelight = limelight;
+    SmartDashboard.putBoolean("Angle Ready", false);
     addRequirements(angleShooter, limelight);
   }
 

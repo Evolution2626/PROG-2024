@@ -15,26 +15,26 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public final int DeviceNumberAvantDroit = 3;
-    public final int DeviceNumberAvantGauche = 33;
-    public final int DeviceNumberArriereDroit = 14;
-    public final int DeviceNumberArriereGauche = 7;
+    public final int DeviceNumberAvantGauche = 8;
+    public final int DeviceNumberArriereDroit = 7;
+    public final int DeviceNumberArriereGauche = 6;
 
-    public final int DeviceNumberClimberDroit = 17;
-    public final int DeviceNumberClimberGauche = 15;
+    public final int DeviceNumberClimberDroit = 99;
+    public final int DeviceNumberClimberGauche = 98;
 
-    public final int DeviceNumberShooterGauche = 102;
-    public final int DeviceNumberShooterDroit = 103;
+    public final int DeviceNumberShooterGauche = 42;
+    public final int DeviceNumberShooterDroit = 41;
 
-    public final int DeviceNumberPusherGauche = 104;
-    public final int DeviceNumberPusherDroit = 105;
+    public final int DeviceNumberPusher = 43;
 
-    public final int DeviceNumberShooterAngle = 106;
+
+    public final int DeviceNumberShooterAngle = 40;
 
     public final int DeviceNumberIntakeDroit = 70;
     public final int DeviceNumberIntakeGauche = 90;
-    public final int DeviceNumberIntakePivot = 109;
+    public final int DeviceNumberIntakePivot = 5;
 
-    public final int DeviceNumberAmpShooter = 110;
+    public final int DeviceNumberAmpShooter = 45;
   }
 
   public static class PCM {

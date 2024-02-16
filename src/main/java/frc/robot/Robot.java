@@ -66,7 +66,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_Limelight.setPipeline(0);
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      m_Limelight.setPipeline(1);
+    }
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_Limelight.setPipeline(2);
+    }
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

@@ -28,5 +28,6 @@ public class AutoShootToSideCommand extends SequentialCommandGroup {
     addCommands(new ParallelCommandGroup(new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));
     addCommands(new ParallelDeadlineGroup(new ShootNoteCommand(shooterPusher,intake), new SetShooterSpeedCommand(shooter), new SetShooterAngleCommand(angleShooter, limelight)));
     addCommands(new StopShooterCommand(shooter));
+    addCommands(new AvancerXmCommand(drivetrain, 2));
   }
 }
