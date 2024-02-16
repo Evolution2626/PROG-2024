@@ -19,11 +19,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PCM;
 
-public class Drivetrain extends SubsystemBase {
-  OperatorConstants deviceNumber = new OperatorConstants();
-  PCM pcm = new PCM();
 
-  private DoubleSolenoid piston;
+
+public class Drivetrain extends SubsystemBase {
+
+   private DoubleSolenoid piston;
   private CANSparkMax avantgauche;
   private CANSparkMax avantdroit;
   private CANSparkMax arrieregauche;
@@ -35,6 +35,10 @@ public class Drivetrain extends SubsystemBase {
   public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
+  OperatorConstants deviceNumber = new OperatorConstants();
+  PCM pcm = new PCM();
+
+ 
 
   public Drivetrain() {
     piston =
