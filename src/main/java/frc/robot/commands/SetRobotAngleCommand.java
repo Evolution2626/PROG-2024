@@ -12,11 +12,11 @@ import frc.robot.subsystems.Limelight;
 import frc.util.Range;
 
 public class SetRobotAngleCommand extends Command {
-  Drivetrain drivetrain;
-  Limelight limelight;
-  PIDController pid = new PIDController(0.035, 0.001, 0.001); // TODO put value
+  private Drivetrain drivetrain;
+  private Limelight limelight;
+  private PIDController pid = new PIDController(0.035, 0.001, 0.001);
 
-  double angle;
+  private double angle;
 
   /** Creates a new SetRobotAngleCommand. */
   public SetRobotAngleCommand(Drivetrain drivetrain, Limelight limelight) {
@@ -27,13 +27,12 @@ public class SetRobotAngleCommand extends Command {
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
-  
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     drivetrain.resetGyroAngle();
-    angle = -limelight.calculateShooterOffset(); // TODO check if the + is good
+    angle = -limelight.calculateShooterOffset();
     SmartDashboard.putNumber("target", angle);
   }
 
@@ -65,11 +64,10 @@ public class SetRobotAngleCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(angle - 5 < drivetrain.getGyroAngle() && angle + 5 > drivetrain.getGyroAngle()){
+    if (angle - 5 < drivetrain.getGyroAngle() && angle + 5 > drivetrain.getGyroAngle()) {
       return true;
-    }
-    else{
-    return false;
+    } else {
+      return false;
     }
   }
 }

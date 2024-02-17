@@ -15,14 +15,10 @@ import frc.robot.subsystems.Limelight;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SetShooterAngleCommand extends PIDCommand {
   /** Creates a new SetShooterAngleCommand. */
-  private AngleShooter angleShooter;
-
-  Limelight limelight;
-
   public SetShooterAngleCommand(AngleShooter angleShooter, Limelight limelight) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0), // TODO change value
+        new PIDController(0.25, 0, 0), // TODO change value
         // This should return the measurement
         () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
@@ -43,8 +39,6 @@ public class SetShooterAngleCommand extends PIDCommand {
             SmartDashboard.putBoolean("Angle Ready", false);
           }
         });
-    this.angleShooter = angleShooter;
-    this.limelight = limelight;
     SmartDashboard.putBoolean("Angle Ready", false);
     addRequirements(angleShooter, limelight);
   }

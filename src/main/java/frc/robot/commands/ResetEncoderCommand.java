@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 
 public class ResetEncoderCommand extends Command {
-  Drivetrain drivetrain;
+  private Drivetrain drivetrain;
+
   /** Creates a new ResetEncoderCommand. */
   public ResetEncoderCommand(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
 public class MoveIntakeCommand extends Command {
-  Intake intake;
+  private Intake intake;
   boolean intakeOut;
 
   /** Creates a new MoveIntakeCommand. */

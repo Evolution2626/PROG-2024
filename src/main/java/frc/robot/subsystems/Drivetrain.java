@@ -15,14 +15,12 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.CAN;
 import frc.robot.Constants.PCM;
-
-
 
 public class Drivetrain extends SubsystemBase {
 
-   private DoubleSolenoid piston;
+  private DoubleSolenoid piston;
   private CANSparkMax avantgauche;
   private CANSparkMax avantdroit;
   private CANSparkMax arrieregauche;
@@ -31,19 +29,15 @@ public class Drivetrain extends SubsystemBase {
   public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
-  OperatorConstants deviceNumber = new OperatorConstants();
-  PCM pcm = new PCM();
-
- 
 
   public Drivetrain() {
     piston =
-        new DoubleSolenoid(1, PneumaticsModuleType.REVPH, pcm.PISTON_FORWARD, pcm.PISTON_REVERSE);
+        new DoubleSolenoid(1, PneumaticsModuleType.REVPH, PCM.PISTON_FORWARD, PCM.PISTON_REVERSE);
 
-    avantgauche = new CANSparkMax(deviceNumber.DeviceNumberAvantGauche, MotorType.kBrushless);
-    avantdroit = new CANSparkMax(deviceNumber.DeviceNumberAvantDroit, MotorType.kBrushless);
-    arrieredroit = new CANSparkMax(deviceNumber.DeviceNumberArriereDroit, MotorType.kBrushless);
-    arrieregauche = new CANSparkMax(deviceNumber.DeviceNumberArriereGauche, MotorType.kBrushless);
+    avantgauche = new CANSparkMax(CAN.DeviceNumberAvantGauche, MotorType.kBrushless);
+    avantdroit = new CANSparkMax(CAN.DeviceNumberAvantDroit, MotorType.kBrushless);
+    arrieredroit = new CANSparkMax(CAN.DeviceNumberArriereDroit, MotorType.kBrushless);
+    arrieregauche = new CANSparkMax(CAN.DeviceNumberArriereGauche, MotorType.kBrushless);
 
     avantgauche.setSmartCurrentLimit(30);
     avantdroit.setSmartCurrentLimit(30);
@@ -108,10 +102,15 @@ public class Drivetrain extends SubsystemBase {
   public void setDriveMode(boolean isTankDrive) {
     this.isTankDrive = isTankDrive;
   }
-  public double[] getAverageEncoder(){
-    double[] value = {((avantdroit.getEncoder().getPosition()+arrieredroit.getEncoder().getPosition())/2),((avantdroit.getEncoder().getPosition()+arrieredroit.getEncoder().getPosition())/2)};
+
+  public double[] getAverageEncoder() {
+    double[] value = {
+      ((avantdroit.getEncoder().getPosition() + arrieredroit.getEncoder().getPosition()) / 2),
+      ((avantdroit.getEncoder().getPosition() + arrieredroit.getEncoder().getPosition()) / 2)
+    };
     return value;
   }
+
   public boolean getCurrentDrivetrain() {
     return isTankDrive;
   }
@@ -138,14 +137,14 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public void driveAllMotor(double speed){
+  public void driveAllMotor(double speed) {
     avantdroit.set(speed);
     avantgauche.set(speed);
     arrieredroit.set(speed);
     arrieregauche.set(speed);
   }
 
-  public void resetEncoder(){
+  public void resetEncoder() {
     avantdroit.getEncoder().setPosition(0);
     avantgauche.getEncoder().setPosition(0);
     arrieredroit.getEncoder().setPosition(0);
@@ -197,7 +196,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("FR", avantdroit.getEncoder().getPosition());
-    SmartDashboard.putNumber("FL",  avantgauche.getEncoder().getPosition());
+    SmartDashboard.putNumber("FL", avantgauche.getEncoder().getPosition());
     SmartDashboard.putNumber("BL", arrieredroit.getEncoder().getPosition());
     SmartDashboard.putNumber("BR", arrieregauche.getEncoder().getPosition());
   }

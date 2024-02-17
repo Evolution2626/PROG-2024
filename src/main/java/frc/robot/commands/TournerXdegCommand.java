@@ -8,12 +8,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 
-
-
 public class TournerXdegCommand extends Command {
-  PIDController pid = new PIDController(0.035, 0.001, 0.001); // TODO put value
-  Drivetrain drivetrain;
-  double degree;
+  private PIDController pid = new PIDController(0.035, 0.001, 0.001);
+  private Drivetrain drivetrain;
+  private double degree;
+
   /** Creates a new Tourner. */
   public TournerXdegCommand(Drivetrain drivetrain, double degree) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -46,11 +45,10 @@ public class TournerXdegCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(degree - 5 < drivetrain.getGyroAngle() && degree + 5 > drivetrain.getGyroAngle()){
+    if (degree - 5 < drivetrain.getGyroAngle() && degree + 5 > drivetrain.getGyroAngle()) {
       return true;
-    }
-    else{
-    return false;
+    } else {
+      return false;
     }
   }
 }

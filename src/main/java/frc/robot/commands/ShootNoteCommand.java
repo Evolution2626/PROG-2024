@@ -12,6 +12,7 @@ public class ShootNoteCommand extends Command {
   private ShooterPusher shooter;
   private Intake intake;
   private double initPos;
+
   /** Creates a new ShootNoteCommand. */
   public ShootNoteCommand(ShooterPusher shooter, Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -43,11 +44,10 @@ public class ShootNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((shooter.getEncoder()+initPos) >= (42*5)){
+    if ((shooter.getEncoder() + initPos) >= (42 * 5)) {
       return true;
-    }
-    else{
-    return false;
+    } else {
+      return false;
     }
   }
 }

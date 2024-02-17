@@ -7,9 +7,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.CAN;
 
 public class AngleShooter extends SubsystemBase {
   private CANSparkMax shooterAngle;
@@ -20,9 +19,7 @@ public class AngleShooter extends SubsystemBase {
 
   /** Creates a new AngleShooter. */
   public AngleShooter() {
-    OperatorConstants deviceNumber = new OperatorConstants();
-
-    shooterAngle = new CANSparkMax(deviceNumber.DeviceNumberShooterAngle, MotorType.kBrushless);
+    shooterAngle = new CANSparkMax(CAN.DeviceNumberShooterAngle, MotorType.kBrushless);
 
     shooterAngle.setInverted(false);
   }
@@ -47,6 +44,7 @@ public class AngleShooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Shooter angle", shooterAngleEncoder.getAbsolutePosition()); TODO for debug
+    // SmartDashboard.putNumber("Shooter angle", shooterAngleEncoder.getAbsolutePosition()); TODO
+    // for debug
   }
 }

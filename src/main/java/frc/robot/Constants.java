@@ -13,46 +13,45 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
-    public final int DeviceNumberAvantDroit = 3;
-    public final int DeviceNumberAvantGauche = 8;
-    public final int DeviceNumberArriereDroit = 7;
-    public final int DeviceNumberArriereGauche = 6;
+  public static class CAN {
+    public static final int DeviceNumberAvantDroit = 3;
+    public static final int DeviceNumberAvantGauche = 8;
+    public static final int DeviceNumberArriereDroit = 7;
+    public static final int DeviceNumberArriereGauche = 6;
 
-    public final int DeviceNumberClimberDroit = 99;
-    public final int DeviceNumberClimberGauche = 98;
+    public static final int DeviceNumberClimberDroit = 10;
+    public static final int DeviceNumberClimberGauche = 4;
 
-    public final int DeviceNumberShooterGauche = 42;
-    public final int DeviceNumberShooterDroit = 41;
+    public static final int DeviceNumberShooterGauche = 42;
+    public static final int DeviceNumberShooterDroit = 41;
 
-    public final int DeviceNumberPusher = 43;
+    public static final int DeviceNumberPusher = 43;
 
+    public static final int DeviceNumberShooterAngle = 40;
 
-    public final int DeviceNumberShooterAngle = 40;
+    public static final int DeviceNumberIntakeDroit = 44;
+    public static final int DeviceNumberIntakeGauche = 12;
+    public static final int DeviceNumberIntakePivot = 5;
 
-    public final int DeviceNumberIntakeDroit = 70;
-    public final int DeviceNumberIntakeGauche = 90;
-    public final int DeviceNumberIntakePivot = 5;
-
-    public final int DeviceNumberAmpShooter = 45;
+    public static final int DeviceNumberAmpShooter = 45;
   }
 
   public static class PCM {
-    public final int PISTON_FORWARD = 0;
-    public final int PISTON_REVERSE = 1;
+    public static final int PISTON_FORWARD = 0;
+    public static final int PISTON_REVERSE = 1;
 
-    public final int PISTON_CLIMBER_FORWARD_1 = 2;
-    public final int PISTON_CLIMBER_REVERSE_1 = 3;
+    public static final int PISTON_CLIMBER_FORWARD_1 = 2;
+    public static final int PISTON_CLIMBER_REVERSE_1 = 3;
 
-    public final int PISTON_CLIMBER_FORWARD_2 = 4;
-    public final int PISTON_CLIMBER_REVERSE_2 = 5;
+    public static final int PISTON_CLIMBER_FORWARD_2 = 4;
+    public static final int PISTON_CLIMBER_REVERSE_2 = 5;
 
-    public final int PISTON_AMP_SHOOTER_FORWARD = 6;
-    public final int PISTON_AMP_SHOOTER_REVERSE = 7;
+    public static final int PISTON_AMP_SHOOTER_FORWARD = 6;
+    public static final int PISTON_AMP_SHOOTER_REVERSE = 7;
   }
 
   public static class DIGITAL {
-    public final int INTAKE_LIMIT_SWITCH_OUT = 6;
-    public final int INTAKE_LIMIT_SWITCH_IN = 7;
+    public static final int INTAKE_LIMIT_SWITCH_OUT = 6;
+    public static final int INTAKE_LIMIT_SWITCH_IN = 7;
   }
 }
