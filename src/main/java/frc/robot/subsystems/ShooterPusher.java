@@ -20,6 +20,8 @@ public class ShooterPusher extends SubsystemBase {
     pusher.setInverted(false);
     pusherEncoder = pusher.getEncoder();
     pusher.setSmartCurrentLimit(30);
+
+    pusher.burnFlash();
   }
 
   public double getEncoder() {

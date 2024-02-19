@@ -35,6 +35,9 @@ public class Shooter extends SubsystemBase {
     shooterGauche.setIdleMode(IdleMode.kCoast);
     shooterDroit.setSmartCurrentLimit(30);
     shooterGauche.setSmartCurrentLimit(30);
+    
+    shooterDroit.burnFlash();
+    shooterGauche.burnFlash();
 
     
   }

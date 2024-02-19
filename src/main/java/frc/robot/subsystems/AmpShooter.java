@@ -30,6 +30,7 @@ public class AmpShooter extends SubsystemBase {
     ampShooterMotor = new CANSparkMax(CAN.DeviceNumberAmpShooter, MotorType.kBrushless);
     ampShooterMotor.setInverted(false);
     ampShooterMotor.setSmartCurrentLimit(10);
+    ampShooterMotor.burnFlash();
 
   }
 

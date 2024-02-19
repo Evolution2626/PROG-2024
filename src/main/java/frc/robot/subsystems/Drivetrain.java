@@ -62,6 +62,10 @@ public class Drivetrain extends SubsystemBase {
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
     m_robotDrive.setSafetyEnabled(false);
     resetEncoder();
+    avantdroit.burnFlash();
+    avantgauche.burnFlash();
+    arrieredroit.burnFlash();
+    arrieregauche.burnFlash();
   }
 
   public double getGyroAngle() {

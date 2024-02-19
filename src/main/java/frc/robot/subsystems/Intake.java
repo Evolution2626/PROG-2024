@@ -34,6 +34,10 @@ public class Intake extends SubsystemBase {
     intakePivot.setSmartCurrentLimit(10);
     intakeDroit.setSmartCurrentLimit(30);
     intakeGauche.setSmartCurrentLimit(30);
+    
+    intakeDroit.burnFlash();
+    intakeGauche.burnFlash();
+    intakePivot.burnFlash();
   }
 
   public void spinWheel(double power) {

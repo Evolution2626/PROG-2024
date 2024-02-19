@@ -24,6 +24,7 @@ public class AngleShooter extends SubsystemBase {
 
     shooterAngle.setInverted(false);
     shooterAngle.setSmartCurrentLimit(10);
+    shooterAngle.burnFlash();
   }
 
   public double getEncoderValue() {
