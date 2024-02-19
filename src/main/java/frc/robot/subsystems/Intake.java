@@ -31,21 +31,20 @@ public class Intake extends SubsystemBase {
     intakeDroit.setInverted(false);
     intakeGauche.setInverted(false);
     intakePivot.setInverted(false);
+    intakePivot.setSmartCurrentLimit(10);
+    intakeDroit.setSmartCurrentLimit(30);
+    intakeGauche.setSmartCurrentLimit(30);
   }
 
   public void spinWheel(double power) {
-    intakeDroit.set(power);
-    intakeGauche.set(power);
+
+    intakeDroit.set(power/2);
+    intakeGauche.set(power/2);
   }
 
   public void moveIntake(double power) {
-    if (intakeLimitIn.get() && power < 0) {
-      intakePivot.set(0);
-    } else if(getEncoder().getPosition() > 1 && power > 0) { // TODO: find the right number of rotations
-      intakePivot.set(0);
-    } else {
+ 
       intakePivot.set(power);
-    }
   }
 
   public boolean getIntakeLimitIn() {
@@ -62,6 +61,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+  
     SmartDashboard.putNumber("IntakeEncoder", intakePivot.getEncoder().getPosition());
       
     if(intakeLimitIn.get()){

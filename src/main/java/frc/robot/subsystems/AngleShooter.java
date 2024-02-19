@@ -15,14 +15,15 @@ public class AngleShooter extends SubsystemBase {
   private CANSparkMax shooterAngle;
   private DutyCycleEncoder shooterAngleEncoder = new DutyCycleEncoder(0);
 
-  private double encoderMin = 0.0;
-  private double encoderMax = 0.0;
+  private double encoderMax = 0.39;
+  private double encoderMin = 0.23;
 
   /** Creates a new AngleShooter. */
   public AngleShooter() {
     shooterAngle = new CANSparkMax(CAN.DeviceNumberShooterAngle, MotorType.kBrushless);
 
     shooterAngle.setInverted(false);
+    shooterAngle.setSmartCurrentLimit(10);
   }
 
   public double getEncoderValue() {

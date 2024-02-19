@@ -18,28 +18,32 @@ public class SetShooterAngleCommand extends PIDCommand {
   public SetShooterAngleCommand(AngleShooter angleShooter, Limelight limelight) {
     super(
         // The controller that the command will use
-        new PIDController(0.25, 0, 0), // TODO change value
+        new PIDController(1, 0, 0), // TODO change value
         // This should return the measurement
         () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
         () ->
             ((limelight.calculateShooterAngle()
-                        * (angleShooter.getEncoderMax() - angleShooter.getEncoderMin()))
+                        * (angleShooter.getEncoderMax()))
                     / 30)
-                + angleShooter
-                    .getEncoderMin() // un produit  croiser pour calculer les valeur d'encoder basee
+                
+                    
         // sur l'angle calculer
         ,
         // This uses the output
         output -> {
-          angleShooter.setPower(output);
-          if (output > -0.1 && output < 0.1) {
+          SmartDashboard.putNumber("target", ((limelight.calculateShooterAngle()
+                        * (angleShooter.getEncoderMin()))
+                    / 30));
+          angleShooter.setPower(-output);
+          if (output > -0.01 && output < 0.01) {
             SmartDashboard.putBoolean("Angle Ready", true);
           } else {
             SmartDashboard.putBoolean("Angle Ready", false);
           }
         });
     SmartDashboard.putBoolean("Angle Ready", false);
+
     addRequirements(angleShooter, limelight);
   }
 

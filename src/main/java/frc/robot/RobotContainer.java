@@ -16,7 +16,6 @@ import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.SetAmpShooterArmPositionCommand;
 import frc.robot.commands.SetAmpShooterSpeedCommand;
 import frc.robot.commands.SetRobotAngleCommand;
-import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.StopShooterCommand;
@@ -61,11 +60,9 @@ public class RobotContainer {
     angleShooter = new AngleShooter();
     ampShooter = new AmpShooter();
     shooterPusher = new ShooterPusher();
-    xboxController = new CommandXboxController(0);
-    xboxController1 = new CommandXboxController(1);
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
-    limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
+    //limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
     configureBindings();
   }
 
@@ -84,24 +81,24 @@ public class RobotContainer {
     xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
     xboxController1
         .a()
-        .whileTrue(new SetShooterSpeedCommand(shooter))
+        .whileTrue(new SetShooterSpeedCommand(shooterPusher,shooter))
         .onFalse(new StopShooterCommand(shooter));
         
     xboxController1
         .b()
         .whileTrue(
             new SequentialCommandGroup(
-                new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, 1)))
+                new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, -1)))
         .onFalse(new MoveIntakeCommand(intake, false));
 
-    xboxController1.leftBumper().whileTrue(new ShootNoteCommand(shooterPusher, intake));
+    xboxController1.leftBumper().whileTrue(new ShootNoteCommand(intake));
     xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
     xboxController1
         .povUp()
         .whileTrue(new SetAmpShooterSpeedCommand(true, false, ampShooter))
         .onFalse(new SetAmpShooterSpeedCommand(false, false, ampShooter));
     xboxController1
-        .povUp()
+        .povDown()
         .whileTrue(new SetAmpShooterSpeedCommand(false, true, ampShooter))
         .onFalse(new SetAmpShooterSpeedCommand(false, false, ampShooter));
   }

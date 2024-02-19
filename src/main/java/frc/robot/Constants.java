@@ -19,8 +19,8 @@ public final class Constants {
     public static final int DeviceNumberArriereDroit = 7;
     public static final int DeviceNumberArriereGauche = 6;
 
-    public static final int DeviceNumberClimberDroit = 10;
-    public static final int DeviceNumberClimberGauche = 4;
+    public static final int DeviceNumberClimberDroit = 99;
+    public static final int DeviceNumberClimberGauche = 98;
 
     public static final int DeviceNumberShooterGauche = 42;
     public static final int DeviceNumberShooterDroit = 41;
@@ -33,7 +33,7 @@ public final class Constants {
     public static final int DeviceNumberIntakeGauche = 12;
     public static final int DeviceNumberIntakePivot = 5;
 
-    public static final int DeviceNumberAmpShooter = 45;
+    public static final int DeviceNumberAmpShooter = 13;
   }
 
   public static class PCM {
@@ -52,6 +52,6 @@ public final class Constants {
 
   public static class DIGITAL {
     public static final int INTAKE_LIMIT_SWITCH_OUT = 6;
-    public static final int INTAKE_LIMIT_SWITCH_IN = 7;
+    public static final int INTAKE_LIMIT_SWITCH_IN = 9;
   }
 }

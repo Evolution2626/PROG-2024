@@ -19,6 +19,7 @@ public class ShooterPusher extends SubsystemBase {
     pusher = new CANSparkMax(CAN.DeviceNumberPusher, MotorType.kBrushless);
     pusher.setInverted(false);
     pusherEncoder = pusher.getEncoder();
+    pusher.setSmartCurrentLimit(30);
   }
 
   public double getEncoder() {

@@ -7,6 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 
@@ -28,12 +31,16 @@ public class Shooter extends SubsystemBase {
 
     shooterDroitEncoder = shooterDroit.getEncoder();
     shooterGaucheEncoder = shooterGauche.getEncoder();
+    shooterDroit.setIdleMode(IdleMode.kCoast);
+    shooterGauche.setIdleMode(IdleMode.kCoast);
+    shooterDroit.setSmartCurrentLimit(30);
+    shooterGauche.setSmartCurrentLimit(30);
 
     
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
-    shooterGauche.set(powerGauche);
+    shooterGauche.set(-powerGauche);
     shooterDroit.set(powerDroit);
   }
 
@@ -47,7 +54,8 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("velocity", getVelocityDroit());
+    SmartDashboard.putNumber("velocity2", getVelocityGauche());
     // This method will be called once per scheduler run
   }
 }

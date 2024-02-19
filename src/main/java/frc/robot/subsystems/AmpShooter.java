@@ -19,6 +19,7 @@ public class AmpShooter extends SubsystemBase {
 
   /** Creates a new AmpShooter. */
   public AmpShooter() {
+  
     piston =
         new DoubleSolenoid(
             1,
@@ -28,6 +29,8 @@ public class AmpShooter extends SubsystemBase {
 
     ampShooterMotor = new CANSparkMax(CAN.DeviceNumberAmpShooter, MotorType.kBrushless);
     ampShooterMotor.setInverted(false);
+    ampShooterMotor.setSmartCurrentLimit(10);
+
   }
 
   public boolean getPosition() {
