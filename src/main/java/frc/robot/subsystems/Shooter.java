@@ -15,44 +15,44 @@ import frc.robot.Constants.CAN;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  private CANSparkMax shooterGauche;
+  private CANSparkMax shooterHaut;
 
-  private CANSparkMax shooterDroit;
+  private CANSparkMax shooterBas;
 
-  private RelativeEncoder shooterDroitEncoder;
-  private RelativeEncoder shooterGaucheEncoder;
+  private RelativeEncoder shooterBasEncoder;
+  private RelativeEncoder shooterHautEncoder;
 
   public Shooter() {
-    shooterGauche = new CANSparkMax(CAN.DeviceNumberShooterGauche, MotorType.kBrushless);
-    shooterDroit = new CANSparkMax(CAN.DeviceNumberShooterDroit, MotorType.kBrushless);
+    shooterHaut = new CANSparkMax(CAN.DeviceNumberShooterHaut, MotorType.kBrushless);
+    shooterBas = new CANSparkMax(CAN.DeviceNumberShooterBas, MotorType.kBrushless);
 
-    shooterGauche.setInverted(false);
-    shooterDroit.setInverted(false);
+    shooterHaut.setInverted(false);
+    shooterBas.setInverted(false);
 
-    shooterDroitEncoder = shooterDroit.getEncoder();
-    shooterGaucheEncoder = shooterGauche.getEncoder();
-    shooterDroit.setIdleMode(IdleMode.kCoast);
-    shooterGauche.setIdleMode(IdleMode.kCoast);
-    shooterDroit.setSmartCurrentLimit(30);
-    shooterGauche.setSmartCurrentLimit(30);
+    shooterBasEncoder = shooterBas.getEncoder();
+    shooterHautEncoder = shooterHaut.getEncoder();
+    shooterBas.setIdleMode(IdleMode.kCoast);
+    shooterHaut.setIdleMode(IdleMode.kCoast);
+    shooterBas.setSmartCurrentLimit(30);
+    shooterHaut.setSmartCurrentLimit(30);
     
-    shooterDroit.burnFlash();
-    shooterGauche.burnFlash();
+    shooterBas.burnFlash();
+    shooterHaut.burnFlash();
 
     
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
-    shooterGauche.set(-powerGauche);
-    shooterDroit.set(powerDroit);
+    shooterHaut.set(-powerGauche);
+    shooterBas.set(powerDroit);
   }
 
   public double getVelocityDroit() {
-    return shooterDroitEncoder.getVelocity();
+    return shooterBasEncoder.getVelocity();
   }
 
   public double getVelocityGauche() {
-    return shooterGaucheEncoder.getVelocity();
+    return shooterHautEncoder.getVelocity();
   }
 
   @Override

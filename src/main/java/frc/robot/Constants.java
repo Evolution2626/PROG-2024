@@ -22,8 +22,8 @@ public final class Constants {
     public static final int DeviceNumberClimberDroit = 99;
     public static final int DeviceNumberClimberGauche = 98;
 
-    public static final int DeviceNumberShooterGauche = 42;
-    public static final int DeviceNumberShooterDroit = 41;
+    public static final int DeviceNumberShooterHaut = 42;
+    public static final int DeviceNumberShooterBas = 41;
 
     public static final int DeviceNumberPusher = 43;
 
