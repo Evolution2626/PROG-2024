@@ -27,7 +27,7 @@ public class MoveIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intakeOut) {
+    if (intake.getEncoder().getPosition() == 0) {
       intake.moveIntake(1);
     } else {
       intake.moveIntake(-1);
@@ -43,10 +43,6 @@ public class MoveIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (intakeOut) {
-      return intake.getIntakeLimitOut();
-    } else {
-      return intake.getIntakeLimitIn();
-    }
+    return false;
   }
 }

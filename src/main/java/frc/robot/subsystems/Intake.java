@@ -6,7 +6,10 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DIGITAL;
@@ -14,11 +17,10 @@ import frc.robot.Constants.DIGITAL;
 public class Intake extends SubsystemBase {
   /** Creates a new intake. */
   private CANSparkMax intakeDroit;
-
   private CANSparkMax intakeGauche;
-  private CANSparkMax intakePivot;
 
-  DigitalInput intakeLimitOut = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_OUT);
+  private CANSparkMax intakePivot;
+  
   DigitalInput intakeLimitIn = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_IN);
 
   public Intake() {
@@ -39,23 +41,32 @@ public class Intake extends SubsystemBase {
   public void moveIntake(double power) {
     if (intakeLimitIn.get() && power < 0) {
       intakePivot.set(0);
-    } else if (intakeLimitOut.get() && power > 0) {
+    } else if(getEncoder().getPosition() > 1 && power > 0) { // TODO: find the right number of rotations
       intakePivot.set(0);
     } else {
       intakePivot.set(power);
     }
   }
 
-  public boolean getIntakeLimitOut() {
-    return intakeLimitOut.get();
-  }
-
   public boolean getIntakeLimitIn() {
     return intakeLimitIn.get();
   }
 
+  public RelativeEncoder getEncoder(){
+    return intakePivot.getEncoder();
+  }
+
+  public void resetEncoder() {
+    intakePivot.getEncoder().setPosition(0);
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("IntakeEncoder", intakePivot.getEncoder().getPosition());
+      
+    if(intakeLimitIn.get()){
+      intakePivot.getEncoder().setPosition(0);
+    }
     // This method will be called once per scheduler run
   }
 }

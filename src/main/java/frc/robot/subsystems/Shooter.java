@@ -28,6 +28,8 @@ public class Shooter extends SubsystemBase {
 
     shooterDroitEncoder = shooterDroit.getEncoder();
     shooterGaucheEncoder = shooterGauche.getEncoder();
+
+    
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
