@@ -25,7 +25,16 @@ public class ClimberInAnBox extends SubsystemBase {
 
     climberDroit.setInverted(false);
     climberGauche.setInverted(false);
-    
+
+    climberDroit.configPeakCurrentLimit(40, 5);
+    climberDroit.configPeakCurrentDuration(200, 5);
+    climberDroit.configContinuousCurrentLimit(30, 5);
+    climberDroit.enableCurrentLimit(true);
+
+    climberGauche.configPeakCurrentLimit(40, 5);
+    climberGauche.configPeakCurrentDuration(200, 5);
+    climberGauche.configContinuousCurrentLimit(30, 5);
+    climberGauche.enableCurrentLimit(true);
 
     piston1 =
         new DoubleSolenoid(

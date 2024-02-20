@@ -19,7 +19,7 @@ public class AmpShooter extends SubsystemBase {
 
   /** Creates a new AmpShooter. */
   public AmpShooter() {
-  
+
     piston =
         new DoubleSolenoid(
             1,
@@ -31,7 +31,6 @@ public class AmpShooter extends SubsystemBase {
     ampShooterMotor.setInverted(false);
     ampShooterMotor.setSmartCurrentLimit(10);
     ampShooterMotor.burnFlash();
-
   }
 
   public boolean getPosition() {

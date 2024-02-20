@@ -4,11 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkBase.IdleMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
@@ -19,6 +18,9 @@ public class Shooter extends SubsystemBase {
 
   private CANSparkMax shooterBas;
 
+  private CANSparkMax pusher;
+
+  private RelativeEncoder pusherEncoder;
   private RelativeEncoder shooterBasEncoder;
   private RelativeEncoder shooterHautEncoder;
 
@@ -35,11 +37,16 @@ public class Shooter extends SubsystemBase {
     shooterHaut.setIdleMode(IdleMode.kCoast);
     shooterBas.setSmartCurrentLimit(30);
     shooterHaut.setSmartCurrentLimit(30);
-    
+
     shooterBas.burnFlash();
     shooterHaut.burnFlash();
 
-    
+    pusher = new CANSparkMax(CAN.DeviceNumberPusher, MotorType.kBrushless);
+    pusher.setInverted(false);
+    pusherEncoder = pusher.getEncoder();
+    pusher.setSmartCurrentLimit(30);
+
+    pusher.burnFlash();
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
@@ -47,18 +54,26 @@ public class Shooter extends SubsystemBase {
     shooterBas.set(powerDroit);
   }
 
-  public double getVelocityDroit() {
+  public void pusherPower(double power) {
+    pusher.set(power);
+  }
+
+  public double getVelocityBas() {
     return shooterBasEncoder.getVelocity();
   }
 
-  public double getVelocityGauche() {
+  public double getVelocityHaut() {
     return shooterHautEncoder.getVelocity();
+  }
+
+  public double getEncoderPosPusher() {
+    return pusherEncoder.getPosition();
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("velocity", getVelocityDroit());
-    SmartDashboard.putNumber("velocity2", getVelocityGauche());
+    SmartDashboard.putNumber("velocityBas", getVelocityBas());
+    SmartDashboard.putNumber("velocityHaut", getVelocityHaut());
     // This method will be called once per scheduler run
   }
 }

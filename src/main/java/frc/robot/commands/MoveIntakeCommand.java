@@ -43,13 +43,12 @@ public class MoveIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if((intake.getIntakeLimitIn() || intake.getEncoder().getPosition() <= 2)&& !intakeOut){
+    if ((intake.getIntakeLimitIn() || intake.getEncoder().getPosition() <= 2) && !intakeOut) {
       return true;
     }
-    if(intake.getEncoder().getPosition() >= 6 && intakeOut){
+    if (intake.getEncoder().getPosition() >= 6 && intakeOut) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }

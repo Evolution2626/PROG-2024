@@ -27,7 +27,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterPusher;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,7 +44,6 @@ public class RobotContainer {
   private AngleShooter angleShooter;
   private Limelight limelight;
   private AmpShooter ampShooter;
-  private ShooterPusher shooterPusher;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
@@ -59,10 +57,9 @@ public class RobotContainer {
     limelight = new Limelight();
     angleShooter = new AngleShooter();
     ampShooter = new AmpShooter();
-    shooterPusher = new ShooterPusher();
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
-    //limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
+    // limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
     configureBindings();
   }
 
@@ -81,9 +78,9 @@ public class RobotContainer {
     xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
     xboxController1
         .a()
-        .whileTrue(new SetShooterSpeedCommand(shooterPusher,shooter))
+        .whileTrue(new SetShooterSpeedCommand(shooter))
         .onFalse(new StopShooterCommand(shooter));
-        
+
     xboxController1
         .b()
         .whileTrue(
@@ -112,8 +109,7 @@ public class RobotContainer {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     // return autoChooser.getSelected();
-    return new AutoShootToSideCommand(
-        drivetrain, limelight, angleShooter, shooter, intake, shooterPusher);
+    return new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake);
     // Reset odometry to the initial pose of the trajectory, run path following
     // command, then stop at the end.
 

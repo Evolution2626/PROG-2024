@@ -12,7 +12,6 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterPusher;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,20 +23,19 @@ public class AutoShootToSideCommand extends SequentialCommandGroup {
       Limelight limelight,
       AngleShooter angleShooter,
       Shooter shooter,
-      Intake intake,
-      ShooterPusher shooterPusher) {
+      Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AvancerXmCommand(drivetrain, -1.75)); // todo find the number of meter
     addCommands(new SetRobotAngleCommand(drivetrain, limelight));
     addCommands(
         new ParallelCommandGroup(
-            new SetShooterSpeedCommand(shooterPusher,shooter),
+            new SetShooterSpeedCommand(shooter),
             new SetShooterAngleCommand(angleShooter, limelight)));
     addCommands(
         new ParallelDeadlineGroup(
             new ShootNoteCommand(intake),
-            new SetShooterSpeedCommand(shooterPusher,shooter),
+            new SetShooterSpeedCommand(shooter),
             new SetShooterAngleCommand(angleShooter, limelight)));
     addCommands(new StopShooterCommand(shooter));
     addCommands(new AvancerXmCommand(drivetrain, 2));
