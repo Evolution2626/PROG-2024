@@ -22,3 +22,4 @@ public class ResetEncoderCommand extends InstantCommand {
   public void initialize() {
     drivetrain.resetEncoder();
   }
+}
