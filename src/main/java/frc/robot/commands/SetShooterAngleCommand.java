@@ -23,7 +23,7 @@ public class SetShooterAngleCommand extends PIDCommand {
         // This should return the measurement
         () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
-        () -> Range.coerce(angleShooter.getEncoderMin(), angleShooter.getEncoderMax(),angleShooter.getEncoderMax()-((limelight.calculateShooterAngle() * (angleShooter.getEncoderMax()) / 30))),
+        () -> Range.coerce(angleShooter.getEncoderMin(), angleShooter.getEncoderMax(),((limelight.calculateShooterAngle()/30)*(angleShooter.getEncoderMax()-angleShooter.getEncoderMin())+angleShooter.getEncoderMin())),//angleShooter.getEncoderMax()-((limelight.calculateShooterAngle() * (angleShooter.getEncoderMax()) / 30))
 
         // sur l'angle calculer
         
