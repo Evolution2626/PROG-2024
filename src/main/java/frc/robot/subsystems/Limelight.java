@@ -192,7 +192,7 @@ public class Limelight extends SubsystemBase {
     double limelightMountAngleDegrees = 35.0;
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 14;
+    double limelightLensHeightInches = 15;
 
     // distance from the target to the floor
     double goalHeightInches = 55;
@@ -203,9 +203,25 @@ public class Limelight extends SubsystemBase {
     // calculate distance
     double distanceFromLimelightToGoalInches =
         (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-    SmartDashboard.putNumber(
-        "shooterAngle", Math.atan(78 / distanceFromLimelightToGoalInches) / Math.PI * 180.0 - 30);
-    return Math.atan(78 / distanceFromLimelightToGoalInches) / Math.PI * 180.0 - 30;
+
+    // calculate shooter angle
+    double shooterAngle = Math.atan(78 / distanceFromLimelightToGoalInches) / Math.PI * 180.0 - 30;
+
+    SmartDashboard.putNumber("shooterAngle", shooterAngle);
+
+    if (getIsTargetFound()) {
+      if (shooterAngle <= 30) {
+        if (shooterAngle >= 0) {
+          return Math.atan(78 / distanceFromLimelightToGoalInches) / Math.PI * 180.0 - 30;
+        } else {
+          return 0;
+        }
+      } else {
+        return 30;
+      }
+    } else {
+      return 30;
+    }
   }
 
   /**

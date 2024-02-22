@@ -4,17 +4,22 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake;
+import frc.util.Range;
 
 public class MoveIntakeCommand extends Command {
   private Intake intake;
-  boolean intakeOut;
+  private CommandXboxController xboxController;
+  private PIDController pid = new PIDController(0.00125,0,0);
 
   /** Creates a new MoveIntakeCommand. */
-  public MoveIntakeCommand(Intake intake, boolean intakeOut) {
+  public MoveIntakeCommand(Intake intake, CommandXboxController xboxController) {
     this.intake = intake;
-    this.intakeOut = intakeOut;
+    this.xboxController = xboxController;
 
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,34 +27,38 @@ public class MoveIntakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+ 
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intakeOut) {
-      intake.moveIntake(0.5);
-    } else {
-      intake.moveIntake(-0.5);
+
+if(intake.wantedInside()){
+ intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
     }
+    else{
+      intake.moveIntake(Range.coerce(-1, 0,-pid.calculate(Math.abs(intake.getVelocity()), 200)));
+    }
+    
+    
+      intake.spinWheel(xboxController.getLeftTriggerAxis()-xboxController.getRightTriggerAxis());
+    
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.moveIntake(0);
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((intake.getIntakeLimitIn() || intake.getEncoder().getPosition() <= 2) && !intakeOut) {
-      return true;
-    }
-    if (intake.getEncoder().getPosition() >= 6 && intakeOut) {
-      return true;
-    } else {
+   
       return false;
-    }
+    
   }
 }

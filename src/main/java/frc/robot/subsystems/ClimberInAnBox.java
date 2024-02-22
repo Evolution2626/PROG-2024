@@ -16,7 +16,6 @@ public class ClimberInAnBox extends SubsystemBase {
   private TalonSRX climberDroit;
   private TalonSRX climberGauche;
   private DoubleSolenoid piston1;
-  private DoubleSolenoid piston2;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
@@ -42,15 +41,8 @@ public class ClimberInAnBox extends SubsystemBase {
             PneumaticsModuleType.REVPH,
             PCM.PISTON_CLIMBER_FORWARD_1,
             PCM.PISTON_CLIMBER_REVERSE_1);
-    piston2 =
-        new DoubleSolenoid(
-            1,
-            PneumaticsModuleType.REVPH,
-            PCM.PISTON_CLIMBER_FORWARD_2,
-            PCM.PISTON_CLIMBER_REVERSE_2);
 
     piston1.set(DoubleSolenoid.Value.kReverse);
-    piston2.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void climb(double droit, double gauche) {
@@ -59,9 +51,7 @@ public class ClimberInAnBox extends SubsystemBase {
   }
 
   public void activateRatchet() {
-
     piston1.set(DoubleSolenoid.Value.kForward);
-    piston2.set(DoubleSolenoid.Value.kForward);
   }
 
   @Override

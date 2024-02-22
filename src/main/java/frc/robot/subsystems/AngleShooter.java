@@ -16,7 +16,7 @@ public class AngleShooter extends SubsystemBase {
   private DutyCycleEncoder shooterAngleEncoder = new DutyCycleEncoder(0);
 
   private double encoderMax = 0.39;
-  private double encoderMin = 0.23;
+  private double encoderMin = 0.239;
 
   /** Creates a new AngleShooter. */
   public AngleShooter() {
@@ -47,7 +47,7 @@ public class AngleShooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shooter angle", shooterAngleEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("Shooter angle current encoder", shooterAngleEncoder.getAbsolutePosition());
     // for debug
   }
 }

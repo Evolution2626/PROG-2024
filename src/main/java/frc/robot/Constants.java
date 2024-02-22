@@ -43,15 +43,12 @@ public final class Constants {
     public static final int PISTON_CLIMBER_FORWARD_1 = 2;
     public static final int PISTON_CLIMBER_REVERSE_1 = 3;
 
-    public static final int PISTON_CLIMBER_FORWARD_2 = 4;
-    public static final int PISTON_CLIMBER_REVERSE_2 = 5;
-
     public static final int PISTON_AMP_SHOOTER_FORWARD = 6;
     public static final int PISTON_AMP_SHOOTER_REVERSE = 7;
   }
 
   public static class DIGITAL {
-    public static final int INTAKE_LIMIT_SWITCH_OUT = 6;
+    public static final int INTAKE_LIMIT_SWITCH_OUT = 1;
     public static final int INTAKE_LIMIT_SWITCH_IN = 9;
   }
 }

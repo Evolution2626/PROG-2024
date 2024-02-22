@@ -5,17 +5,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoShootToSideCommand;
 import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.MoveIntakeCommand;
-import frc.robot.commands.MoveIntakeWheelCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.SetAmpShooterArmPositionCommand;
 import frc.robot.commands.SetAmpShooterSpeedCommand;
+import frc.robot.commands.SetIntakeStateCommand;
 import frc.robot.commands.SetRobotAngleCommand;
+import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.StopShooterCommand;
@@ -59,7 +59,8 @@ public class RobotContainer {
     ampShooter = new AmpShooter();
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
-    // limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
+    intake.setDefaultCommand(new MoveIntakeCommand(intake, xboxController1));
+    limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
     configureBindings();
   }
 
@@ -81,12 +82,7 @@ public class RobotContainer {
         .whileTrue(new SetShooterSpeedCommand(shooter))
         .onFalse(new StopShooterCommand(shooter));
 
-    xboxController1
-        .b()
-        .whileTrue(
-            new SequentialCommandGroup(
-                new MoveIntakeCommand(intake, true), new MoveIntakeWheelCommand(intake, -1)))
-        .onFalse(new MoveIntakeCommand(intake, false));
+    xboxController1.b().onTrue(new SetIntakeStateCommand(intake));
 
     xboxController1.leftBumper().whileTrue(new ShootNoteCommand(intake));
     xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));

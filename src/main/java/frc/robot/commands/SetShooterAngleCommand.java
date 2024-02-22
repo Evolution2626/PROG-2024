@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Limelight;
+import frc.util.Range;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,15 +23,16 @@ public class SetShooterAngleCommand extends PIDCommand {
         // This should return the measurement
         () -> angleShooter.getEncoderValue(),
         // This should return the setpoint (can also be a constant)
-        () -> ((limelight.calculateShooterAngle() * (angleShooter.getEncoderMax())) / 30)
+        () -> Range.coerce(angleShooter.getEncoderMin(), angleShooter.getEncoderMax(),angleShooter.getEncoderMax()-((limelight.calculateShooterAngle() * (angleShooter.getEncoderMax()) / 30))),
 
         // sur l'angle calculer
-        ,
+        
         // This uses the output
         output -> {
           SmartDashboard.putNumber(
               "target",
-              ((limelight.calculateShooterAngle() * (angleShooter.getEncoderMin())) / 30));
+              Range.coerce(angleShooter.getEncoderMin(), angleShooter.getEncoderMax(),angleShooter.getEncoderMax()-((limelight.calculateShooterAngle() * (angleShooter.getEncoderMax()) / 30))));
+          SmartDashboard.putNumber("target raw", limelight.calculateShooterAngle() * (angleShooter.getEncoderMax()) / 30);
           angleShooter.setPower(-output);
           if (output > -0.01 && output < 0.01) {
             SmartDashboard.putBoolean("Angle Ready", true);

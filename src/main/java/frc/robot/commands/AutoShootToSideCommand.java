@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.AngleShooter;
@@ -28,15 +27,10 @@ public class AutoShootToSideCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AvancerXmCommand(drivetrain, -1.75)); // todo find the number of meter
     addCommands(new SetRobotAngleCommand(drivetrain, limelight));
-    addCommands(
-        new ParallelCommandGroup(
-            new SetShooterSpeedCommand(shooter),
-            new SetShooterAngleCommand(angleShooter, limelight)));
+    addCommands(new SetShooterSpeedCommand(shooter));
     addCommands(
         new ParallelDeadlineGroup(
-            new ShootNoteCommand(intake),
-            new SetShooterSpeedCommand(shooter),
-            new SetShooterAngleCommand(angleShooter, limelight)));
+            new ShootNoteCommand(intake), new SetShooterSpeedCommand(shooter)));
     addCommands(new StopShooterCommand(shooter));
     addCommands(new AvancerXmCommand(drivetrain, 2));
   }
