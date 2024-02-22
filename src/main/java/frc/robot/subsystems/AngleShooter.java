@@ -47,7 +47,8 @@ public class AngleShooter extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shooter angle current encoder", shooterAngleEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber(
+        "Shooter angle current encoder", shooterAngleEncoder.getAbsolutePosition());
     // for debug
   }
 }

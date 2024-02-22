@@ -7,14 +7,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CAN;
 import frc.robot.Constants.DIGITAL;
-import frc.util.MathHelper;
 import frc.util.Range;
+
 public class Intake extends SubsystemBase {
   /** Creates a new intake. */
   private CANSparkMax intakeDroit;
@@ -51,52 +50,52 @@ public class Intake extends SubsystemBase {
     intakeDroit.set(power / 2);
     intakeGauche.set(power / 2);
   }
-  public boolean getAsBeenPressed(){
+
+  public boolean getAsBeenPressed() {
     return asBeenPressed;
   }
-  public void asBeenPressed(){
+
+  public void asBeenPressed() {
     asBeenPressed = true;
   }
 
-  public double getVelocity(){
+  public double getVelocity() {
     return intakePivot.getEncoder().getVelocity();
   }
 
   public void moveIntake(double power) {
-   /*if(getIntakeLimitIn() || getIntakeLimitOut()){
-      intakePivot.set(0);
-    }
-    else if(getIntakeLimitIn() && getIntakeLimitOut()){
-      intakePivot.set(0);
-    }
-   else if(getIntakeLimitIn() && power > 0){
-      intakePivot.set(power);
-    }else if(getIntakeLimitOut() && power < 0){
-      intakePivot.set(power);
-    }
-    
-    else{
-      intakePivot.set(power);
-    }
-  }*/
-  if(getIntakeLimitIn()){
-    power = Range.coerce(0, 1, power);
+    /*if(getIntakeLimitIn() || getIntakeLimitOut()){
+        intakePivot.set(0);
+      }
+      else if(getIntakeLimitIn() && getIntakeLimitOut()){
+        intakePivot.set(0);
+      }
+     else if(getIntakeLimitIn() && power > 0){
+        intakePivot.set(power);
+      }else if(getIntakeLimitOut() && power < 0){
+        intakePivot.set(power);
+      }
 
-    intakePivot.set(power);
+      else{
+        intakePivot.set(power);
+      }
+    }*/
+    if (getIntakeLimitIn()) {
+      power = Range.coerce(0, 1, power);
+
+      intakePivot.set(power);
+    } else if (getIntakeLimitOut()) {
+      power = Range.coerce(-1, 0, power);
+
+      intakePivot.set(power);
+    }
   }
 
-  else if(getIntakeLimitOut()){
-    power = Range.coerce(-1, 0, power);
- 
-    intakePivot.set(power);
-  }
-
-  }
-  public boolean wantedInside(){
+  public boolean wantedInside() {
     return wantedInside;
   }
 
-  public void setState(boolean isIn){
+  public void setState(boolean isIn) {
     this.wantedInside = isIn;
   }
 
@@ -104,7 +103,7 @@ public class Intake extends SubsystemBase {
     return intakeLimitIn.get();
   }
 
-  public boolean getIntakeLimitOut(){
+  public boolean getIntakeLimitOut() {
     return intakeLimitOut.get();
   }
 
@@ -118,7 +117,6 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putBoolean("limit out", getIntakeLimitOut());
     SmartDashboard.putNumber("IntakeEncoder", intakePivot.getEncoder().getPosition());
 
-   
     // This method will be called once per scheduler run
   }
 }

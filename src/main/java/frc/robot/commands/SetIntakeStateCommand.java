@@ -24,9 +24,9 @@ public class SetIntakeStateCommand extends InstantCommand {
   @Override
   public void initialize() {
     intake.asBeenPressed();
-    if(intake.wantedInside()){
+    if (intake.wantedInside()) {
       intake.setState(false);
-    }else{
+    } else {
       intake.setState(true);
     }
   }
