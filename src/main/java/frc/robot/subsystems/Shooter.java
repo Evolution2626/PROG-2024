@@ -50,8 +50,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void shooterPower(double powerDroit, double powerGauche) {
-    shooterHaut.set(-powerGauche);
-    shooterBas.set(powerDroit);
+    shooterHaut.set(powerGauche);
+    shooterBas.set(-powerDroit);
   }
 
   public void pusherPower(double power) {
@@ -74,6 +74,8 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("velocityBas", getVelocityBas());
     SmartDashboard.putNumber("velocityHaut", getVelocityHaut());
+    SmartDashboard.putNumber("powerBas", shooterBas.get());
+    SmartDashboard.putNumber("powerHaut", shooterHaut.get());
     // This method will be called once per scheduler run
   }
 }

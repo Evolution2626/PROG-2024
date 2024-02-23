@@ -32,7 +32,7 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     piston =
-        new DoubleSolenoid(1, PneumaticsModuleType.REVPH, PCM.PISTON_FORWARD, PCM.PISTON_REVERSE);
+        new DoubleSolenoid(49, PneumaticsModuleType.REVPH, PCM.PISTON_FORWARD, PCM.PISTON_REVERSE);
 
     avantgauche = new CANSparkMax(CAN.DeviceNumberAvantGauche, MotorType.kBrushless);
     avantdroit = new CANSparkMax(CAN.DeviceNumberAvantDroit, MotorType.kBrushless);

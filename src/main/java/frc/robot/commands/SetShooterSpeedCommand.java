@@ -11,15 +11,17 @@ import frc.robot.subsystems.Shooter;
 
 public class SetShooterSpeedCommand extends Command {
   private Shooter shooter;
-  private double speed = 5600;
-  private double kV;
-  private PIDController pidControllerDroitRPM = new PIDController(1, 0.1, 0);
-  private PIDController pidControllerGaucheRPM = new PIDController(1, 0.1, 0);
+  private double speed = 5000;
+  private double kVBas;
+  private double kVHaut;
+  private PIDController pidControllerDroitRPM = new PIDController(0, 0, 0);
+  private PIDController pidControllerGaucheRPM = new PIDController(0, 0, 0);
 
   /** Creates a new SetShooterSpeedCommand. */
   public SetShooterSpeedCommand(Shooter shooter) {
     this.shooter = shooter;
-    kV = 1;
+    kVBas = 0.0002;
+    kVHaut = 0.00019;
     SmartDashboard.putBoolean("Speed Ready", false);
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,10 +38,11 @@ public class SetShooterSpeedCommand extends Command {
   public void execute() {
     shooter.pusherPower(1);
     shooter.shooterPower(
-        (pidControllerDroitRPM.calculate(shooter.getVelocityBas(), speed) + (kV * speed)),
-        (pidControllerGaucheRPM.calculate(shooter.getVelocityHaut(), speed) + (kV * speed)));
+        (pidControllerDroitRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
+        (pidControllerGaucheRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
+  
 
-    if (shooter.getVelocityBas() > speed - 100 && shooter.getVelocityHaut() > speed - 100) {
+    if (shooter.getVelocityHaut() > speed - 100 && shooter.getVelocityBas() > speed - 100) {
       SmartDashboard.putBoolean("Speed Ready", true);
 
     } else {
