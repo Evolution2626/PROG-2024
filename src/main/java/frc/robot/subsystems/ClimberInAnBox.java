@@ -16,6 +16,8 @@ public class ClimberInAnBox extends SubsystemBase {
   private TalonSRX climberDroit;
   private TalonSRX climberGauche;
   private DoubleSolenoid piston1;
+  private boolean ratchetActivated = false;
+  private boolean climberOut = false;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
@@ -49,9 +51,19 @@ public class ClimberInAnBox extends SubsystemBase {
     climberDroit.set(ControlMode.PercentOutput, droit);
     climberGauche.set(ControlMode.PercentOutput, gauche);
   }
+  public void setClimberOut(boolean isOut){
+    climberOut = isOut;
+  }
+  public boolean getclimberOut(){
+    return climberOut;
+  }
 
   public void activateRatchet() {
+    ratchetActivated = true;
     piston1.set(DoubleSolenoid.Value.kForward);
+  }
+  public boolean isRatchetActivated(){
+    return ratchetActivated;
   }
 
   @Override

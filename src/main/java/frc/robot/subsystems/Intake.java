@@ -54,7 +54,9 @@ public class Intake extends SubsystemBase {
   public boolean getAsBeenPressed() {
     return asBeenPressed;
   }
-
+  public void resetWheelEncoder(){
+    intakeDroit.getEncoder().setPosition(0);
+  }
   public void asBeenPressed() {
     asBeenPressed = true;
   }
@@ -62,24 +64,11 @@ public class Intake extends SubsystemBase {
   public double getVelocity() {
     return intakePivot.getEncoder().getVelocity();
   }
+  public double getWheelEncoder(){
+    return intakeDroit.getEncoder().getPosition();
+  }
 
   public void moveIntake(double power) {
-    /*if(getIntakeLimitIn() || getIntakeLimitOut()){
-        intakePivot.set(0);
-      }
-      else if(getIntakeLimitIn() && getIntakeLimitOut()){
-        intakePivot.set(0);
-      }
-     else if(getIntakeLimitIn() && power > 0){
-        intakePivot.set(power);
-      }else if(getIntakeLimitOut() && power < 0){
-        intakePivot.set(power);
-      }
-
-      else{
-        intakePivot.set(power);
-      }
-    }*/
     if (getIntakeLimitIn()) {
       power = Range.coerce(0, 1, power);
 

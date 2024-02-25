@@ -21,7 +21,7 @@ public class ShootNoteCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // initPos = shooter.getEncoder();
+   intake.resetWheelEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,13 +33,16 @@ public class ShootNoteCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // shooter.pusherPower(0);
+
     intake.spinWheel(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(intake.getWheelEncoder() >= 20){
+      return true;
+    }
     return false;
   }
 }

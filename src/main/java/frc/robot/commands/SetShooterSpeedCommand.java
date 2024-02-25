@@ -53,13 +53,16 @@ public class SetShooterSpeedCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.pusherPower(0);
-    shooter.shooterPower(0, 0);
+    //shooter.pusherPower(0);
+    //shooter.shooterPower(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(shooter.getVelocityBas() > speed-100 && shooter.getVelocityHaut() > speed-100){
+      return true;
+    }
     return false;
   }
 }

@@ -21,5 +21,6 @@ public class StopShooterCommand extends InstantCommand {
   @Override
   public void initialize() {
     shooter.shooterPower(0, 0);
+    shooter.pusherPower(0);
   }
 }

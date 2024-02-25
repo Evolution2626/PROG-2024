@@ -17,7 +17,6 @@ import frc.robot.commands.SetIntakeStateCommand;
 import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
-import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.StopShooterCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
 import frc.robot.subsystems.AmpShooter;
@@ -83,8 +82,6 @@ public class RobotContainer {
         .onFalse(new StopShooterCommand(shooter));
 
     xboxController1.b().onTrue(new SetIntakeStateCommand(intake));
-
-    xboxController1.leftBumper().whileTrue(new ShootNoteCommand(intake));
     xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
     xboxController1
         .povUp()

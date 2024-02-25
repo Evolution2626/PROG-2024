@@ -11,7 +11,7 @@ import frc.robot.subsystems.ClimberInAnBox;
 public class ClimberInABoxCommand extends Command {
   private ClimberInAnBox climberInAnBox;
   private CommandXboxController xboxController;
-  private boolean ratchetActivated = false;
+
 
   /** Creates a new ClimberInABoxCommand. */
   public ClimberInABoxCommand(ClimberInAnBox climberInAbox, CommandXboxController xboxController) {
@@ -28,18 +28,21 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // if ((xboxController.getRightTriggerAxis() != 0 || xboxController.getLeftTriggerAxis() != 0)
-    //   && xboxController.x().getAsBoolean()) {
-    // ratchetActivated = true;
-    // climberInAnBox.activateRatchet();
-    // climberInAnBox.climb(
-    //   xboxController.getRightTriggerAxis(), xboxController.getLeftTriggerAxis());
-
-    // } else if (xboxController.y().getAsBoolean() && !ratchetActivated) {
-    // climberInAnBox.climb(-1, -1);
-    // } else {
-    // climberInAnBox.climb(0, 0); // TODO check if good
-    // }
+    if(xboxController.getLeftY() != 0 || xboxController.getRightY() != 0){
+      if(xboxController.x().getAsBoolean() && climberInAnBox.getclimberOut()){
+        climberInAnBox.activateRatchet();
+        climberInAnBox.climb(
+        Math.abs(xboxController.getLeftY()), Math.abs(xboxController.getRightY()));
+      }
+      else if(!climberInAnBox.isRatchetActivated()){
+        climberInAnBox.setClimberOut(true);
+        climberInAnBox.climb(
+       -Math.abs(xboxController.getLeftY()), Math.abs(xboxController.getRightY()));// TODO check orientation
+      }
+    }
+    else{
+      climberInAnBox.climb(0,0);
+    }
   }
 
   // Called once the command ends or is interrupted.
