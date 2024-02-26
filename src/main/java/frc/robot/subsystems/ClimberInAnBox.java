@@ -44,7 +44,7 @@ public class ClimberInAnBox extends SubsystemBase {
             PCM.PISTON_CLIMBER_FORWARD_1,
             PCM.PISTON_CLIMBER_REVERSE_1);
 
-    piston1.set(DoubleSolenoid.Value.kReverse);
+    piston1.set(DoubleSolenoid.Value.kForward);
   }
 
   public void climb(double droit, double gauche) {

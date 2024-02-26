@@ -59,6 +59,8 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit.setIdleMode(IdleMode.kBrake);
     arrieregauche.setIdleMode(IdleMode.kBrake);
 
+    piston.set(DoubleSolenoid.Value.kReverse);
+
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
     m_robotDrive.setSafetyEnabled(false);
     resetEncoder();
@@ -85,11 +87,11 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void ActivateDrivetank() {
-    piston.set(DoubleSolenoid.Value.kForward);
+    piston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void ActivateMecanum() {
-    piston.set(DoubleSolenoid.Value.kReverse);
+    piston.set(DoubleSolenoid.Value.kForward);
   }
 
   public double[] getEncoder() {

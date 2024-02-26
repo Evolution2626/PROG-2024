@@ -14,14 +14,14 @@ public class SetShooterSpeedCommand extends Command {
   private double speed = 5000;
   private double kVBas;
   private double kVHaut;
-  private PIDController pidControllerDroitRPM = new PIDController(0, 0, 0);
-  private PIDController pidControllerGaucheRPM = new PIDController(0, 0, 0);
+  private PIDController pidControllerBasRPM = new PIDController(0, 0, 0);
+  private PIDController pidControllerHautRPM = new PIDController(0, 0, 0);
 
   /** Creates a new SetShooterSpeedCommand. */
   public SetShooterSpeedCommand(Shooter shooter) {
     this.shooter = shooter;
     kVBas = 0.0002;
-    kVHaut = 0.00019;
+    kVHaut = 0.0002;
     SmartDashboard.putBoolean("Speed Ready", false);
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,8 +38,8 @@ public class SetShooterSpeedCommand extends Command {
   public void execute() {
     shooter.pusherPower(1);
     shooter.shooterPower(
-        (pidControllerDroitRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
-        (pidControllerGaucheRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
+        (pidControllerBasRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
+        (pidControllerHautRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
   
 
     if (shooter.getVelocityHaut() > speed - 100 && shooter.getVelocityBas() > speed - 100) {

@@ -23,7 +23,6 @@ public class SetIntakeStateCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.asBeenPressed();
     if (intake.wantedInside()) {
       intake.setState(false);
     } else {

@@ -26,7 +26,6 @@ public class Intake extends SubsystemBase {
   DigitalInput intakeLimitOut = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_OUT);
 
   private boolean wantedInside = false;
-  private boolean asBeenPressed = false;
 
   public Intake() {
     intakeDroit = new CANSparkMax(CAN.DeviceNumberIntakeDroit, MotorType.kBrushless);
@@ -40,6 +39,8 @@ public class Intake extends SubsystemBase {
     intakeDroit.setSmartCurrentLimit(20);
     intakeGauche.setSmartCurrentLimit(20);
     intakePivot.setIdleMode(IdleMode.kBrake);
+    intakeDroit.setIdleMode(IdleMode.kBrake);
+    intakeGauche.setIdleMode(IdleMode.kBrake);
 
     intakeDroit.burnFlash();
     intakeGauche.burnFlash();
@@ -51,21 +52,21 @@ public class Intake extends SubsystemBase {
     intakeGauche.set(power / 2);
   }
 
-  public boolean getAsBeenPressed() {
-    return asBeenPressed;
-  }
+  
   public void resetWheelEncoder(){
     intakeDroit.getEncoder().setPosition(0);
   }
-  public void asBeenPressed() {
-    asBeenPressed = true;
-  }
+
 
   public double getVelocity() {
     return intakePivot.getEncoder().getVelocity();
   }
   public double getWheelEncoder(){
     return intakeDroit.getEncoder().getPosition();
+  }
+
+  public double getPosition() {
+    return intakePivot.getEncoder().getPosition();
   }
 
   public void moveIntake(double power) {
@@ -82,6 +83,10 @@ public class Intake extends SubsystemBase {
 
   public boolean wantedInside() {
     return wantedInside;
+  }
+
+  public double intakeCurveFunction(double c, double b, double a){
+    return (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 3)) - b;
   }
 
   public void setState(boolean isIn) {

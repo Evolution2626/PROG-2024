@@ -13,7 +13,7 @@ import frc.util.Range;
 public class MoveIntakeCommand extends Command {
   private Intake intake;
   private CommandXboxController xboxController;
-  private PIDController pid = new PIDController(0.00125, 0, 0);
+  // private PIDController pid = new PIDController(0.00125, 0, 0);
 
   /** Creates a new MoveIntakeCommand. */
   public MoveIntakeCommand(Intake intake, CommandXboxController xboxController) {
@@ -31,11 +31,12 @@ public class MoveIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     if (intake.wantedInside()) {
-      intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
+      //intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
+      intake.moveIntake(Range.coerce(0, 1, intake.intakeCurveFunction(3, 1, -20)));
     } else {
-      intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()), 200)));
+      //intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()), 200)));
+      intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(3, -1, -20)));
     }
 
     intake.spinWheel(xboxController.getLeftTriggerAxis() - xboxController.getRightTriggerAxis());
