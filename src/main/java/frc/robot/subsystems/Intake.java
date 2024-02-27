@@ -48,8 +48,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void spinWheel(double power) {
-    intakeDroit.set(power / 2);
-    intakeGauche.set(power / 2);
+    intakeDroit.set(power*0.75 );
+    intakeGauche.set(power*0.75 );
   }
 
   
