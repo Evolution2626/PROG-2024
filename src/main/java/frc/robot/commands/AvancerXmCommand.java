@@ -10,10 +10,12 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AvancerXmCommand extends Command {
   /** Creates a new AvencerXmCommand. */
+
   private Drivetrain drivetrain;
 
   private PIDController pid1 = new PIDController(0.0075, 0, 0);
   private PIDController pid2 = new PIDController(0.0075, 0, 0);
+
   private double metre;
   private double target = 0.0;
 
@@ -31,7 +33,9 @@ public class AvancerXmCommand extends Command {
     drivetrain.resetEncoder();
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);
+
     target = (metre * 17.25); // drivetrain.getEncoder()[1]+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
