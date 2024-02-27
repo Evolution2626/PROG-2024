@@ -20,8 +20,8 @@ public class SetShooterSpeedCommand extends Command {
   /** Creates a new SetShooterSpeedCommand. */
   public SetShooterSpeedCommand(Shooter shooter) {
     this.shooter = shooter;
-    kVBas = 0.0002;
-    kVHaut = 0.0002;
+    kVBas = 0.00018;
+    kVHaut = 0.00018;
     SmartDashboard.putBoolean("Speed Ready", false);
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
