@@ -54,8 +54,8 @@ public class RobotContainer {
     intake = new Intake();
     shooter = new Shooter();
     limelight = new Limelight();
-  //  angleShooter = new AngleShooter();
-    ampShooter = new AmpShooter();
+    angleShooter = new AngleShooter();
+    //ampShooter = new AmpShooter();
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
     intake.setDefaultCommand(new MoveIntakeCommand(intake, xboxController1));
