@@ -4,17 +4,21 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake;
+import frc.util.Range;
 
 public class MoveIntakeCommand extends Command {
-  Intake intake;
-  boolean intakeOut;
+  private Intake intake;
+  private CommandXboxController xboxController;
+  // private PIDController pid = new PIDController(0.00125, 0, 0);
 
   /** Creates a new MoveIntakeCommand. */
-  public MoveIntakeCommand(Intake intake, boolean intakeOut) {
+  public MoveIntakeCommand(Intake intake, CommandXboxController xboxController) {
     this.intake = intake;
-    this.intakeOut = intakeOut;
+    this.xboxController = xboxController;
 
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,26 +31,28 @@ public class MoveIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (intakeOut) {
-      intake.moveIntake(1);
+    double c = 5;
+    double a = 13.7;
+
+    if (intake.wantedInside()) {
+      //intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
+      intake.moveIntake(Range.coerce(0, 1, intake.intakeCurveFunction(c, -1, a)));
     } else {
-      intake.moveIntake(-1);
+      //intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()), 200)));
+      intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(c, 1, 0)));
     }
+
+    intake.spinWheel(xboxController.getLeftTriggerAxis() - xboxController.getRightTriggerAxis());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    intake.moveIntake(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (intakeOut) {
-      return intake.getIntakeLimitOut();
-    } else {
-      return intake.getIntakeLimitIn();
-    }
+
+    return false;
   }
 }

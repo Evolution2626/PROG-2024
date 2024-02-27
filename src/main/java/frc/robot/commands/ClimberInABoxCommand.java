@@ -7,11 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ClimberInAnBox;
+import frc.util.Range;
 
 public class ClimberInABoxCommand extends Command {
   private ClimberInAnBox climberInAnBox;
   private CommandXboxController xboxController;
-  private boolean ratchetActivated = false;
+
 
   /** Creates a new ClimberInABoxCommand. */
   public ClimberInABoxCommand(ClimberInAnBox climberInAbox, CommandXboxController xboxController) {
@@ -28,17 +29,20 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((xboxController.getRightTriggerAxis() != 0 || xboxController.getLeftTriggerAxis() != 0)
-        && xboxController.x().getAsBoolean()) {
-      ratchetActivated = true;
-      climberInAnBox.activateRatchet();
-      climberInAnBox.climb(
-          xboxController.getRightTriggerAxis(), xboxController.getLeftTriggerAxis());
-
-    } else if (xboxController.y().getAsBoolean() && !ratchetActivated) {
-      climberInAnBox.climb(1, 1);
-    } else {
-      climberInAnBox.climb(0, 0);
+    if(Range.threshold(0.1,xboxController.getLeftY()) != 0 || Range.threshold(0.1,xboxController.getRightY()) != 0){
+      if(xboxController.leftBumper().getAsBoolean() && xboxController.rightBumper().getAsBoolean() && climberInAnBox.getclimberOut()){
+        climberInAnBox.activateRatchet();
+        climberInAnBox.climb(
+        Math.abs(Range.threshold(0.1, xboxController.getLeftY())), Range.threshold(0.1, Math.abs(xboxController.getRightY())));
+      }
+      else if(!climberInAnBox.isRatchetActivated()){
+        climberInAnBox.setClimberOut(true);
+        climberInAnBox.climb(
+       -Math.abs(Range.threshold(0.1, xboxController.getLeftY())), -Math.abs(Range.threshold(0.1, xboxController.getRightY())));// TODO check orientation
+      }
+    }
+    else{
+      climberInAnBox.climb(0,0);
     }
   }
 

@@ -9,50 +9,62 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.CAN;
 import frc.robot.Constants.PCM;
 
 public class ClimberInAnBox extends SubsystemBase {
   private TalonSRX climberDroit;
   private TalonSRX climberGauche;
   private DoubleSolenoid piston1;
-  private DoubleSolenoid piston2;
+  private boolean ratchetActivated = false;
+  private boolean climberOut = false;
 
   /** Creates a new ClimberInAnBox. */
   public ClimberInAnBox() {
-    OperatorConstants deviceNumber = new OperatorConstants();
-    PCM pcm = new PCM();
-    climberDroit = new TalonSRX(deviceNumber.DeviceNumberClimberDroit);
-    climberGauche = new TalonSRX(deviceNumber.DeviceNumberClimberGauche);
+    climberDroit = new TalonSRX(CAN.DeviceNumberClimberDroit);
+    climberGauche = new TalonSRX(CAN.DeviceNumberClimberGauche);
 
-    climberDroit.setInverted(false);
+    climberDroit.setInverted(true);
     climberGauche.setInverted(false);
+
+    climberDroit.configPeakCurrentLimit(40, 5);
+    climberDroit.configPeakCurrentDuration(200, 5);
+    climberDroit.configContinuousCurrentLimit(30, 5);
+    climberDroit.enableCurrentLimit(true);
+
+    climberGauche.configPeakCurrentLimit(40, 5);
+    climberGauche.configPeakCurrentDuration(200, 5);
+    climberGauche.configContinuousCurrentLimit(30, 5);
+    climberGauche.enableCurrentLimit(true);
 
     piston1 =
         new DoubleSolenoid(
-            1,
-            PneumaticsModuleType.CTREPCM,
-            pcm.PISTON_CLIMBER_FORWARD_1,
-            pcm.PISTON_CLIMBER_REVERSE_1);
-    piston2 =
-        new DoubleSolenoid(
-            1,
-            PneumaticsModuleType.CTREPCM,
-            pcm.PISTON_CLIMBER_FORWARD_2,
-            pcm.PISTON_CLIMBER_REVERSE_2);
-    piston1.set(DoubleSolenoid.Value.kReverse);
-    piston2.set(DoubleSolenoid.Value.kReverse);
+            49
+            ,
+            PneumaticsModuleType.REVPH,
+            PCM.PISTON_CLIMBER_FORWARD_1,
+            PCM.PISTON_CLIMBER_REVERSE_1);
+
+    piston1.set(DoubleSolenoid.Value.kForward);
   }
 
   public void climb(double droit, double gauche) {
     climberDroit.set(ControlMode.PercentOutput, droit);
     climberGauche.set(ControlMode.PercentOutput, gauche);
   }
+  public void setClimberOut(boolean isOut){
+    climberOut = isOut;
+  }
+  public boolean getclimberOut(){
+    return climberOut;
+  }
 
   public void activateRatchet() {
-
-    piston1.set(DoubleSolenoid.Value.kForward);
-    piston2.set(DoubleSolenoid.Value.kForward);
+    ratchetActivated = true;
+    piston1.set(DoubleSolenoid.Value.kReverse);
+  }
+  public boolean isRatchetActivated(){
+    return ratchetActivated;
   }
 
   @Override

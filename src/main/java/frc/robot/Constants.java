@@ -13,46 +13,42 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
-    public final int DeviceNumberAvantDroit = 3;
-    public final int DeviceNumberAvantGauche = 33;
-    public final int DeviceNumberArriereDroit = 14;
-    public final int DeviceNumberArriereGauche = 7;
+  public static class CAN {
+    public static final int DeviceNumberAvantDroit = 3;
+    public static final int DeviceNumberAvantGauche = 8;
+    public static final int DeviceNumberArriereDroit = 7;
+    public static final int DeviceNumberArriereGauche = 6;
 
-    public final int DeviceNumberClimberDroit = 17;
-    public final int DeviceNumberClimberGauche = 15;
+    public static final int DeviceNumberClimberDroit = 4;
+    public static final int DeviceNumberClimberGauche = 10;
 
-    public final int DeviceNumberShooterGauche = 102;
-    public final int DeviceNumberShooterDroit = 103;
+    public static final int DeviceNumberShooterHaut = 41;
+    public static final int DeviceNumberShooterBas = 42;
 
-    public final int DeviceNumberPusherGauche = 104;
-    public final int DeviceNumberPusherDroit = 105;
+    public static final int DeviceNumberPusher = 43;
 
-    public final int DeviceNumberShooterAngle = 106;
+    public static final int DeviceNumberShooterAngle = 40;
 
-    public final int DeviceNumberIntakeDroit = 70;
-    public final int DeviceNumberIntakeGauche = 90;
-    public final int DeviceNumberIntakePivot = 109;
+    public static final int DeviceNumberIntakeDroit = 44;
+    public static final int DeviceNumberIntakeGauche = 12;
+    public static final int DeviceNumberIntakePivot = 5;
 
-    public final int DeviceNumberAmpShooter = 110;
+    public static final int DeviceNumberAmpShooter = 13;
   }
 
   public static class PCM {
-    public final int PISTON_FORWARD = 0;
-    public final int PISTON_REVERSE = 1;
+    public static final int PISTON_FORWARD = 0;
+    public static final int PISTON_REVERSE = 1;
 
-    public final int PISTON_CLIMBER_FORWARD_1 = 2;
-    public final int PISTON_CLIMBER_REVERSE_1 = 3;
+    public static final int PISTON_CLIMBER_FORWARD_1 = 6;
+    public static final int PISTON_CLIMBER_REVERSE_1 = 7;
 
-    public final int PISTON_CLIMBER_FORWARD_2 = 4;
-    public final int PISTON_CLIMBER_REVERSE_2 = 5;
-
-    public final int PISTON_AMP_SHOOTER_FORWARD = 6;
-    public final int PISTON_AMP_SHOOTER_REVERSE = 7;
+    public static final int PISTON_AMP_SHOOTER_FORWARD = 2;
+    public static final int PISTON_AMP_SHOOTER_REVERSE = 3;
   }
 
   public static class DIGITAL {
-    public final int INTAKE_LIMIT_SWITCH_OUT = 6;
-    public final int INTAKE_LIMIT_SWITCH_IN = 7;
+    public static final int INTAKE_LIMIT_SWITCH_OUT = 1;
+    public static final int INTAKE_LIMIT_SWITCH_IN = 9;
   }
 }

@@ -5,17 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Drivetrain;
 
 public class AvancerXmCommand extends Command {
   /** Creates a new AvencerXmCommand. */
-  Drivetrain drivetrain;
-  private PIDController pid = new PIDController(0.0095,0,0); 
+
+  private Drivetrain drivetrain;
+
+  private PIDController pid1 = new PIDController(0.0075, 0, 0);
+  private PIDController pid2 = new PIDController(0.0075, 0, 0);
+
   private double metre;
   private double target = 0.0;
- 
+
   public AvancerXmCommand(Drivetrain drivetrain, double metre) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.metre = metre;
@@ -30,17 +33,17 @@ public class AvancerXmCommand extends Command {
     drivetrain.resetEncoder();
     drivetrain.ActivateDrivetank();
     drivetrain.setDriveMode(true);
-    target = (metre * 17.25);//drivetrain.getEncoder()[1]+
-    SmartDashboard.putNumber("target", target);
-   
-    
+
+    target = (metre * 17.25); // drivetrain.getEncoder()[1]+
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.driveAllMotor(pid.calculate(drivetrain.getEncoder()[1], target));
-
+    drivetrain.driveTank(
+        pid1.calculate(drivetrain.getAverageEncoder()[0], target),
+        pid2.calculate(drivetrain.getAverageEncoder()[1], target));
   }
 
   // Called once the command ends or is interrupted.
@@ -52,13 +55,10 @@ public class AvancerXmCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(3.0 > Math.abs(pid.getPositionError())){
-      System.out.println("dsljkfhjkasdfhsdalfhsd,fjdsahfsdahflsdkfhsdklfhdsfklsdhflksdfhsdklcsdklcnsdklcvsdvlkdsnh");
-      
+    if (3.0 > Math.abs(pid1.getPositionError()) && 3.0 > Math.abs(pid2.getPositionError())) {
       return true;
-    }
-    else{
-    return false;
+    } else {
+      return false;
     }
   }
 }

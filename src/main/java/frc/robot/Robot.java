@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,7 +38,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.\
     m_Limelight = new Limelight();
     m_robotContainer = new RobotContainer();
-    compressor = new Compressor(1, PneumaticsModuleType.CTREPCM);
+    compressor = new Compressor(49, PneumaticsModuleType.REVPH);
   }
 
   /**
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    SmartDashboard.putNumber("pression", compressor.getPressure());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -66,7 +68,12 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_Limelight.setPipeline(0);
+    if (DriverStation.getAlliance().get() == Alliance.Red) {
+      m_Limelight.setPipeline(1);
+    }
+    if (DriverStation.getAlliance().get() == Alliance.Blue) {
+      m_Limelight.setPipeline(2);
+    }
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -91,7 +98,7 @@ public class Robot extends TimedRobot {
     if (DriverStation.getAlliance().get() == Alliance.Blue) {
       m_Limelight.setPipeline(2);
     }
-    compressor.enableDigital();
+    compressor.enableAnalog(60, 120);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -99,7 +106,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    compressor.enableAnalog(60, 120);
+  }
 
   @Override
   public void testInit() {
@@ -110,7 +119,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    compressor.enableDigital();
+    compressor.enableAnalog(100, 120);
   }
 
   /** This function is called once when the robot is first started up. */

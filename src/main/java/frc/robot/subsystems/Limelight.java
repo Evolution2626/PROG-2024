@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.util.Range;
 import frc.util.ControlMode.*;
 
 public class Limelight extends SubsystemBase {
@@ -189,25 +190,32 @@ public class Limelight extends SubsystemBase {
     double targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
     // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 35.0; 
+    double limelightMountAngleDegrees = 59.0;
 
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 8; 
+    double limelightLensHeightInches = 14;
 
     // distance from the target to the floor
-    double goalHeightInches = 55; 
+    double goalHeightInches = 54;
 
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+    double shooterHeightInches = 19;
+    double targetHeightInches = 78;
 
-    //calculate distance
-    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-    SmartDashboard.putNumber("shooterAngle", Math.atan(
-        78
-            / distanceFromLimelightToGoalInches)/Math.PI * 180.0-30);
-    return Math.atan(
-       78
-            / distanceFromLimelightToGoalInches)/Math.PI * 180.0-30; // TODO check if relative to the field or camera and ajust target height
+    // calculate distance
+    double distanceFromLimelightToGoalInches =
+        (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+
+    // calculate shooter angle
+    double shooterAngle = ((Math.atan((targetHeightInches-shooterHeightInches) / distanceFromLimelightToGoalInches)) / (Math.PI / 180));
+
+    SmartDashboard.putNumber("calculated Angle", shooterAngle);
+    if (getIsTargetFound()) {
+      return Range.coerce(52.78, 78.85, shooterAngle);
+    }
+    return 52.78;
+
   }
 
   /**

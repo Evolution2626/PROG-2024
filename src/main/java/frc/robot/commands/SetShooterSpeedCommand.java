@@ -11,31 +11,38 @@ import frc.robot.subsystems.Shooter;
 
 public class SetShooterSpeedCommand extends Command {
   private Shooter shooter;
-  private double speed = 4000;
-  private double kV;
-  private PIDController pidControllerDroitRPM = new PIDController(0.1, 0.1, 0);
-  private PIDController pidControllerGaucheRPM = new PIDController(0.1, 0.1, 0);
+  private double speed = 5000;
+  private double kVBas;
+  private double kVHaut;
+  private PIDController pidControllerBasRPM = new PIDController(0, 0, 0);
+  private PIDController pidControllerHautRPM = new PIDController(0, 0, 0);
 
   /** Creates a new SetShooterSpeedCommand. */
   public SetShooterSpeedCommand(Shooter shooter) {
     this.shooter = shooter;
-    kV = 0.1;
+    kVBas = 0.0002;
+    kVHaut = 0.0002;
+    SmartDashboard.putBoolean("Speed Ready", false);
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    // shooter.shooterPower(1, 1);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    shooter.pusherPower(1);
     shooter.shooterPower(
-        (pidControllerDroitRPM.calculate(shooter.getVelocityDroit(), speed) + (kV * speed)),
-        (pidControllerGaucheRPM.calculate(shooter.getVelocityGauche(), speed) + (kV * speed)));
+        (pidControllerBasRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
+        (pidControllerHautRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
+  
 
-    if (shooter.getVelocityDroit() > speed - 100 && shooter.getVelocityGauche() > speed - 100) {
+    if (shooter.getVelocityHaut() > speed - 100 && shooter.getVelocityBas() > speed - 100) {
       SmartDashboard.putBoolean("Speed Ready", true);
 
     } else {
@@ -46,12 +53,16 @@ public class SetShooterSpeedCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   
+    //shooter.pusherPower(0);
+    //shooter.shooterPower(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(shooter.getVelocityBas() > speed-100 && shooter.getVelocityHaut() > speed-100){
+      return true;
+    }
     return false;
   }
 }
