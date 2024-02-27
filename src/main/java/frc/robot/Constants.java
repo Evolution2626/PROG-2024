@@ -19,8 +19,8 @@ public final class Constants {
     public static final int DeviceNumberArriereDroit = 7;
     public static final int DeviceNumberArriereGauche = 6;
 
-    public static final int DeviceNumberClimberDroit = 99;
-    public static final int DeviceNumberClimberGauche = 98;
+    public static final int DeviceNumberClimberDroit = 4;
+    public static final int DeviceNumberClimberGauche = 10;
 
     public static final int DeviceNumberShooterHaut = 41;
     public static final int DeviceNumberShooterBas = 42;
@@ -40,11 +40,11 @@ public final class Constants {
     public static final int PISTON_FORWARD = 0;
     public static final int PISTON_REVERSE = 1;
 
-    public static final int PISTON_CLIMBER_FORWARD_1 = 2;
-    public static final int PISTON_CLIMBER_REVERSE_1 = 3;
+    public static final int PISTON_CLIMBER_FORWARD_1 = 6;
+    public static final int PISTON_CLIMBER_REVERSE_1 = 7;
 
-    public static final int PISTON_AMP_SHOOTER_FORWARD = 6;
-    public static final int PISTON_AMP_SHOOTER_REVERSE = 7;
+    public static final int PISTON_AMP_SHOOTER_FORWARD = 2;
+    public static final int PISTON_AMP_SHOOTER_REVERSE = 3;
   }
 
   public static class DIGITAL {

@@ -73,9 +73,14 @@ public class Intake extends SubsystemBase {
     if (getIntakeLimitIn()) {
       power = Range.coerce(0, 1, power);
 
+      SmartDashboard.putNumber("Power In", power);
+
       intakePivot.set(power);
+      intakePivot.getEncoder().setPosition(0);
     } else if (getIntakeLimitOut()) {
       power = Range.coerce(-1, 0, power);
+
+      SmartDashboard.putNumber("Power Out", power);
 
       intakePivot.set(power);
     }
@@ -86,9 +91,10 @@ public class Intake extends SubsystemBase {
   }
 
   public double intakeCurveFunction(double c, double b, double a){
-    return (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 3)) - b;
-  }
+    SmartDashboard.putNumber("Curve Function", (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 2)) - b);
+    return (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 2)) - b;
 
+  }
   public void setState(boolean isIn) {
     this.wantedInside = isIn;
   }
@@ -110,7 +116,6 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putBoolean("limit in", getIntakeLimitIn());
     SmartDashboard.putBoolean("limit out", getIntakeLimitOut());
     SmartDashboard.putNumber("IntakeEncoder", intakePivot.getEncoder().getPosition());
-
     // This method will be called once per scheduler run
   }
 }

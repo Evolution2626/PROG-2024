@@ -24,7 +24,7 @@ public class ClimberInAnBox extends SubsystemBase {
     climberDroit = new TalonSRX(CAN.DeviceNumberClimberDroit);
     climberGauche = new TalonSRX(CAN.DeviceNumberClimberGauche);
 
-    climberDroit.setInverted(false);
+    climberDroit.setInverted(true);
     climberGauche.setInverted(false);
 
     climberDroit.configPeakCurrentLimit(40, 5);
@@ -39,7 +39,8 @@ public class ClimberInAnBox extends SubsystemBase {
 
     piston1 =
         new DoubleSolenoid(
-            1,
+            49
+            ,
             PneumaticsModuleType.REVPH,
             PCM.PISTON_CLIMBER_FORWARD_1,
             PCM.PISTON_CLIMBER_REVERSE_1);
@@ -60,7 +61,7 @@ public class ClimberInAnBox extends SubsystemBase {
 
   public void activateRatchet() {
     ratchetActivated = true;
-    piston1.set(DoubleSolenoid.Value.kForward);
+    piston1.set(DoubleSolenoid.Value.kReverse);
   }
   public boolean isRatchetActivated(){
     return ratchetActivated;

@@ -29,7 +29,6 @@ public class SetShooterAngleCommand extends PIDCommand {
 
         // This uses the output
         output -> {
-          System.out.println(-output);
           angleShooter.setPower(-output);
          SmartDashboard.putNumber("target encoder", MathHelper.map(limelight.calculateShooterAngle(), 52.78, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()));
           if (output > -0.000001 && output < 0.000001) {

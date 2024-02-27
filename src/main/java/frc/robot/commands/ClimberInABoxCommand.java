@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.ClimberInAnBox;
+import frc.util.Range;
 
 public class ClimberInABoxCommand extends Command {
   private ClimberInAnBox climberInAnBox;
@@ -28,16 +29,16 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xboxController.getLeftY() != 0 || xboxController.getRightY() != 0){
+    if(Range.threshold(0.1,xboxController.getLeftY()) != 0 || Range.threshold(0.1,xboxController.getRightY()) != 0){
       if(xboxController.x().getAsBoolean() && climberInAnBox.getclimberOut()){
         climberInAnBox.activateRatchet();
         climberInAnBox.climb(
-        Math.abs(xboxController.getLeftY()), Math.abs(xboxController.getRightY()));
+        Math.abs(Range.threshold(0.1, xboxController.getLeftY())), Range.threshold(0.1, Math.abs(xboxController.getRightY())));
       }
       else if(!climberInAnBox.isRatchetActivated()){
         climberInAnBox.setClimberOut(true);
         climberInAnBox.climb(
-       -Math.abs(xboxController.getLeftY()), Math.abs(xboxController.getRightY()));// TODO check orientation
+       -Math.abs(Range.threshold(0.1, xboxController.getLeftY())), -Math.abs(Range.threshold(0.1, xboxController.getRightY())));// TODO check orientation
       }
     }
     else{

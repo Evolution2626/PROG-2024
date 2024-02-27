@@ -31,12 +31,15 @@ public class MoveIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double c = 5;
+    double a = 13.7;
+
     if (intake.wantedInside()) {
       //intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
-      intake.moveIntake(Range.coerce(0, 1, intake.intakeCurveFunction(3, 1, -20)));
+      intake.moveIntake(Range.coerce(0, 1, intake.intakeCurveFunction(c, -1, a)));
     } else {
       //intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()), 200)));
-      intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(3, -1, -20)));
+      intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(c, 1, 0)));
     }
 
     intake.spinWheel(xboxController.getLeftTriggerAxis() - xboxController.getRightTriggerAxis());
