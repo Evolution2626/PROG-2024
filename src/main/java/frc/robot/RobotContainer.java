@@ -42,7 +42,7 @@ public class RobotContainer {
   private Intake intake;
   private AngleShooter angleShooter;
   private Limelight limelight;
-  private AmpShooter ampShooter;
+ // private AmpShooter ampShooter;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
@@ -54,7 +54,7 @@ public class RobotContainer {
     intake = new Intake();
     shooter = new Shooter();
     limelight = new Limelight();
-    angleShooter = new AngleShooter();
+  //  angleShooter = new AngleShooter();
     ampShooter = new AmpShooter();
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
@@ -82,7 +82,7 @@ public class RobotContainer {
         .onFalse(new StopShooterCommand(shooter));
 
     xboxController1.b().onTrue(new SetIntakeStateCommand(intake));
-    xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
+    /*xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
     xboxController1
         .povUp()
         .whileTrue(new SetAmpShooterSpeedCommand(true, false, ampShooter))
@@ -91,6 +91,7 @@ public class RobotContainer {
         .povDown()
         .whileTrue(new SetAmpShooterSpeedCommand(false, true, ampShooter))
         .onFalse(new SetAmpShooterSpeedCommand(false, false, ampShooter));
+ */
   }
 
   /**

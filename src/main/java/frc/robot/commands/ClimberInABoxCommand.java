@@ -30,7 +30,7 @@ public class ClimberInABoxCommand extends Command {
   @Override
   public void execute() {
     if(Range.threshold(0.1,xboxController.getLeftY()) != 0 || Range.threshold(0.1,xboxController.getRightY()) != 0){
-      if(xboxController.x().getAsBoolean() && climberInAnBox.getclimberOut()){
+      if(xboxController.leftBumper().getAsBoolean() && xboxController.rightBumper().getAsBoolean() && climberInAnBox.getclimberOut()){
         climberInAnBox.activateRatchet();
         climberInAnBox.climb(
         Math.abs(Range.threshold(0.1, xboxController.getLeftY())), Range.threshold(0.1, Math.abs(xboxController.getRightY())));
