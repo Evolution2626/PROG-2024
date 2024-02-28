@@ -16,6 +16,7 @@ import frc.robot.commands.SetAmpShooterSpeedCommand;
 import frc.robot.commands.SetIntakeStateCommand;
 import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
+import frc.robot.commands.SetShooterAngleCommandOld;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.StopShooterCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
@@ -59,7 +60,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
     intake.setDefaultCommand(new MoveIntakeCommand(intake, xboxController1));
-    limelight.setDefaultCommand(new SetShooterAngleCommand(angleShooter, limelight));
+    limelight.setDefaultCommand(new SetShooterAngleCommand(limelight, angleShooter));
     configureBindings();
   }
 

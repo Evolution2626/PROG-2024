@@ -35,7 +35,7 @@ public class Shooter extends SubsystemBase {
     shooterHautEncoder = shooterHaut.getEncoder();
     shooterBas.setIdleMode(IdleMode.kCoast);
     shooterHaut.setIdleMode(IdleMode.kCoast);
-    shooterBas.setSmartCurrentLimit(50, 50);
+    shooterBas.setSmartCurrentLimit( 30);
     shooterHaut.setSmartCurrentLimit(30);
     shooterHaut.setIdleMode(IdleMode.kCoast);
     shooterBas.setIdleMode(IdleMode.kCoast);

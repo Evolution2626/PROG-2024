@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -36,6 +37,9 @@ public class ClimberInAnBox extends SubsystemBase {
     climberGauche.configPeakCurrentDuration(200, 5);
     climberGauche.configContinuousCurrentLimit(30, 5);
     climberGauche.enableCurrentLimit(true);
+
+    climberDroit.setNeutralMode(NeutralMode.Brake);
+    climberGauche.setNeutralMode(NeutralMode.Brake);
 
     piston1 =
         new DoubleSolenoid(

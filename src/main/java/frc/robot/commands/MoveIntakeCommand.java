@@ -39,7 +39,7 @@ public class MoveIntakeCommand extends Command {
       intake.moveIntake(Range.coerce(0, 1, intake.intakeCurveFunction(c, -1, a)));
     } else {
       //intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()), 200)));
-      intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(c, 1, 0)));
+      intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(4, 1, 0)));
     }
 
     intake.spinWheel(xboxController.getLeftTriggerAxis() - xboxController.getRightTriggerAxis());

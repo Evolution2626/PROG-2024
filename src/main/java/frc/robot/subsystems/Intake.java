@@ -25,7 +25,7 @@ public class Intake extends SubsystemBase {
   DigitalInput intakeLimitIn = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_IN);
   DigitalInput intakeLimitOut = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_OUT);
 
-  private boolean wantedInside = false;
+  private boolean wantedInside = false; 
 
   public Intake() {
     intakeDroit = new CANSparkMax(CAN.DeviceNumberIntakeDroit, MotorType.kBrushless);
@@ -72,15 +72,15 @@ public class Intake extends SubsystemBase {
   public void moveIntake(double power) {
     if (getIntakeLimitIn()) {
       power = Range.coerce(0, 1, power);
-
-      SmartDashboard.putNumber("Power In", power);
-
+      
       intakePivot.set(power);
       intakePivot.getEncoder().setPosition(0);
     } else if (getIntakeLimitOut()) {
       power = Range.coerce(-1, 0, power);
 
-      SmartDashboard.putNumber("Power Out", power);
+      intakePivot.set(power);
+    }else if(!getIntakeLimitIn() && !getIntakeLimitOut()){
+      power = Range.coerce(-1, 1, power);
 
       intakePivot.set(power);
     }
@@ -91,7 +91,6 @@ public class Intake extends SubsystemBase {
   }
 
   public double intakeCurveFunction(double c, double b, double a){
-    SmartDashboard.putNumber("Curve Function", (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 2)) - b);
     return (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 2)) - b;
 
   }

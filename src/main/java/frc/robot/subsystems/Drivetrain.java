@@ -39,10 +39,10 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit = new CANSparkMax(CAN.DeviceNumberArriereDroit, MotorType.kBrushless);
     arrieregauche = new CANSparkMax(CAN.DeviceNumberArriereGauche, MotorType.kBrushless);
 
-    avantgauche.setSmartCurrentLimit(30);
-    avantdroit.setSmartCurrentLimit(30);
-    arrieredroit.setSmartCurrentLimit(30);
-    arrieregauche.setSmartCurrentLimit(30);
+    avantgauche.setSmartCurrentLimit(40, 30);
+    avantdroit.setSmartCurrentLimit(40, 30);
+    arrieredroit.setSmartCurrentLimit(40, 30);
+    arrieregauche.setSmartCurrentLimit(40, 30);
 
     avantgauche.setOpenLoopRampRate(0.05);
     avantdroit.setOpenLoopRampRate(0.05);

@@ -6,41 +6,57 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 import frc.util.MathHelper;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SetShooterAngleCommand extends PIDCommand {
+public class SetShooterAngleCommand extends Command {
+  private Limelight limelight;
+  private AngleShooter angleShooter;
+
+  private PIDController anglePID = new PIDController(1,0.5,0.5);
+
+  private double output;
+
   /** Creates a new SetShooterAngleCommand. */
-  public SetShooterAngleCommand(AngleShooter angleShooter, Limelight limelight) {
-    super(
-        // The controller that the command will use
-        new PIDController(1, 0.5, 0.5), // TODO change value
-        // This should return the measurement
-        () -> angleShooter.getEncoderValue(),
-        // This should return the setpoint (can also be a constant)
-
-        () -> MathHelper.map(limelight.calculateShooterAngle(), 60, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()),
-        // sur l'angle calculer
-
-        // This uses the output
-        output -> {
-          angleShooter.setPower(-output);
-         SmartDashboard.putNumber("target encoder", MathHelper.map(limelight.calculateShooterAngle(), 52.78, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()));
-          if (output > -0.000001 && output < 0.000001) {
-            SmartDashboard.putBoolean("Angle Ready", true);
-          } else {
-            SmartDashboard.putBoolean("Angle Ready", false);
-          }
-        });
-    SmartDashboard.putBoolean("Angle Ready", false);
-
-    addRequirements(angleShooter, limelight);
+  public SetShooterAngleCommand(Limelight limelight, AngleShooter angleShooter) {
+    this.limelight = limelight;
+    this.angleShooter = angleShooter;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(limelight, angleShooter);
   }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if(limelight.getIsTargetFound()){
+      output = anglePID.calculate(angleShooter.getEncoderValue(), MathHelper.map(limelight.calculateShooterAngle(), 60, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()));
+    }else{
+      output = anglePID.calculate(angleShooter.getEncoderValue(), angleShooter.getEncoderMin());
+    }
+          
+    angleShooter.setPower(-output);
+
+    SmartDashboard.putNumber("target encoder", MathHelper.map(limelight.calculateShooterAngle(), 52.78, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()));
+    if (output > -0.000001 && output < 0.000001) {
+      SmartDashboard.putBoolean("Angle Ready", true);
+    } else {
+      SmartDashboard.putBoolean("Angle Ready", false);
+    }
+    SmartDashboard.putBoolean("Angle Ready", false);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
