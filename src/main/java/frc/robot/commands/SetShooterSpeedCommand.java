@@ -37,10 +37,23 @@ public class SetShooterSpeedCommand extends Command {
   @Override
   public void execute() {
     shooter.pusherPower(1);
-    shooter.shooterPower(
+    if(shooter.wantedShooting()){
+      shooter.pusherPower(1);
+      shooter.shooterPower(
         (pidControllerBasRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
         (pidControllerHautRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
-  
+    }
+    if(shooter.wantedAmp() && !shooter.wantedShooting()){
+      shooter.pusherPower(1);
+      shooter.shooterPower(0.2, 0.2);
+    }
+    else{
+      shooter.pusherPower(0);
+      shooter.shooterPower(0.05, 0.05);
+
+      
+
+    }
 
     if (shooter.getVelocityHaut() > speed - 100 && shooter.getVelocityBas() > speed - 100) {
       SmartDashboard.putBoolean("Speed Ready", true);
