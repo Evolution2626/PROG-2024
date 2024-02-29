@@ -11,11 +11,11 @@ import frc.util.Range;
 import java.time.LocalTime;
 
 public class WaitXSecondCommand extends Command {
-  private double seconde;
+  private long seconde;
   private LocalTime startTime;
 
   /** Creates a new ClimberInABoxCommand. */
-  public WaitXSecondCommand(double seconde) {
+  public WaitXSecondCommand(long seconde) {
     this.seconde = seconde;
     // Use addRequirements() here to declare subsystem dependencies.
     
