@@ -40,7 +40,7 @@ public class WaitXSecondCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(startTime.addSecond(seconde) >= LocalTime.now()){
+    if(startTime.plusSeconds(seconde) >= LocalTime.now()){
       return true;
     }
     return false;
