@@ -7,19 +7,22 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AmpCommand;
 import frc.robot.commands.AutoShootToSideCommand;
 import frc.robot.commands.ClimberInABoxCommand;
 import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
 import frc.robot.commands.SetAmpShooterArmPositionCommand;
 import frc.robot.commands.SetAmpShooterSpeedCommand;
+import frc.robot.commands.SetAmpStateCommand;
 import frc.robot.commands.SetIntakeStateCommand;
 import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
-import frc.robot.commands.SetShooterAngleCommandOld;
 import frc.robot.commands.SetShooterSpeedCommand;
+import frc.robot.commands.SetShooterStateCommand;
 import frc.robot.commands.StopShooterCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
+import frc.robot.subsystems.Amp;
 import frc.robot.subsystems.AmpShooter;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.ClimberInAnBox;
@@ -43,6 +46,7 @@ public class RobotContainer {
   private Intake intake;
   private AngleShooter angleShooter;
   private Limelight limelight;
+  private Amp amp;
  // private AmpShooter ampShooter;
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
@@ -56,11 +60,13 @@ public class RobotContainer {
     shooter = new Shooter();
     limelight = new Limelight();
     angleShooter = new AngleShooter();
+    amp = new Amp();
     //ampShooter = new AmpShooter();
     drivetrain.setDefaultCommand(new OctocanumDrivetrainCommand(xboxController, drivetrain));
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
     intake.setDefaultCommand(new MoveIntakeCommand(intake, xboxController1));
     limelight.setDefaultCommand(new SetShooterAngleCommand(limelight, angleShooter));
+    shooter.setDefaultCommand(new SetShooterSpeedCommand(shooter));
     configureBindings();
   }
 
@@ -69,6 +75,7 @@ public class RobotContainer {
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
    * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * 
    * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
@@ -77,12 +84,15 @@ public class RobotContainer {
 
     xboxController.a().onTrue(new SwitchDrivetrainCommand(drivetrain));
     xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
-    xboxController1
+    /*xboxController1
         .a()
         .whileTrue(new SetShooterSpeedCommand(shooter))
-        .onFalse(new StopShooterCommand(shooter));
+        .onFalse(new StopShooterCommand(shooter));*/
 
     xboxController1.b().onTrue(new SetIntakeStateCommand(intake));
+    xboxController1.a().onTrue(new SetShooterStateCommand(shooter));
+    xboxController1.x().onTrue(new SetAmpStateCommand(shooter));
+    xboxController1.y().onTrue(new AmpCommand(amp));
     /*xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
     xboxController1
         .povUp()
