@@ -26,9 +26,14 @@ public class Drivetrain extends SubsystemBase {
   private CANSparkMax arrieregauche;
   private CANSparkMax arrieredroit;
 
-  public boolean isTankDrive = true;
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
+   enum possibleDriveState {
+    MECANUM,
+    DRIVETANK
+  }
+  private possibleDriveState driveState = possibleDriveState.DRIVETANK;
+
 
   public Drivetrain() {
     piston =
@@ -59,8 +64,6 @@ public class Drivetrain extends SubsystemBase {
     arrieredroit.setIdleMode(IdleMode.kBrake);
     arrieregauche.setIdleMode(IdleMode.kBrake);
 
-    piston.set(DoubleSolenoid.Value.kReverse);
-
     m_robotDrive = new MecanumDrive(avantgauche, arrieregauche, avantdroit, arrieredroit);
     m_robotDrive.setSafetyEnabled(false);
     resetEncoder();
@@ -86,12 +89,9 @@ public class Drivetrain extends SubsystemBase {
     gyro.reset();
   }
 
-  public void ActivateDrivetank() {
-    piston.set(DoubleSolenoid.Value.kReverse);
-  }
 
-  public void ActivateMecanum() {
-    piston.set(DoubleSolenoid.Value.kForward);
+  public void switchMode(possibleDriveState driveState){
+    this.driveState = driveState;
   }
 
   public double[] getEncoder() {
@@ -105,9 +105,7 @@ public class Drivetrain extends SubsystemBase {
     return encoderValue;
   }
 
-  public void setDriveMode(boolean isTankDrive) {
-    this.isTankDrive = isTankDrive;
-  }
+  
 
   public double[] getAverageEncoder() {
     double[] value = {
@@ -118,7 +116,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public boolean getCurrentDrivetrain() {
-    return isTankDrive;
+    return driveState;
   }
 
   public void drive(
@@ -157,18 +155,18 @@ public class Drivetrain extends SubsystemBase {
     arrieregauche.getEncoder().setPosition(0);
   }
 
-  public void driveOneMotor(int id, double speed) {
+  public void driveOneMotor(double name, double speed) {
     switch (id) {
-      case 3:
+      case "br":
         arrieredroit.set(speed);
         break;
-      case 4:
+      case "bl":
         arrieregauche.set(speed);
         break;
-      case 0:
+      case "fr":
         avantdroit.set(speed);
         break;
-      case 1:
+      case "fl":
         avantgauche.set(speed);
         break;
     }
@@ -193,6 +191,12 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    if(driveState == possibleDriveState.DRIVETANK){
+      piston.set(DoubleSolenoid.Value.kReverse);
+    }
+    else if(driveState == possibleDriveState.MECANUM){
+      piston.set(DoubleSolenoid.Value.kForward);
+    }
     // This method will be called once per scheduler
     SmartDashboard.putNumber("Gyro", gyro.getAngle(IMUAxis.kZ));
     if (isTankDrive == true) {
