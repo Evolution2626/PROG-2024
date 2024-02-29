@@ -155,7 +155,7 @@ public class Drivetrain extends SubsystemBase {
     arrieregauche.getEncoder().setPosition(0);
   }
 
-  public void driveOneMotor(string id, double speed) {
+  public void driveOneMotor(String id, double speed) {
     switch (id) {
       case "br":
         arrieredroit.set(speed);
