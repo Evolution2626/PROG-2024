@@ -155,7 +155,7 @@ public class Drivetrain extends SubsystemBase {
     arrieregauche.getEncoder().setPosition(0);
   }
 
-  public void driveOneMotor(double name, double speed) {
+  public void driveOneMotor(double id, double speed) {
     switch (id) {
       case "br":
         arrieredroit.set(speed);
@@ -199,7 +199,7 @@ public class Drivetrain extends SubsystemBase {
     }
     // This method will be called once per scheduler
     SmartDashboard.putNumber("Gyro", gyro.getAngle(IMUAxis.kZ));
-    if (isTankDrive == true) {
+    if (driveState == possibleDriveState.DRIVETANK) {
       SmartDashboard.putString("Mode", "drivetank");
     } else {
       SmartDashboard.putString("Mode", "mecanum");
