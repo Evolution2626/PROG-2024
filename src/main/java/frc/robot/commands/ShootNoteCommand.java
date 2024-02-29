@@ -40,7 +40,7 @@ public class ShootNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intake.getWheelEncoder() >= 20){
+    if(Math.abs(intake.getWheelEncoder()) >= 20){//validate if positive or negative
       return true;
     }
     return false;
