@@ -10,12 +10,12 @@ import frc.robot.subsystems.ClimberInAnBox;
 import frc.util.Range;
 import java.time.LocalTime;
 
-public class waitXSecondCommand extends Command {
+public class WaitXSecondCommand extends Command {
   private double seconde;
   private LocalTime startTime;
 
   /** Creates a new ClimberInABoxCommand. */
-  public ClimberInABoxCommand(double seconde) {
+  public WaitXSecondCommand(double seconde) {
     this.seconde = seconde;
     // Use addRequirements() here to declare subsystem dependencies.
     
