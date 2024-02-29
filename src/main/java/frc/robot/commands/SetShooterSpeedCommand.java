@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.shooterPossibleState;
 
 public class SetShooterSpeedCommand extends Command {
   private Shooter shooter;
@@ -36,22 +37,20 @@ public class SetShooterSpeedCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.pusherPower(1);
-    if(shooter.wantedShooting()){
+    //shooter.pusherPower(1);
+    if(shooter.getShooterState() == shooterPossibleState.SPEAKER){
       shooter.pusherPower(1);
       shooter.shooterPower(
         (pidControllerBasRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
         (pidControllerHautRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
     }
-    if(shooter.wantedAmp() && !shooter.wantedShooting()){
+    else if(shooter.getShooterState() == shooterPossibleState.AMP){
       shooter.pusherPower(1);
-      shooter.shooterPower(0.2, 0.2);
+      shooter.shooterPower(0.25, 0.25);
     }
-    else{
+    else if(shooter.getShooterState() == shooterPossibleState.OFF){
       shooter.pusherPower(0);
       shooter.shooterPower(0.05, 0.05);
-
-      
 
     }
 

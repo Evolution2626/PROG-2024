@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Amp;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.shooterPossibleState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -23,10 +24,10 @@ public class SetAmpStateCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(shooter.wantedAmp()) {
-      shooter.setShooterState(false, false);
+    if(shooter.getShooterState() == shooterPossibleState.AMP) {
+      shooter.setShooterState(shooterPossibleState.OFF);
     }else{
-      shooter.setShooterState(false, true);
+      shooter.setShooterState(shooterPossibleState.AMP);
     }
   }
 }

@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shooter.shooterPossibleState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -23,10 +24,10 @@ public class SetShooterStateCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(shooter.wantedShooting()) {
-      shooter.setShooterState(false, false);
+    if(shooter.getShooterState() == shooterPossibleState.SPEAKER) {
+      shooter.setShooterState(shooterPossibleState.OFF);
     }else{
-      shooter.setShooterState(true, false);
+      shooter.setShooterState(shooterPossibleState.SPEAKER);
     }
 
 

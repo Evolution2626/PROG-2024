@@ -16,6 +16,7 @@ public class Amp extends SubsystemBase {
   public Amp() {
     piston = new DoubleSolenoid(49, PneumaticsModuleType.REVPH, PCM.PISTON_AMP_SHOOTER_FORWARD,PCM.PISTON_AMP_SHOOTER_REVERSE);
 
+      piston.set(DoubleSolenoid.Value.kReverse);
 
   }
   public boolean getPosition() {

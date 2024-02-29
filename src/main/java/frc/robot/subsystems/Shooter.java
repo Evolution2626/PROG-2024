@@ -24,8 +24,13 @@ public class Shooter extends SubsystemBase {
   private RelativeEncoder shooterBasEncoder;
   private RelativeEncoder shooterHautEncoder;
 
-  private boolean wantedShooting = false;
-  private boolean wantedAmp = false;
+  public enum shooterPossibleState {
+    OFF,
+    SPEAKER,
+    AMP
+  }
+  private shooterPossibleState shooterState = shooterPossibleState.OFF;
+ 
 
   public Shooter() {
     shooterHaut = new CANSparkMax(CAN.DeviceNumberShooterHaut, MotorType.kBrushless);
@@ -63,19 +68,12 @@ public class Shooter extends SubsystemBase {
     pusher.set(power);
   }
 
-  public boolean wantedShooting(){
-    return wantedShooting;
+ public shooterPossibleState getShooterState(){
+  return shooterState;
+ }
 
-  }
-  public boolean wantedAmp(){
-    return wantedAmp;
-  }
-
-  public void setShooterState(boolean isShooting, boolean isAmp){
-    this.wantedAmp = isAmp;
-    this.wantedShooting = isShooting;
-
-
+  public void setShooterState(shooterPossibleState shooterState){
+    this.shooterState = shooterState;
   }
 
   public double getVelocityBas() {
