@@ -28,7 +28,7 @@ public class Drivetrain extends SubsystemBase {
 
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
-   enum possibleDriveState {
+  public enum possibleDriveState {
     MECANUM,
     DRIVETANK
   }
