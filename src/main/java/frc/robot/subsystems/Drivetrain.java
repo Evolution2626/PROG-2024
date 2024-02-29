@@ -115,7 +115,7 @@ public class Drivetrain extends SubsystemBase {
     return value;
   }
 
-  public boolean getCurrentDrivetrain() {
+  public possibleDriveState getCurrentDrivetrain() {
     return driveState;
   }
 
@@ -126,7 +126,7 @@ public class Drivetrain extends SubsystemBase {
       double leftY,
       double leftTrigger,
       double rightTrigger) {
-    if (isTankDrive == true) {
+    if (driveState == possibleDriveState.DRIVETANK) {
       driveTank(Math.pow(rightY, 3), Math.pow(leftY, 3));
 
     } else {

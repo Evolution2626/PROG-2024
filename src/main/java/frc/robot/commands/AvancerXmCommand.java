@@ -31,8 +31,7 @@ public class AvancerXmCommand extends Command {
   @Override
   public void initialize() {
     drivetrain.resetEncoder();
-    drivetrain.ActivateDrivetank();
-    drivetrain.setDriveMode(true);
+    drivetrain.switchMode(possibleDriveState.DRIVETANK);
 
     target = (metre * 17.25); // drivetrain.getEncoder()[1]+
 
