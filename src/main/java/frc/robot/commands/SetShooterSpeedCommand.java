@@ -5,26 +5,27 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Amp;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Shooter.shooterPossibleState;
 
 public class SetShooterSpeedCommand extends Command {
   private Shooter shooter;
+  private Amp amp;
   private double speed = 5000;
   private double kVBas;
   private double kVHaut;
-  private PIDController pidControllerBasRPM = new PIDController(0, 0, 0);
-  private PIDController pidControllerHautRPM = new PIDController(0, 0, 0);
+  private PIDController pidControllerBasRPMSpeaker = new PIDController(0, 0, 0);
+  private PIDController pidControllerHautRPMSpeaker = new PIDController(0, 0, 0);
 
   /** Creates a new SetShooterSpeedCommand. */
-  public SetShooterSpeedCommand(Shooter shooter) {
+  public SetShooterSpeedCommand(Shooter shooter, Amp amp) {
+    this.amp = amp;
     this.shooter = shooter;
     kVBas = 0.00018;
     kVHaut = 0.00018;
-    SmartDashboard.putBoolean("Speed Ready", false);
-    addRequirements(shooter);
+    addRequirements(shooter, amp);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -37,44 +38,36 @@ public class SetShooterSpeedCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //shooter.pusherPower(1);
-    if(shooter.getShooterState() == shooterPossibleState.SPEAKER){
+    // shooter.pusherPower(1);
+    if (shooter.getShooterState() == shooterPossibleState.SPEAKER) {
+      System.out.print("saklfslfsdljfbdklfbs");
+      amp.setPosition(true);
       shooter.pusherPower(1);
       shooter.shooterPower(
-        (pidControllerBasRPM.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
-        (pidControllerHautRPM.calculate(shooter.getVelocityHaut(), speed) + (kVHaut * speed)));
-    }
-    else if(shooter.getShooterState() == shooterPossibleState.AMP){
+          (pidControllerBasRPMSpeaker.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
+          (pidControllerHautRPMSpeaker.calculate(shooter.getVelocityHaut(), speed)
+              + (kVHaut * speed)));
+    } else if (shooter.getShooterState() == shooterPossibleState.AMP) {
+      amp.setPosition(true);
       shooter.pusherPower(1);
       shooter.shooterPower(0.25, 0.25);
-    }
-    else if(shooter.getShooterState() == shooterPossibleState.OFF){
+    } else if (shooter.getShooterState() == shooterPossibleState.OFF) {
+      amp.setPosition(false);
       shooter.pusherPower(0);
       shooter.shooterPower(0.05, 0.05);
-
-    }
-
-    if (shooter.getVelocityHaut() > speed - 100 && shooter.getVelocityBas() > speed - 100) {
-      SmartDashboard.putBoolean("Speed Ready", true);
-
-    } else {
-      SmartDashboard.putBoolean("Speed Ready", false);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //shooter.pusherPower(0);
-    //shooter.shooterPower(0, 0);
+    // shooter.pusherPower(0);
+    // shooter.shooterPower(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(shooter.getVelocityBas() > speed-100 && shooter.getVelocityHaut() > speed-100){
-      return true;
-    }
     return false;
   }
 }

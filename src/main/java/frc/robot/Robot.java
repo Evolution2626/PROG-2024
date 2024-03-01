@@ -4,14 +4,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Limelight;
@@ -29,8 +28,6 @@ public class Robot extends TimedRobot {
   private Limelight m_Limelight;
 
   public Compressor compressor;
-  private AddressableLED m_led;
-  private AddressableLEDBuffer m_ledBuffer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,29 +36,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.\
+    // autonomous chooser on the dashboard.
+    CameraServer.startAutomaticCapture();
+
     m_Limelight = new Limelight();
     m_robotContainer = new RobotContainer();
+
     compressor = new Compressor(49, PneumaticsModuleType.REVPH);
-     // PWM port 9
-    // Must be a PWM header, not MXP or DIO
-    m_led = new AddressableLED(0);
-
-    // Reuse buffer
-    // Default to a length of 60, start empty output
-    // Length is expensive to set, so only set it once, then just update data
-    m_ledBuffer = new AddressableLEDBuffer(29);
-    m_led.setLength(m_ledBuffer.getLength());
-
-    // Set the data
-    m_led.setData(m_ledBuffer);
-    m_led.start();
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 255, 0, 0);
-   }
-   
-   m_led.setData(m_ledBuffer);
   }
 
   /**

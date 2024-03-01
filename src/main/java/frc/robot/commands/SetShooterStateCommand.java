@@ -24,12 +24,10 @@ public class SetShooterStateCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(shooter.getShooterState() == shooterPossibleState.SPEAKER) {
+    if (shooter.getShooterState() == shooterPossibleState.SPEAKER) {
       shooter.setShooterState(shooterPossibleState.OFF);
-    }else{
+    } else {
       shooter.setShooterState(shooterPossibleState.SPEAKER);
     }
-
-
   }
 }

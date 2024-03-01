@@ -21,7 +21,7 @@ public class ShootNoteCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   intake.resetWheelEncoder();
+    intake.resetWheelEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,9 +40,9 @@ public class ShootNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(Math.abs(intake.getWheelEncoder()) >= 20){//validate if positive or negative
-      return true;
-    }
     return false;
+    // if (Math.abs(intake.getWheelEncoder()) >= 20) { // validate if positive or negative
+    //   return true;
+    // }
   }
 }

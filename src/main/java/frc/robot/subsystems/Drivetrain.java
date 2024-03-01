@@ -28,12 +28,13 @@ public class Drivetrain extends SubsystemBase {
 
   public static final ADIS16470_IMU gyro = new ADIS16470_IMU();
   private MecanumDrive m_robotDrive;
+
   public enum possibleDriveState {
     MECANUM,
     DRIVETANK
   }
-  private possibleDriveState driveState = possibleDriveState.DRIVETANK;
 
+  private possibleDriveState driveState = possibleDriveState.DRIVETANK;
 
   public Drivetrain() {
     piston =
@@ -89,8 +90,7 @@ public class Drivetrain extends SubsystemBase {
     gyro.reset();
   }
 
-
-  public void switchMode(possibleDriveState driveState){
+  public void switchMode(possibleDriveState driveState) {
     this.driveState = driveState;
   }
 
@@ -104,8 +104,6 @@ public class Drivetrain extends SubsystemBase {
     };
     return encoderValue;
   }
-
-  
 
   public double[] getAverageEncoder() {
     double[] value = {
@@ -191,10 +189,9 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if(driveState == possibleDriveState.DRIVETANK){
+    if (driveState == possibleDriveState.DRIVETANK) {
       piston.set(DoubleSolenoid.Value.kReverse);
-    }
-    else if(driveState == possibleDriveState.MECANUM){
+    } else if (driveState == possibleDriveState.MECANUM) {
       piston.set(DoubleSolenoid.Value.kForward);
     }
     // This method will be called once per scheduler

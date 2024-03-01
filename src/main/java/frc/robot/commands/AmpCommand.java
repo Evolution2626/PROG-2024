@@ -12,6 +12,7 @@ import frc.robot.subsystems.Amp;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AmpCommand extends InstantCommand {
   private Amp amp;
+
   public AmpCommand(Amp amp) {
     this.amp = amp;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -21,11 +22,10 @@ public class AmpCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(amp.getPosition()){
+    if (amp.getPosition()) {
       amp.setPosition(false);
-    }else{
+    } else {
       amp.setPosition(true);
     }
-
   }
 }

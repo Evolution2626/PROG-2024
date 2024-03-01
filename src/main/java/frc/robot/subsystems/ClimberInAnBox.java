@@ -43,8 +43,7 @@ public class ClimberInAnBox extends SubsystemBase {
 
     piston1 =
         new DoubleSolenoid(
-            49
-            ,
+            49,
             PneumaticsModuleType.REVPH,
             PCM.PISTON_CLIMBER_FORWARD_1,
             PCM.PISTON_CLIMBER_REVERSE_1);
@@ -56,10 +55,12 @@ public class ClimberInAnBox extends SubsystemBase {
     climberDroit.set(ControlMode.PercentOutput, droit);
     climberGauche.set(ControlMode.PercentOutput, gauche);
   }
-  public void setClimberOut(boolean isOut){
+
+  public void setClimberOut(boolean isOut) {
     climberOut = isOut;
   }
-  public boolean getclimberOut(){
+
+  public boolean getclimberOut() {
     return climberOut;
   }
 
@@ -67,7 +68,8 @@ public class ClimberInAnBox extends SubsystemBase {
     ratchetActivated = true;
     piston1.set(DoubleSolenoid.Value.kReverse);
   }
-  public boolean isRatchetActivated(){
+
+  public boolean isRatchetActivated() {
     return ratchetActivated;
   }
 

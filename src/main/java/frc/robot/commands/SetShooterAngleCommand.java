@@ -5,18 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Shooter;
 import frc.util.MathHelper;
 
 public class SetShooterAngleCommand extends Command {
   private Limelight limelight;
   private AngleShooter angleShooter;
 
-  private PIDController anglePID = new PIDController(1,0.5,0.5);
+  private PIDController anglePID = new PIDController(1, 0.5, 0.5);
 
   private double output;
 
@@ -30,28 +28,26 @@ public class SetShooterAngleCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(limelight.getIsTargetFound()){
-      output = anglePID.calculate(angleShooter.getEncoderValue(), MathHelper.map(limelight.calculateShooterAngle(), 60, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()));
-    }else{
+    if (limelight.getIsTargetFound()) {
+      output =
+          anglePID.calculate(
+              angleShooter.getEncoderValue(),
+              MathHelper.map(
+                  limelight.calculateShooterAngle(),
+                  60,
+                  76.85,
+                  angleShooter.getEncoderMax(),
+                  angleShooter.getEncoderMin()));
+    } else {
       output = anglePID.calculate(angleShooter.getEncoderValue(), angleShooter.getEncoderMin());
     }
-          
-    angleShooter.setPower(-output);
 
-    SmartDashboard.putNumber("target encoder", MathHelper.map(limelight.calculateShooterAngle(), 52.78, 78.85, angleShooter.getEncoderMax(), angleShooter.getEncoderMin()));
-    if (output > -0.000001 && output < 0.000001) {
-      SmartDashboard.putBoolean("Angle Ready", true);
-    } else {
-      SmartDashboard.putBoolean("Angle Ready", false);
-    }
-    SmartDashboard.putBoolean("Angle Ready", false);
+    angleShooter.setPower(-output);
   }
 
   // Called once the command ends or is interrupted.

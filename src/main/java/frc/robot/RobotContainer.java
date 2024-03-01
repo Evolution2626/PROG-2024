@@ -4,26 +4,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AmpCommand;
 import frc.robot.commands.AutoShootToSideCommand;
 import frc.robot.commands.ClimberInABoxCommand;
+import frc.robot.commands.GetAwayAutoCommand;
 import frc.robot.commands.MoveIntakeCommand;
 import frc.robot.commands.OctocanumDrivetrainCommand;
-import frc.robot.commands.SetAmpShooterArmPositionCommand;
-import frc.robot.commands.SetAmpShooterSpeedCommand;
 import frc.robot.commands.SetAmpStateCommand;
 import frc.robot.commands.SetIntakeStateCommand;
 import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.SetShooterStateCommand;
-import frc.robot.commands.StopShooterCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
 import frc.robot.subsystems.Amp;
-import frc.robot.subsystems.AmpShooter;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.ClimberInAnBox;
 import frc.robot.subsystems.Drivetrain;
@@ -51,6 +49,11 @@ public class RobotContainer {
   private CommandXboxController xboxController = new CommandXboxController(0);
   private CommandXboxController xboxController1 = new CommandXboxController(1);
 
+  private  Command m_avancer;
+  private  Command m_shoot;
+      SendableChooser<Command> m_chooser = new SendableChooser<>();
+      
+
   public RobotContainer() {
     // Configure the trigger bindings
 
@@ -66,8 +69,17 @@ public class RobotContainer {
     climberInAnBox.setDefaultCommand(new ClimberInABoxCommand(climberInAnBox, xboxController1));
     intake.setDefaultCommand(new MoveIntakeCommand(intake, xboxController1));
     limelight.setDefaultCommand(new SetShooterAngleCommand(limelight, angleShooter));
-    shooter.setDefaultCommand(new SetShooterSpeedCommand(shooter));
+    shooter.setDefaultCommand(new SetShooterSpeedCommand(shooter, amp));
     configureBindings();
+    m_chooser.setDefaultOption("avancer", m_avancer);
+    m_chooser.addOption("shooter", m_shoot);
+    SmartDashboard.putData(m_chooser);
+    SmartDashboard.putNumber("Auto Wait Time", 0);
+    m_avancer =
+      new GetAwayAutoCommand(drivetrain);
+     m_shoot =
+      new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake, amp);
+     
   }
 
   /**
@@ -81,28 +93,12 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
     xboxController.a().onTrue(new SwitchDrivetrainCommand(drivetrain));
-    xboxController.y().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
-    /*xboxController1
-        .a()
-        .whileTrue(new SetShooterSpeedCommand(shooter))
-        .onFalse(new StopShooterCommand(shooter));*/
+    xboxController.b().whileTrue(new SetRobotAngleCommand(drivetrain, limelight));
 
     xboxController1.b().onTrue(new SetIntakeStateCommand(intake));
     xboxController1.a().onTrue(new SetShooterStateCommand(shooter));
     xboxController1.x().onTrue(new SetAmpStateCommand(shooter));
-    xboxController1.y().onTrue(new AmpCommand(amp));
-    /*xboxController1.y().onTrue(new SetAmpShooterArmPositionCommand(ampShooter));
-    xboxController1
-        .povUp()
-        .whileTrue(new SetAmpShooterSpeedCommand(true, false, ampShooter))
-        .onFalse(new SetAmpShooterSpeedCommand(false, false, ampShooter));
-    xboxController1
-        .povDown()
-        .whileTrue(new SetAmpShooterSpeedCommand(false, true, ampShooter))
-        .onFalse(new SetAmpShooterSpeedCommand(false, false, ampShooter));
- */
   }
 
   /**
@@ -114,7 +110,8 @@ public class RobotContainer {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     // return autoChooser.getSelected();
-    return new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake);
+    //return m_chooser.getSelected();
+    return new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake, amp);
     // Reset odometry to the initial pose of the trajectory, run path following
     // command, then stop at the end.
 

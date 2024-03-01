@@ -6,10 +6,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.util.Range;
 import frc.util.ControlMode.*;
+import frc.util.Range;
 
 public class Limelight extends SubsystemBase {
   /** Creates a new Limelight. */
@@ -208,14 +207,14 @@ public class Limelight extends SubsystemBase {
         (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
 
     // calculate shooter angle
-    double shooterAngle = ((Math.atan((targetHeightInches-shooterHeightInches) / distanceFromLimelightToGoalInches)) / (Math.PI / 180));
+    double shooterAngle =
+        ((Math.atan((targetHeightInches - shooterHeightInches) / distanceFromLimelightToGoalInches))
+            / (Math.PI / 180));
 
-    SmartDashboard.putNumber("calculated Angle", shooterAngle);
     if (getIsTargetFound()) {
       return Range.coerce(52.78, 78.85, shooterAngle);
     }
     return 52.78;
-
   }
 
   /**

@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake;
@@ -13,6 +12,7 @@ import frc.util.Range;
 public class MoveIntakeCommand extends Command {
   private Intake intake;
   private CommandXboxController xboxController;
+
   // private PIDController pid = new PIDController(0.00125, 0, 0);
 
   /** Creates a new MoveIntakeCommand. */
@@ -35,10 +35,11 @@ public class MoveIntakeCommand extends Command {
     double a = 13.7;
 
     if (intake.wantedInside()) {
-      //intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
+      // intake.moveIntake(Range.coerce(0, 1, pid.calculate(intake.getVelocity(), 200)));
       intake.moveIntake(Range.coerce(0, 1, intake.intakeCurveFunction(c, -1, a)));
     } else {
-      //intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()), 200)));
+      // intake.moveIntake(Range.coerce(-1, 0, -pid.calculate(Math.abs(intake.getVelocity()),
+      // 200)));
       intake.moveIntake(Range.coerce(-1, 0, intake.intakeCurveFunction(4, 1, 0)));
     }
 

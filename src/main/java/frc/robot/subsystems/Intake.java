@@ -25,7 +25,7 @@ public class Intake extends SubsystemBase {
   DigitalInput intakeLimitIn = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_IN);
   DigitalInput intakeLimitOut = new DigitalInput(DIGITAL.INTAKE_LIMIT_SWITCH_OUT);
 
-  private boolean wantedInside = false; 
+  private boolean wantedInside = false;
 
   public Intake() {
     intakeDroit = new CANSparkMax(CAN.DeviceNumberIntakeDroit, MotorType.kBrushless);
@@ -48,20 +48,19 @@ public class Intake extends SubsystemBase {
   }
 
   public void spinWheel(double power) {
-    intakeDroit.set(power*0.75 );
-    intakeGauche.set(power*0.75 );
+    intakeDroit.set(power * 0.75);
+    intakeGauche.set(power * 0.75);
   }
 
-  
-  public void resetWheelEncoder(){
+  public void resetWheelEncoder() {
     intakeDroit.getEncoder().setPosition(0);
   }
-
 
   public double getVelocity() {
     return intakePivot.getEncoder().getVelocity();
   }
-  public double getWheelEncoder(){
+
+  public double getWheelEncoder() {
     return intakeDroit.getEncoder().getPosition();
   }
 
@@ -72,14 +71,14 @@ public class Intake extends SubsystemBase {
   public void moveIntake(double power) {
     if (getIntakeLimitIn()) {
       power = Range.coerce(0, 1, power);
-      
+
       intakePivot.set(power);
       intakePivot.getEncoder().setPosition(0);
     } else if (getIntakeLimitOut()) {
       power = Range.coerce(-1, 0, power);
 
       intakePivot.set(power);
-    }else if(!getIntakeLimitIn() && !getIntakeLimitOut()){
+    } else if (!getIntakeLimitIn() && !getIntakeLimitOut()) {
       power = Range.coerce(-1, 1, power);
 
       intakePivot.set(power);
@@ -90,10 +89,10 @@ public class Intake extends SubsystemBase {
     return wantedInside;
   }
 
-  public double intakeCurveFunction(double c, double b, double a){
+  public double intakeCurveFunction(double c, double b, double a) {
     return (b / Math.abs(b)) * (Math.pow(c / (getPosition() - a), 2)) - b;
-
   }
+
   public void setState(boolean isIn) {
     this.wantedInside = isIn;
   }
@@ -114,7 +113,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("limit in", getIntakeLimitIn());
     SmartDashboard.putBoolean("limit out", getIntakeLimitOut());
-    SmartDashboard.putNumber("IntakeEncoder", intakePivot.getEncoder().getPosition());
+
     // This method will be called once per scheduler run
   }
 }

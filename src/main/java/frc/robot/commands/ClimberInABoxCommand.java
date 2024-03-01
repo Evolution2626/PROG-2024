@@ -13,7 +13,6 @@ public class ClimberInABoxCommand extends Command {
   private ClimberInAnBox climberInAnBox;
   private CommandXboxController xboxController;
 
-
   /** Creates a new ClimberInABoxCommand. */
   public ClimberInABoxCommand(ClimberInAnBox climberInAbox, CommandXboxController xboxController) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -29,20 +28,23 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Range.threshold(0.1,xboxController.getLeftY()) != 0 || Range.threshold(0.1,xboxController.getRightY()) != 0){
-      if(xboxController.leftBumper().getAsBoolean() && xboxController.rightBumper().getAsBoolean() && climberInAnBox.getclimberOut()){
+    if (Range.threshold(0.1, xboxController.getLeftY()) != 0
+        || Range.threshold(0.1, xboxController.getRightY()) != 0) {
+      if (xboxController.leftBumper().getAsBoolean()
+          && xboxController.rightBumper().getAsBoolean()
+          && climberInAnBox.getclimberOut()) {
         climberInAnBox.activateRatchet();
         climberInAnBox.climb(
-        Math.abs(Range.threshold(0.1, xboxController.getLeftY())), Range.threshold(0.1, Math.abs(xboxController.getRightY())));
-      }
-      else if(!climberInAnBox.isRatchetActivated()){
+            Math.abs(Range.threshold(0.1, xboxController.getLeftY())),
+            Range.threshold(0.1, Math.abs(xboxController.getRightY())));
+      } else if (!climberInAnBox.isRatchetActivated()) {
         climberInAnBox.setClimberOut(true);
         climberInAnBox.climb(
-       -Math.abs(Range.threshold(0.1, xboxController.getLeftY())), -Math.abs(Range.threshold(0.1, xboxController.getRightY())));// TODO check orientation
+            -Math.abs(Range.threshold(0.1, xboxController.getLeftY())),
+            -Math.abs(Range.threshold(0.1, xboxController.getRightY()))); // TODO check orientation
       }
-    }
-    else{
-      climberInAnBox.climb(0,0);
+    } else {
+      climberInAnBox.climb(0, 0);
     }
   }
 

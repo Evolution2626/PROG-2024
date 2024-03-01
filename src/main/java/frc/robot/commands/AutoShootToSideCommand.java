@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.Amp;
 import frc.robot.subsystems.AngleShooter;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -22,15 +24,23 @@ public class AutoShootToSideCommand extends SequentialCommandGroup {
       Limelight limelight,
       AngleShooter angleShooter,
       Shooter shooter,
-      Intake intake) {
+      Intake intake,
+      Amp amp) {
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new AvancerXmCommand(drivetrain, -1.75)); // todo find the number of meter
+    addRequirements(drivetrain, limelight, angleShooter, shooter, intake, amp);
+    addCommands(new AvancerXmCommand(drivetrain, -3.25)); // todo find the number of meter
     addCommands(new SetRobotAngleCommand(drivetrain, limelight));
+    addCommands(new WaitCommand(0.5));
     addCommands(new SetShooterStateCommand(shooter));
-    addCommands(new WaitXSecondCommand(5));//to speed up
-    addCommands(new ShootNoteCommand(intake));
+    addCommands(
+        new ParallelRaceGroup(
+            new WaitXSecondCommand(3),
+            new SetShooterSpeedCommand(shooter, amp),
+            new SetShooterAngleCommand(limelight, angleShooter))); // to speed up
+    addCommands(new ParallelRaceGroup(new WaitXSecondCommand(2), new ShootNoteCommand(intake)));
     addCommands(new SetShooterStateCommand(shooter));
-    addCommands(new AvancerXmCommand(drivetrain, 2));
+    addCommands(new SetShooterSpeedCommand(shooter, amp));
   }
 }
