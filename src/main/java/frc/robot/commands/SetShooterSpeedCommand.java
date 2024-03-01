@@ -13,7 +13,7 @@ import frc.robot.subsystems.Shooter.shooterPossibleState;
 public class SetShooterSpeedCommand extends Command {
   private Shooter shooter;
   private Amp amp;
-  private double speed = 5000;
+  private double speed = 5600;
   private double kVBas;
   private double kVHaut;
   private PIDController pidControllerBasRPMSpeaker = new PIDController(0, 0, 0);
@@ -23,8 +23,8 @@ public class SetShooterSpeedCommand extends Command {
   public SetShooterSpeedCommand(Shooter shooter, Amp amp) {
     this.amp = amp;
     this.shooter = shooter;
-    kVBas = 0.00018;
-    kVHaut = 0.00018;
+    kVBas = 0.000161;
+    kVHaut = 0.000161;
     addRequirements(shooter, amp);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -40,17 +40,17 @@ public class SetShooterSpeedCommand extends Command {
   public void execute() {
     // shooter.pusherPower(1);
     if (shooter.getShooterState() == shooterPossibleState.SPEAKER) {
-      System.out.print("saklfslfsdljfbdklfbs");
       amp.setPosition(true);
       shooter.pusherPower(1);
-      shooter.shooterPower(
+      /*shooter.shooterPower(
           (pidControllerBasRPMSpeaker.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
           (pidControllerHautRPMSpeaker.calculate(shooter.getVelocityHaut(), speed)
-              + (kVHaut * speed)));
+              + (kVHaut * speed)));*/
+              shooter.shooterPower(0.9, 0.9);
     } else if (shooter.getShooterState() == shooterPossibleState.AMP) {
       amp.setPosition(true);
       shooter.pusherPower(1);
-      shooter.shooterPower(0.25, 0.25);
+      shooter.shooterPower(0.2, 0.2);
     } else if (shooter.getShooterState() == shooterPossibleState.OFF) {
       amp.setPosition(false);
       shooter.pusherPower(0);

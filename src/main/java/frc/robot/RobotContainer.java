@@ -99,6 +99,7 @@ public class RobotContainer {
     xboxController1.b().onTrue(new SetIntakeStateCommand(intake));
     xboxController1.a().onTrue(new SetShooterStateCommand(shooter));
     xboxController1.x().onTrue(new SetAmpStateCommand(shooter));
+    xboxController.y().onTrue(new SetRobotAngleCommand(drivetrain, limelight));
   }
 
   /**

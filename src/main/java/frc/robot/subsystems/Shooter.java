@@ -50,8 +50,8 @@ public class Shooter extends SubsystemBase {
     shooterHautEncoder = shooterHaut.getEncoder();
     shooterBas.setIdleMode(IdleMode.kCoast);
     shooterHaut.setIdleMode(IdleMode.kCoast);
-    shooterBas.setSmartCurrentLimit(30);
-    shooterHaut.setSmartCurrentLimit(30);
+    shooterBas.setSmartCurrentLimit(40, 30);
+    shooterHaut.setSmartCurrentLimit(40, 30);
     shooterHaut.setIdleMode(IdleMode.kCoast);
     shooterBas.setIdleMode(IdleMode.kCoast);
 
@@ -61,7 +61,7 @@ public class Shooter extends SubsystemBase {
     pusher = new CANSparkMax(CAN.DeviceNumberPusher, MotorType.kBrushless);
     pusher.setInverted(false);
     pusherEncoder = pusher.getEncoder();
-    pusher.setSmartCurrentLimit(30);
+    pusher.setSmartCurrentLimit(25, 25);
 
     pusher.burnFlash();
     m_led = new AddressableLED(0);
@@ -83,6 +83,7 @@ public class Shooter extends SubsystemBase {
 
   public void setLED(int r, int g, int b) {
     if (r != currentR || g != currentG || b != currentB) {
+
       currentR = r;
       currentG = g;
       currentB = b;
@@ -113,11 +114,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public double getVelocityBas() {
-    return shooterBasEncoder.getVelocity();
+    return shooterBas.getEncoder().getVelocity();
   }
 
   public double getVelocityHaut() {
-    return shooterHautEncoder.getVelocity();
+    return shooterHaut.getEncoder().getVelocity();
   }
 
   public double getEncoderPosPusher() {
@@ -126,9 +127,13 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (getVelocityBas() >= 4500 && getVelocityHaut() >= 4500) {
+    if ((Math.abs(shooterBas.getEncoder().getVelocity()) >= 3500 && Math.abs(shooterHaut.getEncoder().getVelocity()) >= 3500)) {
       setLED(0, 255, 0);
-    } else {
+    }
+    else if ((Math.abs(shooterBas.getEncoder().getVelocity()) >= 850 && Math.abs(shooterHaut.getEncoder().getVelocity()) >= 850)) {
+      setLED(255, 0, 80);
+    }
+     else {
       setLED(255, 0, 0);
     }
     SmartDashboard.putNumber("velocityBas", getVelocityBas());
