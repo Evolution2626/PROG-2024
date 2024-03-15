@@ -210,11 +210,12 @@ public class Limelight extends SubsystemBase {
     double shooterAngle =
         ((Math.atan((targetHeightInches - shooterHeightInches) / distanceFromLimelightToGoalInches))
             / (Math.PI / 180));
+
     System.out.println(shooterAngle);
     if (getIsTargetFound()) {
-      return Range.coerce(52.78, 78.85, shooterAngle);
+      return Range.coerce(55.0, 79, shooterAngle);
     }
-    return 52.78;
+    return 53.0;
   }
 
   /**

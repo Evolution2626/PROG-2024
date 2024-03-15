@@ -39,8 +39,8 @@ public class SetShooterAngleCommand extends Command {
               angleShooter.getEncoderValue(),
               MathHelper.map(
                   limelight.calculateShooterAngle(),
-                  60,
-                  76.85,
+                  55,
+                  79,
                   angleShooter.getEncoderMax(),
                   angleShooter.getEncoderMin()));
     } else {
