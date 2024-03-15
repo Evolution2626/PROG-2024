@@ -43,10 +43,10 @@ public class SetShooterSpeedCommand extends Command {
       amp.setPosition(true);
       shooter.pusherPower(1);
       /*shooter.shooterPower(
-          (pidControllerBasRPMSpeaker.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
-          (pidControllerHautRPMSpeaker.calculate(shooter.getVelocityHaut(), speed)
-              + (kVHaut * speed)));*/
-              shooter.shooterPower(1, 1);
+      (pidControllerBasRPMSpeaker.calculate(shooter.getVelocityBas(), speed) + (kVBas * speed)),
+      (pidControllerHautRPMSpeaker.calculate(shooter.getVelocityHaut(), speed)
+          + (kVHaut * speed)));*/
+      shooter.shooterPower(1, 1);
     } else if (shooter.getShooterState() == shooterPossibleState.AMP) {
       amp.setPosition(true);
       shooter.pusherPower(1);

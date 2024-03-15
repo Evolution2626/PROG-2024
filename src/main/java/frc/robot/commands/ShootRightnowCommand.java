@@ -18,12 +18,18 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ShootRightnowCommand extends SequentialCommandGroup {
   /** Creates a new ShootRightnowCommand. */
-  public ShootRightnowCommand(Shooter shooter, Amp amp, Limelight limelight, AngleShooter angleShooter, Drivetrain drivetrain, Intake intake) {
+  public ShootRightnowCommand(
+      Shooter shooter,
+      Amp amp,
+      Limelight limelight,
+      AngleShooter angleShooter,
+      Drivetrain drivetrain,
+      Intake intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addRequirements(drivetrain, limelight, angleShooter, shooter, intake, amp);
     addCommands(new WaitXSecondCommand(2));
-     addCommands(new SetShooterStateCommand(shooter));
+    addCommands(new SetShooterStateCommand(shooter));
     addCommands(
         new ParallelRaceGroup(
             new WaitXSecondCommand(3),
@@ -33,6 +39,6 @@ public class ShootRightnowCommand extends SequentialCommandGroup {
     addCommands(new SetShooterStateCommand(shooter));
     addCommands(new AvancerXmCommand(drivetrain, -3.25));
     addCommands(new SetShooterSpeedCommand(shooter, amp));
-    //addCommands(new AvancerXmCommand(drivetrain, -3.25)); // todo find the number of meter
+    // addCommands(new AvancerXmCommand(drivetrain, -3.25)); // todo find the number of meter
   }
 }

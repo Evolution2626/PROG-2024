@@ -28,7 +28,7 @@ public class ClimberInABoxCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   /*  if (Range.threshold(0.1, xboxController.getLeftY()) != 0
+    /*  if (Range.threshold(0.1, xboxController.getLeftY()) != 0
         || Range.threshold(0.1, xboxController.getRightY()) != 0) {
       if (xboxController.leftBumper().getAsBoolean()
           && xboxController.rightBumper().getAsBoolean()
@@ -46,15 +46,14 @@ public class ClimberInABoxCommand extends Command {
     } else {
       climberInAnBox.climb(0, 0);
     }*/
-    if(xboxController.rightBumper().getAsBoolean() && xboxController.leftBumper().getAsBoolean()){
+    if (xboxController.rightBumper().getAsBoolean() && xboxController.leftBumper().getAsBoolean()) {
       climberInAnBox.disactivateRatchet();
       climberInAnBox.climb(-xboxController.getLeftY(), -xboxController.getRightY());
-    }
-    else{
+    } else {
       climberInAnBox.activateRatchet();
-       climberInAnBox.climb(Range.coerce(-1, 0,Range.threshold(0.1, -xboxController.getLeftY())),
-            Range.coerce(-1, 0,Range.threshold(0.1, -xboxController.getRightY())));
-
+      climberInAnBox.climb(
+          Range.coerce(-1, 0, Range.threshold(0.1, -xboxController.getLeftY())),
+          Range.coerce(-1, 0, Range.threshold(0.1, -xboxController.getRightY())));
     }
   }
 

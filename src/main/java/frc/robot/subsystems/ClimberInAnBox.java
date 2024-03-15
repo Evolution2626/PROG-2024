@@ -63,8 +63,9 @@ public class ClimberInAnBox extends SubsystemBase {
   public boolean getclimberOut() {
     return climberOut;
   }
-  public void disactivateRatchet(){
-     ratchetActivated = false;
+
+  public void disactivateRatchet() {
+    ratchetActivated = false;
     piston1.set(DoubleSolenoid.Value.kForward);
   }
 

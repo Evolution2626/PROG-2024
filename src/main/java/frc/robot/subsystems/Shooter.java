@@ -127,13 +127,13 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if ((Math.abs(shooterBas.getEncoder().getVelocity()) >= 3500 && Math.abs(shooterHaut.getEncoder().getVelocity()) >= 3500)) {
+    if ((Math.abs(shooterBas.getEncoder().getVelocity()) >= 3500
+        && Math.abs(shooterHaut.getEncoder().getVelocity()) >= 3500)) {
       setLED(0, 255, 0);
-    }
-    else if ((Math.abs(shooterBas.getEncoder().getVelocity()) >= 850 && Math.abs(shooterHaut.getEncoder().getVelocity()) >= 850)) {
+    } else if ((Math.abs(shooterBas.getEncoder().getVelocity()) >= 850
+        && Math.abs(shooterHaut.getEncoder().getVelocity()) >= 850)) {
       setLED(255, 0, 80);
-    }
-     else {
+    } else {
       setLED(255, 0, 0);
     }
     SmartDashboard.putNumber("velocityBas", getVelocityBas());
