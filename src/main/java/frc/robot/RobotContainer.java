@@ -20,6 +20,7 @@ import frc.robot.commands.SetRobotAngleCommand;
 import frc.robot.commands.SetShooterAngleCommand;
 import frc.robot.commands.SetShooterSpeedCommand;
 import frc.robot.commands.SetShooterStateCommand;
+import frc.robot.commands.ShootRightnowCommand;
 import frc.robot.commands.SwitchDrivetrainCommand;
 import frc.robot.subsystems.Amp;
 import frc.robot.subsystems.AngleShooter;
@@ -51,6 +52,7 @@ public class RobotContainer {
 
   private  Command m_avancer;
   private  Command m_shoot;
+  private Command m_newShooter;
       SendableChooser<Command> m_chooser = new SendableChooser<>();
       
 
@@ -71,7 +73,7 @@ public class RobotContainer {
     limelight.setDefaultCommand(new SetShooterAngleCommand(limelight, angleShooter));
     shooter.setDefaultCommand(new SetShooterSpeedCommand(shooter, amp));
     configureBindings();
-    m_chooser.setDefaultOption("avancer", m_avancer);
+    m_chooser.setDefaultOption("newShooter", m_newShooter);
     m_chooser.addOption("shooter", m_shoot);
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putNumber("Auto Wait Time", 0);
@@ -79,6 +81,7 @@ public class RobotContainer {
       new GetAwayAutoCommand(drivetrain);
      m_shoot =
       new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake, amp);
+    m_newShooter = new ShootRightnowCommand(shooter, amp, limelight, angleShooter, drivetrain, intake);
      
   }
 
@@ -112,7 +115,7 @@ public class RobotContainer {
     // Create a voltage constraint to ensure we don't accelerate too fast
     // return autoChooser.getSelected();
     //return m_chooser.getSelected();
-    return new AutoShootToSideCommand(drivetrain, limelight, angleShooter, shooter, intake, amp);
+    return new ShootRightnowCommand(shooter, amp, limelight, angleShooter, drivetrain, intake);
     // Reset odometry to the initial pose of the trajectory, run path following
     // command, then stop at the end.
 

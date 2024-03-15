@@ -195,7 +195,7 @@ public class Limelight extends SubsystemBase {
     double limelightLensHeightInches = 14;
 
     // distance from the target to the floor
-    double goalHeightInches = 54;
+    double goalHeightInches = 57;
 
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
@@ -210,7 +210,7 @@ public class Limelight extends SubsystemBase {
     double shooterAngle =
         ((Math.atan((targetHeightInches - shooterHeightInches) / distanceFromLimelightToGoalInches))
             / (Math.PI / 180));
-
+    System.out.println(shooterAngle);
     if (getIsTargetFound()) {
       return Range.coerce(52.78, 78.85, shooterAngle);
     }

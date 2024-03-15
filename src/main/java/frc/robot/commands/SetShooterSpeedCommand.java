@@ -54,7 +54,7 @@ public class SetShooterSpeedCommand extends Command {
     } else if (shooter.getShooterState() == shooterPossibleState.OFF) {
       amp.setPosition(false);
       shooter.pusherPower(0);
-      shooter.shooterPower(0.05, 0.05);
+      shooter.shooterPower(0.1, 0.1);
     }
   }
 
